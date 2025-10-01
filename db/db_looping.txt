@@ -1,0 +1,98 @@
+CREATE TABLE file_type(
+   id_file_type INTEGER,
+   name VARCHAR(500)  NOT NULL,
+   PRIMARY KEY(id_file_type)
+);
+
+CREATE TABLE summary_type(
+   id_summary_type VARCHAR(50) ,
+   name VARCHAR(500) ,
+   PRIMARY KEY(id_summary_type)
+);
+
+CREATE TABLE subscription_type(
+   id_subscription_type INTEGER,
+   name VARCHAR(50)  NOT NULL,
+   price VARCHAR(50)  NOT NULL,
+   frequency VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(id_subscription_type)
+);
+
+CREATE TABLE role(
+   id_role INTEGER,
+   name VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(id_role)
+);
+
+CREATE TABLE users(
+   id_user INTEGER,
+   name VARCHAR(50)  NOT NULL,
+   first_name VARCHAR(50)  NOT NULL,
+   birthday DATE NOT NULL,
+   mail VARCHAR(50)  NOT NULL,
+   password VARCHAR(50)  NOT NULL,
+   last_update DATE,
+   creation_date DATE,
+   id_role INTEGER NOT NULL,
+   PRIMARY KEY(id_user),
+   FOREIGN KEY(id_role) REFERENCES role(id_role)
+);
+
+CREATE TABLE transcription(
+   id_transcription INTEGER,
+   transcription_date DATE NOT NULL,
+   creation_date DATE,
+   id_user INTEGER NOT NULL,
+   PRIMARY KEY(id_transcription),
+   FOREIGN KEY(id_user) REFERENCES users(id_user)
+);
+
+CREATE TABLE file(
+   id_file INTEGER,
+   path VARCHAR(500) ,
+   size NUMERIC(15,2)  ,
+   id_file_type INTEGER NOT NULL,
+   id_transcription INTEGER NOT NULL,
+   PRIMARY KEY(id_file),
+   FOREIGN KEY(id_file_type) REFERENCES file_type(id_file_type),
+   FOREIGN KEY(id_transcription) REFERENCES transcription(id_transcription)
+);
+
+CREATE TABLE summary(
+   id_summary INTEGER,
+   text TEXT,
+   id_summary_type VARCHAR(50)  NOT NULL,
+   id_transcription INTEGER NOT NULL,
+   PRIMARY KEY(id_summary),
+   FOREIGN KEY(id_summary_type) REFERENCES summary_type(id_summary_type),
+   FOREIGN KEY(id_transcription) REFERENCES transcription(id_transcription)
+);
+
+CREATE TABLE raw_result(
+   id_result INTEGER,
+   raw_text TEXT,
+   lang VARCHAR(50) ,
+   id_transcription INTEGER NOT NULL,
+   PRIMARY KEY(id_result),
+   FOREIGN KEY(id_transcription) REFERENCES transcription(id_transcription)
+);
+
+CREATE TABLE subscription(
+   id_subscription INTEGER,
+   start_date DATE NOT NULL,
+   end_date DATE NOT NULL,
+   id_subscription_type INTEGER NOT NULL,
+   id_user INTEGER NOT NULL,
+   PRIMARY KEY(id_subscription),
+   FOREIGN KEY(id_subscription_type) REFERENCES subscription_type(id_subscription_type),
+   FOREIGN KEY(id_user) REFERENCES users(id_user)
+);
+
+CREATE TABLE report(
+   id_report INTEGER,
+   content TEXT NOT NULL,
+   creation_date DATE NOT NULL,
+   id_user INTEGER NOT NULL,
+   PRIMARY KEY(id_report),
+   FOREIGN KEY(id_user) REFERENCES users(id_user)
+);
