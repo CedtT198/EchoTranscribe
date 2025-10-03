@@ -2,7 +2,7 @@
 
 ## 🚀 Technologies utilisées
 
-- 🌐 **Frontend** : VueJs  
+- 🌐 **Frontend** : React
 - ⚙️ **Backend** : Spring Boot  
 - 🗄️ **Base de données** : NoSQL  
 - ⚡ **Cache et performance** : Redis  
