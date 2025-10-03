@@ -2,11 +2,11 @@
 
 ## 🚀 Technologies utilisées
 
-- 🌐 **Frontend** : Vue.js  
+- 🌐 **Frontend** : VueJs  
 - ⚙️ **Backend** : Spring Boot  
 - 🗄️ **Base de données** : NoSQL  
 - ⚡ **Cache et performance** : Redis  
-- 📝 **Conception** : Looping  
+<!-- - 📝 **Conception** : Looping   -->
 - 📊 **Diagrammes de flux** : Swimlane
 
 
