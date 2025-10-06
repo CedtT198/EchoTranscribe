@@ -4,10 +4,10 @@
 
 - 🌐 **Frontend** : React
 - ⚙️ **Backend** : Spring Boot  
-- 🗄️ **Base de données** : NoSQL  
+- 🗄️ **Base de données** : MongoDB
 - ⚡ **Cache et performance** : Redis  
 <!-- - 📝 **Conception** : Looping   -->
-- 📊 **Diagrammes de flux** : Swimlane
+- 📊 **Diagrammes de flux** : Swimlane sur Draw.io
 
 
 ---
@@ -55,7 +55,7 @@ L’application couvre plusieurs fonctionnalités :
 
 ---
 
-## 📂Pour plus de détails au niveau développement du projet, voir ces liens:
-- **Swimlane**:
-- **Ganttproject**:
-- **To do list Google Sheet**:
+## 📂Pour plus de détails au niveau développement du projet, voir ces chemins:
+- **Swimlane**: \conception\processus\img
+- **Ganttproject**: \conception\Planning.gan
+- **To do list Google Sheet**: \conception\todo-echotranscribe OR https://docs.google.com/spreadsheets/d/15rQ3pJrrUVl5d_uZYcAoqIbH2vJ-zlD_dp0irlpnqro/edit?usp=sharing
