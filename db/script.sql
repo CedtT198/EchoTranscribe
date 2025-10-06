@@ -1,0 +1,58 @@
+CREATE DATABASE echotranscribe OWNER postgres;
+\c echotranscribe
+
+CREATE TABLE role(
+   id_role INTEGER,
+   name VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(id_role)
+);
+
+CREATE TABLE summary_type(
+   id_summary_type INTEGER,
+   name VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(id_summary_type)
+);
+
+CREATE TABLE subscription_type(
+   id_subscription_type INTEGER,
+   name VARCHAR(50)  NOT NULL,
+   price NUMERIC(15,2)   NOT NULL,
+   frequency VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(id_subscription_type)
+);
+
+CREATE TABLE users(
+   id_users INTEGER,
+   name VARCHAR(50)  NOT NULL,
+   first_name VARCHAR(50)  NOT NULL,
+   birthday DATE NOT NULL,
+   mail VARCHAR(100)  NOT NULL,
+   password VARCHAR(500)  NOT NULL,
+   creation_date DATE,
+   last_update DATE,
+   id_role INTEGER NOT NULL,
+   PRIMARY KEY(id_users),
+   FOREIGN KEY(id_role) REFERENCES role(id_role)
+);
+
+CREATE TABLE summary(
+   id_summary INTEGER,
+   text TEXT NOT NULL,
+   creation_date DATE,
+   id_users INTEGER NOT NULL,
+   id_summary_type INTEGER NOT NULL,
+   PRIMARY KEY(id_summary),
+   FOREIGN KEY(id_users) REFERENCES users(id_users),
+   FOREIGN KEY(id_summary_type) REFERENCES summary_type(id_summary_type)
+);
+
+CREATE TABLE subscription(
+   id_subscription INTEGER,
+   start_date DATE NOT NULL,
+   end_date DATE NOT NULL,
+   id_subscription_type INTEGER NOT NULL,
+   id_users INTEGER NOT NULL,
+   PRIMARY KEY(id_subscription),
+   FOREIGN KEY(id_subscription_type) REFERENCES subscription_type(id_subscription_type),
+   FOREIGN KEY(id_users) REFERENCES users(id_users)
+);
