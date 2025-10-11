@@ -1,6 +1,6 @@
 package com.speech_to_text.application;
 
-import com.speech_to_text.domain.port.SecurityUseCase;
+import com.speech_to_text.domain.port.in.SecurityUseCase;
 
 public class SecurityService implements SecurityUseCase{
 

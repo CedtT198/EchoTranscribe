@@ -1,4 +1,4 @@
-package com.speech_to_text.domain.port;
+package com.speech_to_text.domain.port.in;
 
 public interface SecurityUseCase {
     String crypt(String text);
