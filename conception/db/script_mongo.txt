@@ -1,0 +1,14 @@
+use echotranscribe
+
+db.createCollection("user")
+db.user.insertMany([
+   { name: "cedric", password: "cedric", role: "Administrator"},
+   { name: "njiva", mail: "njiva@gmail,com", password: "njiva", role: "User", creation_date: new Date()},
+   { name: "nom client1", first_name: "prenom client1", birthday: "01/01/2001", mail: "client1@gmail,com", password: "client1", role: "Client", creation_date: new Date()}
+])
+
+db.createCollection("summary_type")
+db.createCollection("summary")
+db.createCollection("subscription_type")
+db.createCollection("subscription")
+
