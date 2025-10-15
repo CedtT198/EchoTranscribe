@@ -2,39 +2,42 @@ package com.speech_to_text.application;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.stereotype.Service;
 import com.speech_to_text.domain.model.User;
 import com.speech_to_text.domain.port.in.UserUserCase;
+import com.speech_to_text.domain.port.out.UserRepository;
 
+@Service
 public class UserService implements UserUserCase {
+
+    private final UserRepository userRepo;
+
+    public UserService(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Override
     public List<User> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return userRepo.findAll();
     }
 
     @Override
     public List<User> findByAbonnements(LocalDate date1, LocalDate date2, String typeAbonnement) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByAbonnements'");
+        return userRepo.findByAbonnements(date1, date2, typeAbonnement);
     }
 
     @Override
-    public User findById(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    public User findById(String id) {
+        return userRepo.findById(id);
     }
 
     @Override
     public User findByMail(String mail) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByMail'");
+        return userRepo.findByMail(mail);
     }
 
     @Override
-    public User save() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    public User save(User user) {
+        return userRepo.save(user);
     }
-    
 }

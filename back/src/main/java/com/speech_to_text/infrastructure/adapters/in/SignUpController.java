@@ -1,4 +1,4 @@
-package com.speech_to_text.infrastructure.web;
+package com.speech_to_text.infrastructure.adapters.in;
 
 import com.speech_to_text.domain.model.User;
 

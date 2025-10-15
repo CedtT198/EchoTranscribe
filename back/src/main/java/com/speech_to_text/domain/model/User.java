@@ -2,8 +2,13 @@ package com.speech_to_text.domain.model;
 
 import java.time.LocalDate;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "user")
 public class User {
-    int id;
+    @Id
+    String id;
     String name;
     String first_name;
     LocalDate birthday;
@@ -15,7 +20,7 @@ public class User {
     
 
     public User() {}
-    public User(int id, String name, String first_name, LocalDate birthday, String mail, String password,
+    public User(String id, String name, String first_name, LocalDate birthday, String mail, String password,
             LocalDate creation_date, LocalDate last_upDate, String role) {
         this.id = id;
         this.name = name;
@@ -28,10 +33,10 @@ public class User {
         this.role = role;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getName() {
