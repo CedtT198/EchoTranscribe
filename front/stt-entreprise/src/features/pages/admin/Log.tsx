@@ -1,0 +1,32 @@
+import '../../../assets/css/sign.css'
+
+function Log() {
+    return (
+        <div id="container" className="container">
+            <nav>
+                <a href="#"><img src="logo.svg" alt="logo"/></a>
+            </nav>
+            <div className="form-wrapper">
+                <h2>Login Administrator</h2>
+                <form action="#">
+                    <div className="form-control">
+                        <input type="text" required/>
+                        <label>Email or phone number</label>
+                    </div>
+                    <div className="form-control">
+                        <input type="password" required/>
+                        <label>Password</label>
+                    </div>
+                    <button type="submit">Sign In</button>
+                </form>
+                <p>New to EchoTranscribe? <a href="/admin/sign">Sign up now</a></p>
+                <small>
+                    This page is protected by Google reCAPTCHA
+                    to ensure you're not a bot.
+                </small>
+            </div>
+        </div>
+    )
+};
+
+export default Log

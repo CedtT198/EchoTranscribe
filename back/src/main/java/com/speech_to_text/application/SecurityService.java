@@ -12,6 +12,10 @@ public class SecurityService implements SecurityUseCase{
         this.encoder = new BCryptPasswordEncoder();
     }
 
+    public SecurityService(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
+
     @Override
     public String crypt(String word) {
         return encoder.encode(word);

@@ -1,0 +1,13 @@
+* {
+    background-color: #fbfbfa;
+}
+
+.container {
+    margin: 5%;
+    color: #025374;
+    text-align: center;
+}
+
+.container img {
+    width: 50%;
+}
