@@ -1,14 +1,16 @@
 package com.speech_to_text.application;
 
 import com.speech_to_text.domain.port.in.SecurityUseCase;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SecurityService implements SecurityUseCase{
+    private BCryptPasswordEncoder encoder;
 
-    @Autowired
-    private final BCryptPasswordEncoder encoder;
+    public SecurityService() {
+        this.encoder = new BCryptPasswordEncoder();
+    }
 
     @Override
     public String crypt(String word) {
