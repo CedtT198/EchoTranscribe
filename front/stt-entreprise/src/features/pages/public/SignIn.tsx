@@ -1,6 +1,8 @@
-import '../../../assets/css/Sign.css'
+import '../../../assets/css/sign.css'
 
 function Sign() {
+    
+
     return (
         <div id="container" className="container">
             <nav>
@@ -24,9 +26,8 @@ function Sign() {
                 </form>
                 <p>New to EchoTranscribe? <a href="/public/sign-up">Sign up now</a></p>
                 <small>
-                This page is protected by Google reCAPTCHA
-                to ensure you're not a bot.
-                <a href="#">Learn more.</a>
+                    This page is protected by Google reCAPTCHA
+                    to ensure you're not a bot.
                 </small>
             </div>
         </div>

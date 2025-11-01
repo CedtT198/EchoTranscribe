@@ -2,9 +2,34 @@ use echotranscribe
 
 db.createCollection("user")
 db.user.insertMany([
-   { name: "cedric", password: "cedric", role: "Administrator"},
-   { name: "njiva", mail: "njiva@gmail,com", password: "njiva", role: "User", creation_date: new Date()},
-   { name: "nom client1", first_name: "prenom client1", birthday: "01/01/2001", mail: "client1@gmail,com", password: "client1", role: "Client", creation_date: new Date()}
+   {
+      name: "cedric",
+      password: "cedric",
+      role: "Super Administrator"
+   },
+   {
+      name: "njiva",
+      mail: "njiva@gmail,com",
+      password: "njiva",
+      role: "Administrator",
+      creation_date: new Date()
+   },
+   {
+      name: "bera",
+      mail: "bera@gmail,com",
+      password: "bera",
+      role: "Sub Admin",
+      creation_date: new Date()
+   },
+   {
+      name: "nom client1",
+      first_name: "prenom client1",
+      birthday: ISODate("2001-01-01T00:00:00Z"),
+      mail: "client1@gmail,com",
+      password: "client1",
+      role: "Client",
+      creation_date: new Date()
+   }
 ])
 
 db.createCollection("summary_type")

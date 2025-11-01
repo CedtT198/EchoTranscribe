@@ -1,4 +1,4 @@
-import '../../../assets/css/Sign.css'
+import '../../../assets/css/sign.css'
 
 function Log() {
     return (
@@ -19,10 +19,10 @@ function Log() {
                     </div>
                     <button type="submit">Sign In</button>
                 </form>
-                <p>New to EchoTranscribe? <a href="#">Sign up now</a></p>
+                <p>New to EchoTranscribe? <a href="/admin/sign">Sign up now</a></p>
                 <small>
-                This page is protected by Google reCAPTCHA
-                to ensure you're not a bot.
+                    This page is protected by Google reCAPTCHA
+                    to ensure you're not a bot.
                 </small>
             </div>
         </div>

@@ -60,7 +60,7 @@ form .form-control {
     margin-bottom: 16px;
 }
 
-.form-control input {
+.form-control input, select {
     height: 100%;
     width: 100%;
     background: #ffffff;
