@@ -1,10 +1,10 @@
 import { BrowserRouter } from "react-router-dom";
-import Routes from "./routes/Routes"
+import Routage from "./routes/Routage"
 
 function App() {  
   return (
     <BrowserRouter>
-      <Routes></Routes>
+      <Routage></Routage>
     </BrowserRouter>
   )
 };
