@@ -18,9 +18,13 @@ function SignUp() {
                         <label>First name</label>
                     </div>
                     <div className="form-control">
-                        <input type="email" required/>
+                        <input type="text" required/>
                         <label>Email</label>
                     </div>
+                    <div className="form-control">
+                        <small>Birthday</small>
+                        <input type="date" required/>
+                    </div><br />
                     <div className="form-control">
                         <input type="password" required/>
                         <label>Password</label>
@@ -31,7 +35,7 @@ function SignUp() {
                     </div>
                     <button type="submit">Sign up</button>
                 </form>
-                <p>Already have an account? <a href="#">Sign in</a></p>
+                <p>Already have an account? <a href="/public/sign-in">Sign in</a></p>
                 <small>
                     This page is protected by Google reCAPTCHA
                     to ensure you're not a bot.

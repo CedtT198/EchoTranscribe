@@ -11,7 +11,7 @@ function Sign() {
                 <form action="#">
                     <div className="form-control">
                         <input type="text" required/>
-                        <label>Email or phone number</label>
+                        <label>Email</label>
                     </div>
                     <div className="form-control">
                         <input type="password" required/>
@@ -22,7 +22,7 @@ function Sign() {
                         <a href="#">Forgot your password ?</a>
                     </div>
                 </form>
-                <p>New to EchoTranscribe? <a href="#">Sign up now</a></p>
+                <p>New to EchoTranscribe? <a href="/public/sign-up">Sign up now</a></p>
                 <small>
                 This page is protected by Google reCAPTCHA
                 to ensure you're not a bot.
