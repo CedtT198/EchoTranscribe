@@ -33,9 +33,6 @@ public class SignService implements SignUseCase {
         if (user != null) {
             String passEncoded = securityService.crypt(password);
             if (user.getPassword().equals(passEncoded)) {
-                // String token = UUID.randomUUID().toString();
-                // user.setToken(token);
-                // userRepository.save(user);
                 return user; 
             }
             else {
