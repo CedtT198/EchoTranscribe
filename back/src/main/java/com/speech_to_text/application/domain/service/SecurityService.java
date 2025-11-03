@@ -1,6 +1,6 @@
-package com.speech_to_text.application;
+package com.speech_to_text.application.domain.service;
 
-import com.speech_to_text.domain.port.in.SecurityUseCase;
+import com.speech_to_text.application.domain.port.in.SecurityUseCase;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

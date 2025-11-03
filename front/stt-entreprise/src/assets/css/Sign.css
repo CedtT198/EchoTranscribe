@@ -75,7 +75,7 @@ form .form-control {
 .form-control input:is(
     :focus, :valid) {
     background: #ebebeb;
-    padding: 16px 20px 0;
+    padding: 8px 20px 0;
 }
 
 .form-control label {
@@ -85,6 +85,7 @@ form .form-control {
     transform: translateY(-50%);
     font-size: 1rem;
     pointer-events: none;
+    background-color: rgba(0, 0, 0, 0);
     color: #6d6d6d;
     transition: all 0.1s ease;
 }
@@ -93,6 +94,7 @@ form .form-control {
     :focus, :valid)~label {
     font-size: 0.75rem;
     transform: translateY(-130%);
+    color: #025374;
 }
 
 form button {
