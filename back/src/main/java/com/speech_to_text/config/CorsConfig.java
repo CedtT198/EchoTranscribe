@@ -1,4 +1,4 @@
-package com.speech_to_text;
+package com.speech_to_text.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
