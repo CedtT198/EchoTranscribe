@@ -32,6 +32,7 @@ db.user.insertMany([
    }
 ])
 
+db.createCollection("otp")
 db.createCollection("summary_type")
 db.createCollection("summary")
 db.createCollection("subscription_type")

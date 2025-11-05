@@ -6,15 +6,13 @@ import org.springframework.stereotype.Service;
 import com.speech_to_text.application.domain.port.in.UserUserCase;
 import com.speech_to_text.application.domain.port.out.UserRepository;
 import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserEntity;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class UserService implements UserUserCase {
 
     private final UserRepository userRepo;
-
-    public UserService(UserRepository userRepo) {
-        this.userRepo = userRepo;
-    }
 
     @Override
     public List<UserEntity> findAll() {

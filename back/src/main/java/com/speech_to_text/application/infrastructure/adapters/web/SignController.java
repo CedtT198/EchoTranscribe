@@ -11,20 +11,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.speech_to_text.application.domain.port.out.UserRepository;
 import com.speech_to_text.application.domain.service.SignService;
 import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserEntity;
 
 // import com.speech_to_text.domain.model.TokensResponse;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/sign")
 @Validated
+@AllArgsConstructor
 public class SignController {
-    @Autowired
     private SignService signService;
-    // @Autowired
+    private final UserRepository userRepository;
     // private JwtService jwtUtil;
 
     @PostMapping("/in")
@@ -46,24 +48,22 @@ public class SignController {
         }
     }
     
-    @PostMapping("/up")
-    ResponseEntity<?> signup(@Valid @RequestBody UserEntity user) {
+    @PostMapping("/validate")
+    ResponseEntity<?> validate(@Valid @RequestBody UserEntity user) {
         Map<String, String> res = new HashMap<>();
+
         if (!user.getPassword().equals(user.getConfirm_password())) {
             res.put("error", "`Password` and `Confirm Password` must match.");
             return ResponseEntity.status(401).body(res);
         }
-
-        try {
-            signService.addUser(user);
-            System.out.println(user.getMail()+" created an account.");
-            res.put("success", "Your account has been created, sign in now.");
-            return ResponseEntity.status(200).body(res);
+        
+        UserEntity existingUser = userRepository.findByMail(user.getMail());
+        if (existingUser != null) {
+            res.put("error", "User with this email already exists.");
+            return ResponseEntity.status(401).body(res);
         }
-        catch (Exception e) {
-            Map<String, String> resp = new HashMap<>();
-            resp.put("error", e.getMessage());
-            return ResponseEntity.status(401).body(resp);
-        }
+        
+        res.put("success", "Form has been validated.");
+        return ResponseEntity.status(200).body(res);
     }
 }

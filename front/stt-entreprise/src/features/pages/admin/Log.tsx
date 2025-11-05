@@ -20,9 +20,7 @@ const SignIn: React.FC = () => {
 
     const [error, setError] = useState<string>("");
     
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ): void => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };

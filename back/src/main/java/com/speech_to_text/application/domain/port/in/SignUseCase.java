@@ -4,5 +4,4 @@ import com.speech_to_text.application.infrastructure.adapters.persistence.entity
 
 public interface SignUseCase {
     UserEntity checkLogin(String mail, String password) throws Exception;
-    UserEntity addUser(UserEntity user) throws Exception;
 }

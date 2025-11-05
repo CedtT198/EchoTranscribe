@@ -1,0 +1,27 @@
+meta {
+  name: verify otp code
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/otp/verify
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    'email': 'art@gmail.com',
+    'code': 352998
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

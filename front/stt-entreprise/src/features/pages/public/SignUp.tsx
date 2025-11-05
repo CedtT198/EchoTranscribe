@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../../../assets/css/sign.css'
 import { useState } from 'react';
-import { SERVER_URL, type ValidationErrors } from '../../../Global';
+import { sendNewCode, SERVER_URL, type ValidationErrors } from '../../../Global';
 
 interface FormData {
     name: string,
@@ -15,20 +15,18 @@ interface FormData {
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState<FormData>({
-        name: "",
-        first_name: "",
-        mail: "",
-        birthday: "",
-        password: "",
-        confirm_password: ""
+        name: "art",
+        first_name: "art",
+        mail: "art@gmail.com",
+        birthday: "2001-01-01",
+        password: "12345678",
+        confirm_password: "12345678"
     });
 
     const [error, setError] = useState<string>("");
     const [errors, setErrors] = useState<ValidationErrors>({});
-
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ): void => {
+  
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
         setErrors(prev => ({ ...prev, [name]: "" }));
@@ -40,9 +38,9 @@ const SignUp: React.FC = () => {
         setErrors({});
 
         console.log(formData);
-
+        
         try {
-            const response = await fetch(`${SERVER_URL}/sign/up`, {
+            const response = await fetch(`${SERVER_URL}/sign/validate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -52,9 +50,9 @@ const SignUp: React.FC = () => {
             console.log(data);
 
             if (response.ok) {
-                navigate("/public/sign-in", { state: { message: data.success } });
+                sendNewCode(formData.mail);
+                navigate("/public/otp", { state: { formData: formData } });
             } else if (data.errors) {
-                console.log("ie misy erreur")
                 setErrors(data.errors);
             } else {
                 setError(data.error || "Unkown error happened.");
@@ -116,4 +114,4 @@ const SignUp: React.FC = () => {
     )
 };
 
-export default SignUp
+export default SignUp;
