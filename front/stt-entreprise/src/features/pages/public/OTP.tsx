@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import '../../../assets/css/sign.css'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { sendNewCode, SERVER_URL} from '../../../Global';
+import { sendNewCode } from '../../../components/Global';
+import { verifyCode } from '../../../api/otpApi';
+import { saveUser } from '../../../api/userApi';
 
 interface otpFormData {
     email?: string
@@ -39,22 +40,14 @@ function OTP() {
         console.log(formData);
 
         try {
-            const resOtp = await fetch(`${SERVER_URL}/otp/verify`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
+            const resOtp = await verifyCode(formData);
             const data = await resOtp.json();
             console.log(data);
 
             if (resOtp.ok) {
                 // sauvena le user
-                await fetch(`${SERVER_URL}/user/save`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(state.formData),
-                });
-                navigate("/public/home");
+                saveUser(state.formData);
+                navigate("/public/layout");
             } else {
                 setError(data.error || "Unkown error happened.");
             }
@@ -89,7 +82,7 @@ function OTP() {
     // };
 
     return (
-        <div id="container" className="container">
+        <div className="sign other">
             <nav>
                 <a href="#"><img src="logo.svg" alt="logo"/></a>
             </nav>

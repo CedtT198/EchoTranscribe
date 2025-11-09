@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import '../../../assets/css/sign.css'
-import { SERVER_URL, type ValidationErrors } from '../../../Global';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { signin } from '../api/signApi';
 
 interface FormData {
     mail?: string;
@@ -11,9 +10,10 @@ interface FormData {
 // function SignIn() {
 const SignIn: React.FC = () => {
     const navigate = useNavigate();
+
     const location = useLocation();
-    
     const state = location.state as { message: string };
+
     const [formData, setFormData] = useState<FormData>({
         mail: "",
         password: ""    
@@ -21,6 +21,7 @@ const SignIn: React.FC = () => {
 
     const [error, setError] = useState<string>("");
     
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -31,18 +32,14 @@ const SignIn: React.FC = () => {
         setError("");
 
         try {
-            const response = await fetch(`${SERVER_URL}/sign/in`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
-
+            const response = await signin(formData);
             const data = await response.json();
+
             console.log(formData);
             console.log(data);
 
             if (response.ok) {
-                navigate("/home");
+                navigate("/public/Layout");
             } else {
                 setError(data.error || "Unkown error happened.");
             }
@@ -53,7 +50,7 @@ const SignIn: React.FC = () => {
     };
 
     return (
-        <div id="container" className="container">
+        <div className="sign">
             <nav>
                 <a href="#"><img src="logo.svg" alt="logo"/></a>
             </nav>

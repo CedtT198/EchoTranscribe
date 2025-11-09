@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import '../../../assets/css/sign.css'
-import { SERVER_URL, type ValidationErrors } from '../../../Global';
+import { SERVER_URL, type ValidationErrors } from '../../../components/Global';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 interface FormData {
@@ -52,7 +51,7 @@ const SignIn: React.FC = () => {
     };
 
     return (
-        <div id="container" className="container">
+        <div className="sign">
             <nav>
                 <a href="#"><img src="logo.svg" alt="logo"/></a>
             </nav>

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import '../../../assets/css/sign.css'
 import { useState } from 'react';
-import { sendNewCode, SERVER_URL, type ValidationErrors } from '../../../Global';
+import { sendNewCode, type ValidationErrors } from '../../../components/Global';
+import { validate } from '../../../api/signApi';
 
 interface FormData {
     name: string,
@@ -40,13 +40,9 @@ const SignUp: React.FC = () => {
         console.log(formData);
         
         try {
-            const response = await fetch(`${SERVER_URL}/sign/validate`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
-
+            const response = await validate(formData);
             const data = await response.json();
+
             console.log(data);
 
             if (response.ok) {
@@ -64,7 +60,7 @@ const SignUp: React.FC = () => {
     };
     
     return (
-        <div id="container" className="container">
+        <div className="sign other">
             <nav>
                 <a href="#"><img src="logo.svg" alt="logo"/></a>
             </nav>
