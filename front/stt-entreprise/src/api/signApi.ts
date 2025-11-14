@@ -1,31 +1,27 @@
-import { SERVER_URL } from "../components/Global";
+import { type FormDataUser } from "../components/Global";
+import { apiPost } from "./api";
 
 export const signin = async (formData: {mail?: string; password?: string}) => {
-    const response = fetch(`${SERVER_URL}/sign/in`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-    });
-
-    return response;
+    try {
+        return apiPost(`/sign/in`, formData);
+    } catch (error) {
+        throw new Error((error as Error).message);
+    }
 }
 
-export const signup = async (formData: {mail?: string; password?: string}) => {
-    const response = fetch(`${SERVER_URL}/sign/up`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-    });
-
-    return response;
+export const signup = async (formData: FormDataUser) => {
+    try {
+        return apiPost(`/sign/up`, formData);
+    } catch (error) {
+        throw new Error((error as Error).message);
+    }
 }
 
-export const validate = async (formData: {mail: string; password: string; name: string; first_name: string; birthday: string; confirm_password: string}) => {
-    const response = fetch(`${SERVER_URL}/sign/validate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-    });
-
-    return response;
+// mi-check hoe valide ve le form sa tsia
+export const validate = async (formData: FormDataUser) => {
+    try {
+        return apiPost(`/sign/validate`, formData);
+    } catch (error) {
+        throw new Error((error as Error).message);
+    }
 }

@@ -17,8 +17,8 @@ function Landing() {
                             <span className="circle circle-md bg-primary-light">
                                 <i className="fe fe-navigation fe-24 text-white"></i>
                             </span>
-                            <h3 className="h4 mt-4 mb-1 text-white">Speech to write</h3>
-                            <p className="text-white mb-4">Realtime AI writing notes with your voice</p>
+                            <h3 className="h4 mt-4 mb-1 text-white">Live</h3>
+                            <p className="text-white mb-4">Realtime AI writing notes with your voice.</p>
                             <a href="#" className="btn btn-lg bg-primary-light text-white">Speech<i className="fe fe-arrow-right fe-16 ml-2"></i></a>
                             </div> 
                         </div> 
@@ -29,8 +29,8 @@ function Landing() {
                             <span className="circle circle-md bg-success-light">
                                 <i className="fe fe-message-circle fe-24 text-white"></i>
                             </span>
-                            <h3 className="h4 mt-4 mb-1 text-white">Transcribe</h3>
-                            <p className="text-white mb-4">Upload audio/video file and receive a text</p>
+                            <h3 className="h4 mt-4 mb-1 text-white">Batch</h3>
+                            <p className="text-white mb-4">Transcribe by uploading audio/video file.</p>
                             <a href="#" className="btn btn-lg bg-success-light text-white">Upload<i className="fe fe-arrow-right fe-16 ml-2"></i></a>
                             </div> 
                         </div>
@@ -98,16 +98,16 @@ function Landing() {
                                 <ul className="list-unstyled">
                                     <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Diarization</li>
                                     <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Precision</li>
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Advanced voice recognation</li>
+                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Summarize text in a decisional way</li>
                                 </ul>
                             </div> 
                             <div className="col-md-4">
-                                <h3 className="h5 mt-4 mb-1">Transcription</h3>
+                                <h3 className="h5 mt-4 mb-1">Transcribing</h3>
                                 <p className="text-muted mb-4"></p>
                                 <ul className="list-unstyled">
                                     <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Multiples languages supported</li>
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Realtime</li>
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Summarize text in a decisional way</li>
+                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Live transcribing</li>
+                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>+100 language supported</li>
                                 </ul>
                             </div> 
                             <div className="col-md-4">

@@ -1,4 +1,20 @@
+import { useRef } from "react";
+
 function PublicHeader() {
+    // toggle mode sombre / clair
+    // const lightmod = document.getElementById("lightTheme") as HTMLLinkElement | null;
+    // const darkmod = document.getElementById("darkTheme") as HTMLLinkElement | null;
+    const modSwitcher = useRef<HTMLDivElement>(null);
+    const toggleTheme = () => {
+        if (modSwitcher.current?.getAttribute("data-mode") == "light") {
+            modSwitcher.current?.setAttribute("data-mode", "dark");
+        }
+        else {
+            modSwitcher.current?.setAttribute("data-mode", "light");
+        }
+    }
+    //
+    
 
     return(
         <nav className="navbar navbar-expand-lg navbar-light bg-white flex-row border-bottom shadow">
@@ -55,7 +71,7 @@ function PublicHeader() {
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/public/layout/subscription">
-                                <span className="badge badge-pill badge-primary">Subscribe</span>
+                                <span className="badge badge-pill badge-danger">Subscribe</span>
                             </a>
                         </li>
                         <li className="nav-item dropdown more">
@@ -64,13 +80,15 @@ function PublicHeader() {
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="moreDropdown">
                                 <li className="nav-item">
-                                    <a className="nav-link pl-lg-2" href="#"  id="pagesDropdown">
+                                    <a className="nav-link pl-lg-2" href="/public/layout/history"  id="pagesDropdown">
+                                        <span className="fe fe-list fe-16 mr-2"></span>
                                         <span className="ml-1">History</span>
                                     </a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link pl-lg-2" href="#"  id="pagesDropdown">
-                                        <span className="ml-1">Add user</span>
+                                        <span className="ml-1 fe fe-user-plus fe-16 mr-2"></span>
+                                        <span>Add user</span>
                                     </a>
                                 </li>
                             </ul>
@@ -79,7 +97,7 @@ function PublicHeader() {
                 </div>
                 <ul className="navbar-nav d-flex flex-row">
                     <li className="nav-item">
-                        <a className="nav-link text-muted my-2" href="./#" id="modeSwitcher" data-mode="light">
+                        <a className="nav-link text-muted my-2" href="./#" ref={modSwitcher} id="modeSwitcher" onClick={toggleTheme} data-mode="light">
                             <i className="fe fe-sun fe-16"></i>
                         </a>
                     </li>
@@ -97,12 +115,12 @@ function PublicHeader() {
                     
                     {/* rehefa deconnecte */}
                     <li className="nav-item">
-                        <a className="nav-link" href="widgets.html">
+                        <a className="nav-link" href="/public/sign-in">
                             <span className="ml-lg-2">Login</span>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="widgets.html">
+                        <a className="nav-link" href="/public/sign-up">
                             <span className="badge badge-pill badge-primary">Sign up</span>
                         </a>
                     </li>
@@ -116,10 +134,19 @@ function PublicHeader() {
                         </a>
                         <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                             <li className="nav-item">
-                                <a className="nav-link pl-3" href="#">Settings</a>
+                                <a className="nav-link pl-3" href="/public/layout/profile">
+                                    <span className="fe fe-user fe-16 mr-2"></span>Profile
+                                </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link pl-3" href="#">Profile</a>
+                                <a className="nav-link pl-3" href="/public/layout/settings">
+                                    <span className="fe fe-settings fe-16 mr-2"></span>Settings
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link pl-3 text-danger" href="/public/sign-in">
+                                    <span className="fe fe-log-out danger fe-16 mr-2"></span>Log out
+                                </a>
                             </li>
                         </ul>
                     </li>

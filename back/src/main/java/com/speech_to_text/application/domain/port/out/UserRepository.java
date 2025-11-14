@@ -2,12 +2,12 @@ package com.speech_to_text.application.domain.port.out;
 
 import java.time.LocalDate;
 import java.util.List;
-import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserEntity;
+import com.speech_to_text.application.domain.model.User;
 
 public  interface UserRepository {
-    List<UserEntity> findAll();
-    List<UserEntity> findByAbonnements(LocalDate date1, LocalDate date2, String typeAbonnement);
-    UserEntity findById(String id);
-    UserEntity findByMail(String mail);
-    UserEntity save(UserEntity user);
+    List<User> findAll();
+    List<User> findByAbonnements(LocalDate date1, LocalDate date2, String typeAbonnement);
+    User findById(String id);
+    User findByMail(String mail);
+    User save(User user);
 }

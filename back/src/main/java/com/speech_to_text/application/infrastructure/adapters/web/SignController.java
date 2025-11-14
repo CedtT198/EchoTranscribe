@@ -2,8 +2,6 @@ package com.speech_to_text.application.infrastructure.adapters.web;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.speech_to_text.application.domain.model.User;
 import com.speech_to_text.application.domain.port.out.UserRepository;
 import com.speech_to_text.application.domain.service.SignService;
-import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserEntity;
+import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserDocument;
 
 // import com.speech_to_text.domain.model.TokensResponse;
 
@@ -30,9 +29,9 @@ public class SignController {
     // private JwtService jwtUtil;
 
     @PostMapping("/in")
-    ResponseEntity<?> signin(@RequestBody UserEntity user) {
+    ResponseEntity<?> signin(@RequestBody User user) {
         try {
-            UserEntity userCon= signService.checkLogin(user.getMail(), user.getPassword());
+            User userCon= signService.checkLogin(user.getMail(), user.getPassword());
 
             // String accessToken = jwtUtil.generateAccessToken(user);
             // String refreshToken = jwtUtil.generateRefreshToken(user);
@@ -49,7 +48,7 @@ public class SignController {
     }
     
     @PostMapping("/validate")
-    ResponseEntity<?> validate(@Valid @RequestBody UserEntity user) {
+    ResponseEntity<?> validate(@Valid @RequestBody UserDocument user) {
         Map<String, String> res = new HashMap<>();
 
         if (!user.getPassword().equals(user.getConfirm_password())) {
@@ -57,7 +56,7 @@ public class SignController {
             return ResponseEntity.status(401).body(res);
         }
         
-        UserEntity existingUser = userRepository.findByMail(user.getMail());
+        User existingUser = userRepository.findByMail(user.getMail());
         if (existingUser != null) {
             res.put("error", "User with this email already exists.");
             return ResponseEntity.status(401).body(res);

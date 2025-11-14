@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.speech_to_text.application.domain.model.User;
 import com.speech_to_text.application.domain.service.UserService;
-import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserEntity;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -23,12 +23,12 @@ public class UserController {
     private UserService userService;
   
     @GetMapping("/findAll")
-    public ResponseEntity<List<UserEntity>> findAll() {
+    public ResponseEntity<List<User>> findAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody UserEntity user) {
+    public ResponseEntity<?> save(@RequestBody User user) {
         Map<String, String> res = new HashMap<>();
         
         // String passEncoded = securityService.crypt(user.getPassword());

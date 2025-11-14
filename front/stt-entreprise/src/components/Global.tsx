@@ -4,19 +4,23 @@ export interface ValidationErrors {
   [key: string]: string;
 }
 
+export interface FormDataUpdateUser {
+    name: string,
+    first_name: string,
+    old_password: string,
+    new_password: string,
+    confirm_new_password: string
+}
 
-export const sendNewCode = async (mail: string) => {
-    interface otpRequest{
-        email?: string;
-    }
-
-    const form: otpRequest = {
-        email: mail
-    }
-
-    await fetch(`${SERVER_URL}/otp/send`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-    });
+export interface FormDataUser {
+    name: string,
+    first_name: string,
+    country: string,
+    city: string,
+    zip: string,
+    address: string,
+    mail: string,
+    birthday: string,
+    password: string,
+    confirm_password: string
 }

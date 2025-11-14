@@ -1,11 +1,24 @@
-import { SERVER_URL } from "../components/Global";
+import { apiPost } from "./api";
 
 export const verifyCode = async (formData: {mail?: string; code?: string}) => {
-    const response = fetch(`${SERVER_URL}/otp/verify`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-    });
+    try {        
+        return apiPost(`/otp/verify`, formData);
+    } catch (e) {
+        throw new Error((e as Error).message);
+    }
+}
 
-    return response;
+export const sendCode = async (mail: string) => {
+    interface otpRequest{
+        email?: string;
+    }
+    const form: otpRequest = {
+        email: mail
+    }
+
+    try {        
+        return apiPost(`/otp/send`, form);
+    } catch (e) {
+        throw new Error((e as Error).message);
+    }
 }

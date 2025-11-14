@@ -50,33 +50,30 @@ const SignIn: React.FC = () => {
     };
 
     return (
-        <div className="sign">
-            <nav>
-                <a href="#"><img src="logo.svg" alt="logo"/></a>
-            </nav>
-            <div className="form-wrapper">
-                <h2>Sign In</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-control">
-                        <input type="text" name="mail" onChange={handleChange} value={formData.mail} required/>
-                        <label>Email</label>
-                    </div>
-                    <div className="form-control">
-                        <input type="password" name="password" onChange={handleChange} value={formData.password} required/>
-                        <label>Password</label>
-                    </div>
-                    {state?.message && <p className="success">{state?.message}</p>}
-                    {error && <p className='error'>{error}</p>}
-                    <button type="submit">Sign In</button>
-                    <div className="form-help">
-                        <a href="#">Forgot your password ?</a>
-                    </div>
-                </form>
-                <p>New to EchoTranscribe? <a href="/public/sign-up">Sign up now</a></p>
-                <small>
-                    This page is protected by Google reCAPTCHA
-                    to ensure you're not a bot.
-                </small>
+        <div className="container wrapper vh-100">
+            <div className="row align-items-center h-100">
+                <div className='card mx-auto'>
+                    <form className="col-10 mx-auto" onSubmit={handleSubmit}>
+                        <h1 className="h3 mt-5">Sign in</h1>
+                        <p className='text-muted'>Field with (*) is mandatory</p>
+                        <div className='row'>
+                            <div className="form-group col-12 ">
+                                <label htmlFor="mail">Email address *</label>
+                                <input type="email" id="mail" name="mail" className="form-control form-control-lg" onChange={handleChange} value={formData.mail} required/>
+                            </div>
+                            <div className="form-group col-12 ">
+                                <label htmlFor="password">Password *</label>
+                                <input type="password" id="password" name="password" className="form-control form-control-lg" onChange={handleChange} value={formData.password} required/>
+                            </div>
+                        </div>
+                        <p className='text-center'>New to EchoTranscribe? <a href="/public/sign-up">Sign up now</a></p>
+                        {error && <div className="alert alert-danger text-center" role="alert">
+                            <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}.
+                        </div>}
+                        <button className="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                        <p className="mt-5 mb-3 text-muted text-center">© 2025</p>
+                    </form>
+                </div>
             </div>
         </div>
     )

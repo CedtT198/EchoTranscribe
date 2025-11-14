@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "user")
-public class UserEntity {
+public class UserDocument {
     @Id
     String id;
     @NotBlank(message = "Name required.")
@@ -31,6 +31,18 @@ public class UserEntity {
     @NotBlank(message = "Email required.")
     String mail;
 
+    @NotBlank(message = "Address required.")
+    String address;
+
+    @NotBlank(message = "Address required.")
+    String country;
+    
+    @NotBlank(message = "City required.")
+    String city;
+    
+    @NotBlank(message = "Zip code required.")
+    String zip;
+
     @NotBlank(message = "Password required.")
     @Size(min = 8, message = "Password has to be at least 8 characters.")
     String password;
@@ -39,6 +51,23 @@ public class UserEntity {
     String confirm_password;
 
     LocalDate creation_date;
-    LocalDate last_upDate;
+    LocalDate last_update;
     String role;
+
+    // public UserDocument(User user) {
+    //     this.id = user.getId();
+    //     this.name = user.getName();
+    //     this.first_name = user.getFirst_name();
+    //     this.birthday = user.getBirthday();
+    //     this.mail = user.getMail();
+    //     this.address = user.getAddress();
+    //     this.country = user.getCountry();
+    //     this.city = user.getCity();
+    //     this.zip = user.getZip();
+    //     this.password = user.getPassword();
+    //     this.confirm_password = user.getConfirm_password();
+    //     this.creation_date = user.getCreation_date();
+    //     this.last_update = user.getLast_update();
+    //     this.role = user.getRole();
+    // }
 }

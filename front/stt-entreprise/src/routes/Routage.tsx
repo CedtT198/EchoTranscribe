@@ -1,4 +1,4 @@
-import { Routes, Route} from "react-router-dom"
+import { Routes, Route, Navigate} from "react-router-dom"
 import SignIn from "./SignIn"
 import SignUp from "../features/pages/public/SignUp"
 import Log from "../features/pages/admin/Log"
@@ -9,6 +9,9 @@ import PublicLayout from "../features/pages/layouts/PublicLayout"
 import Transcribe from "../features/pages/public/Transcribe"
 import Resume from "../features/pages/public/Resume"
 import Subscription from "../features/pages/public/Subscription"
+import Profile from "../features/pages/public/Profile"
+import Settings from "../features/pages/public/Settings"
+import History from "../features/pages/public/History"
 // import SignLayout from "../features/pages/layouts/SignLayout"
 
 
@@ -20,12 +23,16 @@ function PersoRoutes() {
             <Route path="/public/sign-in" element={<SignIn />}></Route>
             <Route path="/public/sign-up" element={<SignUp />}></Route>
             <Route path="/public/otp" element={<OTP />}></Route>
+            
+            <Route path="/" element={<Navigate to="/public/layout/" replace />} />
             <Route path="/public/layout/" element={<PublicLayout />}>
                 <Route index element={<Landing />} />
                 <Route path="transcribe" element={<Transcribe />} />
                 <Route path="resume" element={<Resume />} />
                 <Route path="subscription" element={<Subscription />} />
-                {/* <Route path="contact" element={<Contact />} /> */}
+                <Route path="profile" element={<Profile />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="history" element={<History />} />
             </Route>
         </Routes>
     )

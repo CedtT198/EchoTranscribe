@@ -5,45 +5,51 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import com.speech_to_text.application.domain.port.out.UserRepository;
-import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserEntity;
 
-interface SpringDataUser extends MongoRepository<UserEntity, String> {
-    Optional<UserEntity> findByMail(String mail);
+import com.speech_to_text.application.domain.model.User;
+import com.speech_to_text.application.domain.port.out.UserRepository;
+import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserDocument;
+import com.speech_to_text.application.infrastructure.mapper.UserMapper;
+
+import lombok.AllArgsConstructor;
+
+interface SpringDataUser extends MongoRepository<UserDocument, String> {
+    Optional<UserDocument> findByMail(String mail);
 }
 
 @Repository
+@AllArgsConstructor
 public class MongoUserRepository implements UserRepository{
 
     private final SpringDataUser repo;
+    private final UserMapper mapper;
 
-    public MongoUserRepository(SpringDataUser repo) {
-        this.repo = repo;
+    @Override
+    public List<User> findAll() {
+        return repo.findAll().stream().map(mapper::toDomain).toList();
     }
 
     @Override
-    public List<UserEntity> findAll() {
-        return repo.findAll();
-    }
-
-    @Override
-    public List<UserEntity> findByAbonnements(LocalDate date1, LocalDate date2, String typeAbonnement) {
+    public List<User> findByAbonnements(LocalDate date1, LocalDate date2, String typeAbonnement) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findByAbonnements'");
     }
 
     @Override
-    public UserEntity findById(String id) {
-        return repo.findById(id).orElse(null);
+    public User findById(String id) {
+        UserDocument userDoc =  repo.findById(id).orElse(null);
+        return mapper.toDomain(userDoc);
     }
 
     @Override
-    public UserEntity findByMail(String mail) {
-        return repo.findByMail(mail).orElse(null);
+    public User findByMail(String mail) {
+        UserDocument userDoc =  repo.findByMail(mail).orElse(null);
+        return mapper.toDomain(userDoc);
     }
 
     @Override
-    public UserEntity save(UserEntity user) {
-        return repo.save(user);
+    public User save(User user) {
+        UserDocument saved = repo.save(mapper.toDocument(user));
+        return mapper.toDomain(saved);
     }    
 }
