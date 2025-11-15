@@ -60,7 +60,7 @@ function Profile() {
         <div className="container">
             <div className="row">
                 {/* info */}
-                <div className="col-12 mt-5 align-items-center">
+                <div className="col-12 mt-5 align-items-center mb-5">
                     <div className="col card py-5">
                         {success &&
                         <div className="alert alert-success text-center" role="alert">
@@ -154,35 +154,77 @@ function Profile() {
                     </div>
                 </div>
                 {/* sub */}
-                <div className="offset-md-3 offset-lg-3 col-md-6 col-lg-6 col-xs-12 mt-4">
-                    <hr />
-                    <div className="text-center">
-                        <h3>Your subscription</h3>
-                        <p className="text-muted">Everything about your subscription(s).</p>
+                <div className="col-md-12 row">
+                    <div className="col-md-9 col-lg-9 col-xs-12">
+                        <h3>Your actual subscription</h3>
+                        <p className="text-muted">Everything about your active subscription(s).</p>
                     </div>
+                    <div className="col-md-3 col-lg-3 col-xs-12">
+                        <div className="text-center">
+                            <button type="button" className="btn btn-info" data-toggle="modal" data-target="#varyModal" data-whatever="@mdo">Enter invitation code</button>
+                        </div>
+                        <div className="modal fade" id="varyModal" role="dialog" aria-labelledby="varyModalLabel" aria-hidden="true">
+                            <div className="modal-dialog" role="document">
+                                <div className="modal-content">
+                                    <div className="modal-header row">
+                                        <div className="col-10">
+                                            <h5 className="modal-title" id="varyModalLabel">Invitation code</h5>
+                                            <p className='text-muted'>It allows you to use the same subscription as the one who gives you the code.</p>
+                                        </div>
+                                        <div className="col-2">
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="modal-body">
+                                        <form>
+                                            <div className="form-group">
+                                                <label htmlFor="invitation_code" className="col-form-label">Code</label>
+                                                <input type="text" className="form-control" id="invitation_code" required/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div className="modal-footer">
+                                        {/* <button type="button" className="btn mb-2 btn-danger" data-dismiss="modal">Close</button> */}
+                                        <button type="button" className="btn mb-2 btn-info">Send message</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {error &&
+                    <div className="alert alert-danger text-center" role="alert">
+                        <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}.
+                    </div>}
+                    {success &&
+                    <div className="alert alert-success text-center" role="alert">
+                        <span className="fe fe-check fe-16 mr-2"></span>{success}.
+                    </div>}
+                </div>
+                <div className="offset-md-3 offset-lg-3 col-md-6 col-lg-6 col-xs-12">
                     <div className="card-deck my-4">
                         <div className="card mb-5 shadow">
                             <div className="card-body text-center mt-3 mb-5">
                                 <a href="#">
-                                    <h3 className="h4 mb-0">Basic</h3>
+                                    <h3 className="h4 mb-0">
+                                        <span className="dot dot-lg bg-success mr-2"></span>Free plan
+                                    </h3>
                                 </a>
                                 <p className="text-muted">package</p>
                                 <span className="h1 mb-0">$9.9</span>
                                 <p className="text-muted">monthly</p>
                                 <ul className="list-unstyled">
-                                    <li>Lorem ipsum dolor sit amet</li>
+                                    <li>Lorem ipsum dolor sit amet lore</li>
                                     <li>Consectetur adipiscing elit</li>
                                     <li>Integer molestie lorem at massa</li>
                                     <li>Eget porttitor lorem</li>
                                     <li className="mt-4">
-                                        <span className="dot dot-lg bg-success"></span>
-                                        <span className="text-muted ml-3">Active</span>
-                                    </li>
-                                    <li>
                                         <a href="#">
                                             <span className="fe fe-copy fe-16 mr-2"></span>
-                                            Share your code
+                                            Share 
                                         </a>
+                                        <span className="fe fe-info fe-16 ml-2 text-secondary" title="Your can share a referral code to let others use the same subscriptio nas you."></span>
                                     </li>
                                 </ul>
                             </div>
@@ -193,7 +235,7 @@ function Profile() {
                 <div className="col-12 mb-5">
                 <hr />
                     <div className="text-center">
-                        <h3>Payments</h3>
+                        <h3>Subscription records</h3>
                         <p className="text-muted"></p>
                     </div>
                     <table className="table table-striped">
@@ -203,21 +245,93 @@ function Profile() {
                                 <th>Purchase Date</th>
                                 <th>Sub. type</th>
                                 <th>Total</th>
-                                <th>Payment</th>
+                                <th>Payments</th>
+                                <th>Invitation code</th>
+                                <th>Sub master
+                                    <span className="fe fe-info fe-16 ml-2 text-secondary" title="The person who paid for the subscription."></span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="col">1331</th>
+                                <th scope="col">1332</th>
                                 <td>2020-12-26 01:32:21</td>
-                                <td>$16.9</td>
-                                <td>Paypal</td>
-                                <td><span className="dot dot-lg bg-warning mr-2"></span>Due</td>
+                                <td>Free plan</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
                                 <td>
+                                    <div className="avatar avatar-sm">
+                                        <img src="./assets/avatars/face-3.jpg" alt="User profile picture." className="avatar-img rounded-circle"/> You
+                                    </div>
+                                </td>
+                                {/* <td>
                                     <a href="" className="btn text-danger" title="Delete">
                                         <span className="fe fe-trash-2 fe-16 mr-2"></span>
                                     </a>
+                                </td> */}
+                            </tr>
+                            <tr>
+                                <th scope="col">1333</th>
+                                <td>2020-12-26 01:32:21</td>
+                                <td>Independant</td>
+                                <td>$9.99</td>
+                                <td>Paypal</td>
+                                <td>-</td>
+                                <td>
+                                    <div className="avatar avatar-sm">
+                                        <img src="./assets/avatars/face-3.jpg" alt="User profile picture." className="avatar-img rounded-circle"/> You
+                                    </div>
                                 </td>
+                                {/* <td>
+                                    <a href="" className="btn text-danger" title="Delete">
+                                        <span className="fe fe-trash-2 fe-16 mr-2"></span>
+                                    </a>
+                                </td> */}
+                            </tr>
+                            <tr>
+                                <th scope="col">1334</th>
+                                <td>2020-12-26 01:32:21</td>
+                                <td>Company</td>
+                                <td>$19.99</td>
+                                <td>Mastercard VISA</td>
+                                <td>
+                                    <a href="#" className="text-secondary">
+                                        <span className="fe fe-copy fe-16 mr-2"></span>q2w34e5rft6ghjud7wqe5f
+                                    </a>
+                                </td>
+                                <td>
+                                    <div className="avatar avatar-sm">
+                                        <img src="./assets/avatars/face-3.jpg" alt="User profile picture." className="avatar-img rounded-circle"/> You
+                                    </div>
+                                </td>
+                                {/* <td>
+                                    <a href="" className="btn text-danger" title="Delete">
+                                        <span className="fe fe-trash-2 fe-16 mr-2"></span>
+                                    </a>
+                                </td> */}
+                            </tr>
+                            <tr>
+                                <th scope="col">1335</th>
+                                <td>2020-12-26 01:32:21</td>
+                                <td>Company</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>
+                                    <a href="#" className="text-secondary">
+                                        <span className="fe fe-copy fe-16 mr-2"></span>q2w34e5rft6ghjud7wqe5f
+                                    </a>
+                                </td>
+                                <td>
+                                    <div className="avatar avatar-sm">
+                                        <img src="./assets/avatars/face-3.jpg" alt="User profile picture." className="avatar-img rounded-circle mr-1"/>Master
+                                    </div>
+                                </td>
+                                {/* <td>
+                                    <a href="" className="btn text-danger" title="Delete">
+                                        <span className="fe fe-trash-2 fe-16 mr-2"></span>
+                                    </a>
+                                </td> */}
                             </tr>
                         </tbody>
                     </table>
