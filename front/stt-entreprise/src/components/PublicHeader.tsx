@@ -56,7 +56,7 @@ function PublicHeader() {
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/public/layout/stream">
-                                <span className="ml-lg-2">Stream</span>
+                                <span className="ml-lg-2">Live</span>
                             </a>
                         </li>
                         <li className="nav-item">
@@ -97,7 +97,7 @@ function PublicHeader() {
                 </div>
                 <ul className="navbar-nav d-flex flex-row">
                     <li className="nav-item">
-                        <a className="nav-link text-muted my-2" href="./#" ref={modSwitcher} id="modeSwitcher" onClick={toggleTheme} data-mode="light">
+                        <a className="nav-link text-muted my-2" href="#" ref={modSwitcher} id="modeSwitcher" onClick={toggleTheme} data-mode="light">
                             <i className="fe fe-sun fe-16"></i>
                         </a>
                     </li>
