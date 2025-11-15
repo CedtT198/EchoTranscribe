@@ -14,6 +14,7 @@ import Settings from "../features/pages/public/Settings"
 import History from "../features/pages/public/History"
 import Export from "../features/pages/public/Export"
 import Live from "../features/pages/public/Live"
+import Review from "../features/pages/public/Review"
 // import SignLayout from "../features/pages/layouts/SignLayout"
 
 
@@ -37,6 +38,7 @@ function PersoRoutes() {
                 <Route path="history" element={<History />} />
                 <Route path="export" element={<Export />} />
                 <Route path="live" element={<Live />} />
+                <Route path="review" element={<Review />} />
             </Route>
         </Routes>
     )
