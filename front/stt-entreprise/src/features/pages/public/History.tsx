@@ -2,7 +2,7 @@ function History() {
     return (
         <div className="col-md-12 my-4">
             <div className="col-10">
-                <h2 className="h4 mb-0">History</h2>
+                <h2 className="page-title mb-0">Summary section</h2>
                 <p className="mb-4 text-muted">See below all your activities.</p>
             </div>
             <div className="card shadow">
@@ -69,10 +69,10 @@ function History() {
                                     <td>Batch</td>
                                     <td>ceo_meeting.mp3</td>
                                     <td className="text-center">
-                                        <a href="#" className="text-danger mx-1 fe-16" title="Delete">
+                                        <a href="#" className="text-danger mx-1 fe-16 nav-link" title="Delete">
                                             <span className="fe fe-trash-2"></span>
                                         </a>
-                                        <a href="#" className="text-warning mx-1 fe-16" title="Export">
+                                        <a href="/public/layout/export" className="text-warning mx-1 fe-16 nav-link" title="Export">
                                             <span className="fe fe-download"></span>
                                         </a>
                                     </td>
@@ -82,7 +82,7 @@ function History() {
                                         <dl className="row mb-0 mt-1">
                                             <dd className="col-sm-8">
                                                 <h3>Summary</h3>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto sunt laudantium quis et vel consectetur, excepturi voluptatum minima dicta quia facere natus impedit! Officia ut incidunt perferendis, vel suscipit sit!</p>
+                                                <p className="ml-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto sunt laudantium quis et vel consectetur, excepturi voluptatum minima dicta quia facere natus impedit! Officia ut incidunt perferendis, vel suscipit sit!</p>
                                             </dd>
                                             <dt className="col-2 d-flex align-items-center justify-content-center">Short</dt>
                                             <dt className="col-2 d-flex align-items-center justify-content-center">
@@ -102,10 +102,10 @@ function History() {
                                     <td>Live</td>
                                     <td> - </td>
                                     <td className="text-center">
-                                        <a href="#" className="text-danger mx-1 fe-16" title="Delete">
+                                        <a href="#" className="text-danger mx-1 fe-16 nav-link" title="Delete">
                                             <span className="fe fe-trash-2"></span>
                                         </a>
-                                        <a href="#" className="text-warning mx-1 fe-16" title="Export">
+                                        <a href="/public/layout/export" className="text-warning mx-1 fe-16 nav-link" title="Export">
                                             <span className="fe fe-download"></span>
                                         </a>
                                     </td>
@@ -115,7 +115,7 @@ function History() {
                                         <dl className="row mb-0 mt-1">
                                             <dd className="col-sm-8">
                                                 <h3>Summary</h3>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto sunt laudantium quis et vel consectetur, excepturi voluptatum minima dicta quia facere natus impedit! Officia ut incidunt perferendis, vel suscipit sit!</p>
+                                                <p className="ml-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto sunt laudantium quis et vel consectetur, excepturi voluptatum minima dicta quia facere natus impedit! Officia ut incidunt perferendis, vel suscipit sit!</p>
                                             </dd>
                                             <dt className="col-2 d-flex align-items-center justify-content-center">Standard</dt>
                                             <dt className="col-2 d-flex align-items-center justify-content-center">

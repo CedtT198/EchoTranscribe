@@ -1,9 +1,9 @@
 function Subscription() {
     return (
         <div>
-            <div className="text-center">
-                <h2 className="mb-0">Subscritpions</h2>
-                <p className="lead text-muted mb-5">See below the offer that fits better for you</p>
+            <div className="">
+                <h2 className="page-title mb-0">Subscritpions</h2>
+                <p className="text-muted mb-5">See below the offer that fits better for you</p>
             </div>
             <div className="card-deck my-4">
                 <div className="card mb-4 shadow">

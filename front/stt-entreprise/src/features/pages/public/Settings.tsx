@@ -1,7 +1,7 @@
 function Settings() {
     return (
         <div>
-            <h2 className="mb-0 mt-5">Settings</h2>
+            <h2 className="page-title mb-0 mt-5">Settings</h2>
             <p className="text-muted">Select notification you want to receive</p>
             <hr className="my-4"/>
             <strong className="mb-0">Security</strong>

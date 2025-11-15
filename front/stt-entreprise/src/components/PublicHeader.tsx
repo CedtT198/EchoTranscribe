@@ -55,7 +55,7 @@ function PublicHeader() {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/public/layout/stream">
+                            <a className="nav-link" href="/public/layout/live">
                                 <span className="ml-lg-2">Live</span>
                             </a>
                         </li>

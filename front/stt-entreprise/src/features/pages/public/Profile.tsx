@@ -58,6 +58,8 @@ function Profile() {
 
     return (
         <div className="container">
+            <h2 className="page-title mb-0">Profile</h2>
+            <p className="tect-muted">All about your personal information and subscription activities.</p>
             <div className="row">
                 {/* info */}
                 <div className="col-12 mt-5 align-items-center mb-5">
