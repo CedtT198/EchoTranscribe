@@ -203,7 +203,7 @@ function Profile() {
                                 <td>Paypal</td>
                                 <td><span className="dot dot-lg bg-warning mr-2"></span>Due</td>
                                 <td>
-                                    <a href="" className="btn text-danger">
+                                    <a href="" className="btn text-danger" title="Delete">
                                         <span className="fe fe-trash-2 fe-16 mr-2"></span>
                                     </a>
                                 </td>

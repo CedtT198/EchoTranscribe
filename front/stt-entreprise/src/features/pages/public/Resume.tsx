@@ -29,7 +29,7 @@ function Resume() {
                                   </div>
                                   <div className="custom-control custom-radio col-md-4">
                                       <input type="radio" className="custom-control-input" id="customControlValidation2" name="radio-stacked" required/>
-                                      <label className="custom-control-label" htmlFor="customControlValidation2">Very short</label>
+                                      <label className="custom-control-label" htmlFor="customControlValidation2">Short</label>
                                   </div>
                                   <div className="custom-control custom-radio col-md-4">
                                       <input type="radio" className="custom-control-input" id="customControlValidation3" name="radio-stacked" required/>
