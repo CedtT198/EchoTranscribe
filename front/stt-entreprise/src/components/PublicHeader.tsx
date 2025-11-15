@@ -70,11 +70,16 @@ function PublicHeader() {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/public/layout/subscription">
-                                <span className="badge badge-pill badge-danger">Subscribe</span>
+                            <a className="nav-link" href="/public/layout/history">
+                                <span className="ml-lg-2">History</span>
                             </a>
                         </li>
-                        <li className="nav-item dropdown more">
+                        <li className="nav-item">
+                            <a className="nav-link" href="/public/layout/subscription">
+                                <span className="badge badge-pill badge-danger">My subscription</span>
+                            </a>
+                        </li>
+                        {/* <li className="nav-item dropdown more">
                             <a className="dropdown-toggle more-horizontal nav-link" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span className="ml-2 sr-only">More</span>
                             </a>
@@ -92,7 +97,7 @@ function PublicHeader() {
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <ul className="navbar-nav d-flex flex-row">

@@ -59,6 +59,7 @@ function Profile() {
     return (
         <div className="container">
             <div className="row">
+                {/* info */}
                 <div className="col-12 mt-5 align-items-center">
                     <div className="col card py-5">
                         {success &&
@@ -66,7 +67,7 @@ function Profile() {
                             {success}
                         </div>}
                         <div className="row align-items-center">
-                            <div className="col-md-3 col-xs-12 text-center mb-5">
+                            <div className="col-md-3 col-lg-3 col-xs-12 text-center my-4">
                                 <div className="avatar avatar-xl">
                                     <img src="./assets/avatars/face-1.jpg" alt="User profile picture" className="avatar-img rounded-circle"/>
                                 </div>
@@ -74,27 +75,27 @@ function Profile() {
                                     <span className="fe fe-edit-2 fe-16 mr-1"></span>Change
                                 </a>
                             </div>
-                            <div className="col-xs-12 col-md-7 col-lg-7 px-5">
+                            <div className="col-xs-12 col-md-4 col-lg-4 px-4">
                                 <h4 className="mb-1">First name, Name</h4>
                                 <p className="mb-3"><span className="badge badge-dark">test@gmail.com</span></p>
-                                <div className="mb-4">
-                                    <div className="col-12">
-                                        <p className="mb-0 text-muted">
-                                            <span className="fe fe-calendar fe-16 mr-2"></span>02/02/2022
-                                        </p>
-                                        <p className="mb-0 text-muted">
-                                            <span className="fe fe-map fe-16 mr-2"></span>Country
-                                        </p>
-                                        <p className="mb-0 text-muted">
-                                            <span className="fe fe-map-pin fe-16 mr-2"></span>City + Zip code
-                                        </p>
-                                        <p className="mb-0 text-muted">
-                                            <span className="fe fe-calendar fe-16 mr-2"></span>Joined date
-                                        </p>
-                                        <p className="mb-0 text-muted">
-                                            <span className="fe fe-edit fe-16 mr-2"></span>Last update date
-                                        </p>
-                                    </div>
+                            </div>
+                            <div className="col-xs-12 col-md-3 col-lg-3 px-4">
+                                <div className="col-12">
+                                    <p className="mb-0 text-muted">
+                                        <span className="fe fe-calendar fe-16 mr-2"></span>02/02/2022
+                                    </p>
+                                    <p className="mb-0 text-muted">
+                                        <span className="fe fe-map fe-16 mr-2"></span>Country
+                                    </p>
+                                    <p className="mb-0 text-muted">
+                                        <span className="fe fe-map-pin fe-16 mr-2"></span>City + Zip code
+                                    </p>
+                                    <p className="mb-0 text-muted">
+                                        <span className="fe fe-calendar fe-16 mr-2"></span>Joined date
+                                    </p>
+                                    <p className="mb-0 text-muted">
+                                        <span className="fe fe-edit fe-16 mr-2"></span>Last update date
+                                    </p>
                                 </div>
                             </div>
                             <div className="col-md-2 col-lg-2 col-xs-12 mb-4">
@@ -152,33 +153,43 @@ function Profile() {
                         </div>
                     </div>
                 </div>
+                {/* sub */}
                 <div className="offset-md-3 offset-lg-3 col-md-6 col-lg-6 col-xs-12 mt-4">
                     <hr />
                     <div className="text-center">
-                        <h3>Subscription</h3>
+                        <h3>Your subscription</h3>
                         <p className="text-muted">Everything about your subscription(s).</p>
                     </div>
                     <div className="card-deck my-4">
                         <div className="card mb-5 shadow">
-                            <div className="card-body text-center my-4">
+                            <div className="card-body text-center mt-3 mb-5">
                                 <a href="#">
                                     <h3 className="h4 mb-0">Basic</h3>
                                 </a>
                                 <p className="text-muted">package</p>
                                 <span className="h1 mb-0">$9.9</span>
-                                <p className="text-muted">year</p>
+                                <p className="text-muted">monthly</p>
                                 <ul className="list-unstyled">
                                     <li>Lorem ipsum dolor sit amet</li>
                                     <li>Consectetur adipiscing elit</li>
                                     <li>Integer molestie lorem at massa</li>
                                     <li>Eget porttitor lorem</li>
+                                    <li className="mt-4">
+                                        <span className="dot dot-lg bg-success"></span>
+                                        <span className="text-muted ml-3">Active</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span className="fe fe-copy fe-16 mr-2"></span>
+                                            Share your code
+                                        </a>
+                                    </li>
                                 </ul>
-                                <span className="dot dot-lg bg-success"></span>
-                                <span className="text-muted ml-3">Active</span>
                             </div>
                         </div>
                     </div>
                 </div>
+                {/* payments */}
                 <div className="col-12 mb-5">
                 <hr />
                     <div className="text-center">
