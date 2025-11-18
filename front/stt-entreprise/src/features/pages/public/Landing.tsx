@@ -4,7 +4,7 @@ function Landing() {
     return (
         <div>
             <div className="row justify-content-center">
-                <div className="col-12">
+                <div className="col-12 mb-5">
                     <div className="w-50 mx-auto text-center justify-content-center py-5 my-5">
                         <h2 className="page-title mb-0">Welcome to Echotranscribe</h2>
                         <p className="lead text-muted mb-4">Take notes with your voice in streaming mode, transcribe and/or translate audio/video file.</p>
@@ -124,7 +124,7 @@ function Landing() {
                         </div> 
                     </div>
                     {/* review */}
-                    
+
                     {/* Sub */}
                     <div>
                         <div className="text-center">

@@ -33,8 +33,8 @@ function Transcribe() {
                                 <h5 className="text-muted mt-4">Drop files here or click to upload</h5>
                             </div>
                         </div>
-                        <div className="col-12 custom-control custom-switch d-flex mb-4">
-                          <div className="col-auto">
+                        <div className="col-12 row custom-switch d-flex mb-4">
+                          <div className="col-lg-4 col-md-4 col-xs-12">
                             <input type="checkbox" className="form-control custom-control-input" id="customSwitch1" onClick={toggleVisibility}/>
                             <label className="custom-control-label" htmlFor="customSwitch1">Disable diarization
                               <span className="fe fe-info fe-16 ml-2 text-secondary" title="Let the AI knows how many people are in the conversation."></span>
@@ -42,11 +42,11 @@ function Transcribe() {
                           </div>
                           {!isHidden && (
                             <>
-                              <div className="col-auto">
+                              <div className="col-lg-4 col-md-4 col-xs-12">
                                 <label htmlFor="min_people">Min. people</label>
                                 <input type="number" className="form-control"/>
                               </div>
-                              <div className="col-auto">
+                              <div className="col-lg-4 col-md-4 col-xs-12">
                                 <label htmlFor="max_people">Max. people</label>
                                 <input type="number" className="form-control"/>
                               </div>

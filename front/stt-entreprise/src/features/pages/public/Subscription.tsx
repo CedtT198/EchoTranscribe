@@ -2,7 +2,7 @@ function Subscription() {
     return (
         <div>
             <div className="">
-                <h2 className="page-title mb-0">Subscritpions</h2>
+                <h2 className="page-title mb-0">Available subscriptions</h2>
                 <p className="text-muted mb-5">See below the offer that fits better for you</p>
             </div>
             <div className="card-deck my-4">

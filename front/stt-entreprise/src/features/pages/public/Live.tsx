@@ -15,7 +15,7 @@ function Live() {
             </p>
             <div className="card p-5">
                 <form action="">
-                    <div className="col-12 row custom-control custom-switch mb-4">
+                    <div className="col-12 row custom-switch mb-4">
                         <div className="col-lg-4 col-md-4 col-xs-12">
                             <input type="checkbox" className="form-control custom-control-input" id="customSwitch1" onClick={toggleVisibility}/>
                             <label className="custom-control-label" htmlFor="customSwitch1">Disable diarization

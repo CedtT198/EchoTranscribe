@@ -1,11 +1,11 @@
 function PublicFooter() {
     return(
-        <>
-            <div className="container">
-                <hr />
-                <p>Done by V-IT Service</p>
+        <div className="mt-4">
+            <hr/>
+            <div className="mb-4 container">
+                
             </div>
-        </>
+        </div>
     )
 }
 

@@ -8,7 +8,9 @@ function PublicLayout() {
         <PublicHeader></PublicHeader>
         <main role="main" className="main-content">
           <div className='container-fluid container'>
+          {/* <div> */}
             <Outlet />
+            <PublicFooter></PublicFooter>
           </div>
         </main>
       </div>
