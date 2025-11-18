@@ -36,6 +36,7 @@ function Landing() {
                         </div>
                         </div>
                     </div>
+                    {/* use case */}
                     <div className="row my-5 p-5">
                         <div className="col-12 col-lg-12 text-center">
                             <h2 className="mb-0">Use case</h2>
@@ -86,6 +87,7 @@ function Landing() {
                             </div> 
                         </div>
                     </div> 
+                    {/* Functionnalities */}
                     <div className="my-5 p-5">
                         <div className="text-center">
                             <h2 className="mb-0">Functionnalities</h2>
@@ -121,6 +123,9 @@ function Landing() {
                             </div>
                         </div> 
                     </div>
+                    {/* review */}
+                    
+                    {/* Sub */}
                     <div>
                         <div className="text-center">
                             <h2 className="mb-0">Subscritpion</h2>

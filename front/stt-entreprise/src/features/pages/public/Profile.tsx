@@ -102,7 +102,7 @@ function Profile() {
                             </div>
                             <div className="col-md-2 col-lg-2 col-xs-12 mb-4">
                                 <div className="text-center">
-                                    <button type="button" className="btn btn-warning" data-toggle="modal" data-target=".modal-full">Update</button>
+                                    <button type="button" className="btn btn-warning text-white" data-toggle="modal" data-target=".modal-full">Update</button>
                                 </div>
                                 <div className="modal fade modal-full"  role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                                     <button aria-label="" type="button" className="close px-2" data-dismiss="modal" aria-hidden="true">
@@ -233,7 +233,7 @@ function Profile() {
                         </div>
                     </div>
                 </div>
-                {/* payments */}
+                {/* sub records */}
                 <div className="col-12 mb-5">
                 <hr />
                     <div className="text-center">
@@ -245,6 +245,7 @@ function Profile() {
                             <tr role="row">
                                 <th>ID</th>
                                 <th>Purchase Date</th>
+                                <th>Date end</th>
                                 <th>Sub. type</th>
                                 <th>Total</th>
                                 <th>Payments</th>
@@ -258,6 +259,7 @@ function Profile() {
                             <tr>
                                 <th scope="col">1332</th>
                                 <td>2020-12-26 01:32:21</td>
+                                <td></td>
                                 <td>Free plan</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -276,6 +278,7 @@ function Profile() {
                             <tr>
                                 <th scope="col">1333</th>
                                 <td>2020-12-26 01:32:21</td>
+                                <td>2020-12-26 01:32:21</td>
                                 <td>Independant</td>
                                 <td>$9.99</td>
                                 <td>Paypal</td>
@@ -293,6 +296,7 @@ function Profile() {
                             </tr>
                             <tr>
                                 <th scope="col">1334</th>
+                                <td>2020-12-26 01:32:21</td>
                                 <td>2020-12-26 01:32:21</td>
                                 <td>Company</td>
                                 <td>$19.99</td>
@@ -315,6 +319,7 @@ function Profile() {
                             </tr>
                             <tr>
                                 <th scope="col">1335</th>
+                                <td>2020-12-26 01:32:21</td>
                                 <td>2020-12-26 01:32:21</td>
                                 <td>Company</td>
                                 <td>-</td>

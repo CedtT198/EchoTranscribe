@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TextEditor from "../../../components/TextEditor";
 
 function Live() {
     const [isHidden, setHidden] = useState(false);
@@ -14,27 +15,27 @@ function Live() {
             </p>
             <div className="card p-5">
                 <form action="">
-                    <div className="col-12 custom-control custom-switch d-flex mb-4">
-                        <div className="col-auto">
-                        <input type="checkbox" className="form-control custom-control-input" id="customSwitch1" onClick={toggleVisibility}/>
-                        <label className="custom-control-label" htmlFor="customSwitch1">Disable diarization
-                            <span className="fe fe-info fe-16 ml-2 text-secondary" title="Let the AI knows how many people are in the conversation."></span>
-                        </label>
+                    <div className="col-12 row custom-control custom-switch mb-4">
+                        <div className="col-lg-4 col-md-4 col-xs-12">
+                            <input type="checkbox" className="form-control custom-control-input" id="customSwitch1" onClick={toggleVisibility}/>
+                            <label className="custom-control-label" htmlFor="customSwitch1">Disable diarization
+                                <span className="fe fe-info fe-16 ml-2 text-secondary" title="Let the AI knows how many people are in the conversation."></span>
+                            </label>
                         </div>
                         {!isHidden &&
                             <>
-                                <div className="col-auto">
+                                <div className="col-lg-4 col-md-4 col-xs-12">
                                     <label htmlFor="min_people">Min. people</label>
                                     <input type="number" className="form-control"/>
                                 </div>
-                                <div className="col-auto">
+                                <div className="col-lg-4 col-md-4 col-xs-12">
                                     <label htmlFor="max_people">Max. people</label>
                                     <input type="number" className="form-control"/>
                                 </div>
                             </>
                         }
                     </div>
-                    <div className="form-group col-md-12">
+                    <div className="form-group col-12">
                         <label className="mb-0">File language</label>
                         {!isHidden && <p className="text-muted">Only 1 language between the speaker(s).</p>}
                         {isHidden && <p className="text-muted">Maximum is 4 languages.</p>}
@@ -52,6 +53,10 @@ function Live() {
                     <div className="form-group alert alert-danger mb-5" role="alert">
                         <span className="fe fe-minus-circle fe-16 mr-2"></span>Unknown error while trying to transcribe the file.
                     </div>
+                    <div className="form-group col-md-12 mb-5">
+                        <h5 className="card-title">Result</h5>
+                        <textarea className="form-control" name="" id="" rows="6" placeholder="The result of your live transcribing will be written here..."></textarea>
+                    </div>
                     <div className="row mb-4">
                         <div className="col-12 d-flex justify-content-center">
                             <button className="circle circle-lg bg-primary">
@@ -61,6 +66,14 @@ function Live() {
                         <div className="col-12 text-center">
                             <h5 className="text-muted mt-4">Click the logo and wait for it to blink before talking.</h5>
                         </div>
+                    </div>
+                    <div className="col-12 d-flex justify-content-center">
+                        <button className="mx-1 btn btn-warning text-white">
+                            <span className="fe fe-plus fe-16 mr-2"></span>Keep talking
+                        </button>
+                        <button className="mx-1 btn btn-info text-white">
+                            <span className="fe fe-send fe-16 mr-2"></span>Finished
+                        </button>
                     </div>
                 </form>
             </div>
