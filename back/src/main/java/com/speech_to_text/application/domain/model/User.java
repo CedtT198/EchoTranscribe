@@ -19,8 +19,7 @@ public class User {
     String city;    
     String zip;
     String password;
-    String confirm_password;
-    LocalDate creation_date;
-    LocalDate last_update;
+    String creation_date;
     String role;
 }
+ 

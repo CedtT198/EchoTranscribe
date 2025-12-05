@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class UserDocument {
     @Id
     String id;
+
     @NotBlank(message = "Name required.")
     String name;
 
@@ -49,9 +50,8 @@ public class UserDocument {
 
     @NotBlank(message = "Confirm password required.")
     String confirm_password;
-
-    LocalDate creation_date;
-    LocalDate last_update;
+    
+    String creation_date;
     String role;
 
     // public UserDocument(User user) {

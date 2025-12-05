@@ -32,30 +32,30 @@ db.user.insertMany([
       mail: "njiva@gmail.com",
       password: "njiva",
       role: "Administrator",
-      creation_date: new Date()
+      creationDate: new Date()
    },
    {
       name: "bera",
       mail: "bera@gmail.com",
       password: "bera",
       role: "Sub Admin",
-      creation_date: new Date()
+      creationDate: new Date()
    },
    {
       name: "nom client1",
-      first_name: "prenom client1",
+      firstName: "prenom client1",
       birthday: ISODate("2001-01-01T00:00:00Z"),
       mail: "client1@gmail.com",
       password: "client1",
       role: "Client",
-      creation_date: new Date()
+      creationDate: new Date()
    }
 ])
 
 // vita redis tampoka
 // db.createCollection("otp")
-db.createCollection("subscription")
-db.subscription.insertMany([
+db.createCollection("subscription_type")
+db.subscription_type.insertMany([
    {
       name: "Free plan",
       description: "",
@@ -77,15 +77,15 @@ db.subscription.insertMany([
 
 // na ko hoe sub record
 // juste ijerevana anle table alo atreto
-db.createCollection("subscriber")
-db.subscriber.insertMany([
+db.createCollection("subscription")
+db.subscription.insertMany([
    {
-      start_date: new Date(),
-      end_date: new Date(),
-      subscription_name: "Company",
+      startDate: new Date(),
+      endDate: new Date(),
+      subscriptionName: "Company",
       total: 9.99,
-      payment_method: "Paypal",
-      invitation_code: "q2w34e5rft6ghujd7wqe5f",
+      paymentMethod: "Paypal",
+      invitationCode: "q2w34e5rft6ghujd7wqe5f",
       master: "client1@gmail.com"
    }
 ])
@@ -107,8 +107,8 @@ db.transcribing.insertMany([
       summary: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
       date: new Date(),
       file: "file.mp4",
-      transcribing_type:"batch",
-      summary_type:"Standard",
+      transcribingType:"batch",
+      summaryType:"Standard",
       user: "client1@gmail.com"
    },
    {
@@ -116,8 +116,8 @@ db.transcribing.insertMany([
       content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
       summary: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
       date: new Date(),
-      transcribing_type:"live",
-      summary_type:"decisional",
+      transcribingType:"live",
+      summaryType:"decisional",
       user: "client1@gmail.com"
    }
 ])

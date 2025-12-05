@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SignService implements SignUseCase {
     private final UserRepository userRepository;
-    private final SecurityService securityService;
+    // private final SecurityService securityService;
 
     @Override
     public User checkLogin(String email, String password) throws Exception {
