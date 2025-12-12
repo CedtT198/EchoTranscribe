@@ -1,8 +1,7 @@
 package com.speech_to_text.application.domain.port.in;
 
-import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserEntity;
+import com.speech_to_text.application.domain.model.User;
 
 public interface SignUseCase {
-    UserEntity checkLogin(String mail, String password) throws Exception;
-    UserEntity addUser(UserEntity user) throws Exception;
+    User checkLogin(String mail, String password) throws Exception;
 }

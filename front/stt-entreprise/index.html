@@ -5,9 +5,51 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Echo Transcribe</title>
+    <link rel="stylesheet" href="/css/feather.css">
+    <link rel="stylesheet" href="/css/select2.css">
+    <link rel="stylesheet" href="/css/dropzone.css">
+    <link rel="stylesheet" href="/css/uppy.min.css">
+    <link rel="stylesheet" href="/css/jquery.steps.css">
+    <link rel="stylesheet" href="/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="/css/quill.snow.css">
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" href="/css/daterangepicker.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="/css/app-light.css" id="lightTheme">
+    <link rel="stylesheet" href="/css/app-dark.css" id="darkTheme" disabled>
   </head>
-  <body>
+  <body class="horizontal light">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/simplebar.min.js"></script>
+    <script src='js/daterangepicker.js'></script>
+    <script src='js/jquery.stickOnScroll.js'></script>
+    <script src="js/tinycolor-min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/topojson.min.js"></script>
+    <script src="js/datamaps.all.min.js"></script>
+    <script src="js/datamaps-zoomto.js"></script>
+    <script src="js/datamaps.custom.js"></script>
+    <script src="js/Chart.min.js"></script>
+    <script>
+      /* defind global options */
+      Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
+      Chart.defaults.global.defaultFontColor = colors.mutedColor;
+    </script>
+    <script src="js/gauge.min.js"></script>
+    <script src="js/jquery.sparkline.min.js"></script>
+    <script src="js/apexcharts.min.js"></script>
+    <script src="js/apexcharts.custom.js"></script>
+    <script src='js/jquery.mask.min.js'></script>
+    <script src='js/select2.min.js'></script>
+    <script src='js/jquery.steps.min.js'></script>
+    <script src='js/jquery.validate.min.js'></script>
+    <script src='js/jquery.timepicker.js'></script>
+    <script src='js/dropzone.min.js'></script>
   </body>
 </html>
