@@ -1,9 +1,8 @@
 function PublicFooter() {
     return(
         <div className="mt-4">
-            <hr/>
             <div className="mb-4 container">
-                
+                <h1></h1>
             </div>
         </div>
     )
