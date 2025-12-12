@@ -17,7 +17,7 @@ function PublicHeader() {
     
 
     return(
-        <nav className="navbar navbar-expand-lg navbar-light bg-white flex-row border-bottom shadow">
+        <nav className="navbar navbar-expand-lg navbar-light bg-white flex-row border-bottom shadow fixed-top">
             <div className="container container-fluid">
                 <a className="navbar-brand mx-lg-1 mr-0" href="./index.html">
                 {/* LOGO */}
