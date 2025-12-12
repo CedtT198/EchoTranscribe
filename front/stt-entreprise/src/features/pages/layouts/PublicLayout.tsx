@@ -6,8 +6,8 @@ function PublicLayout() {
     return (
       <div className="wrapper">
         <PublicHeader></PublicHeader>
-        <main role="main" className="main-content">
-          <div className='container-fluid container'>
+        <main role="main" className="main-content mt-5 pt-5">
+          <div className='container-fluid container mt-5'>
           {/* <div> */}
             <Outlet />
             <PublicFooter></PublicFooter>
