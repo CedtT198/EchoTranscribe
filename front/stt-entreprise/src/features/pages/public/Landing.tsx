@@ -1,14 +1,12 @@
-import PublicFooter from "../../../components/PublicFooter";
-
 function Landing() {
     return (
         <div>
             <div className="row justify-content-center">
                 <div className="col-12 mb-5">
                     <div className="w-50 mx-auto text-center justify-content-center">
-                        <h2 className="page-title mb-0">Welcome to Echotranscribe</h2>
-                        <p className="lead text-muted mb-4">Take notes with your voice in streaming mode, transcribe and/or translate audio/video file.</p>
-                        <p className="help-text mt-2 text-muted">A free limited version is available.</p>
+                        <p className="h1 page-title mb-0 font-weight-bold">Transcribe for free</p>
+                        <p className="lead text-muted mb-4">Take notes with your voice in real-time, or transcribe audio/video batch file.</p>
+                        <p className="help-text mt-2 text-muted">No account, no credit card need for free version.</p>
                     </div>
                     <div className="row my-4">
                         <div className="col-md-6">
@@ -36,123 +34,125 @@ function Landing() {
                         </div>
                         </div>
                     </div>
-                    {/* use case */}
+
+                    {/* Welcome */}
                     <div className="row my-5 p-5">
-                        <div className="col-12 col-lg-12 text-center">
-                            <h2 className="mb-0">Use case</h2>
-                            <p className="lead text-muted mb-5">Those are what our application can be used for.</p>
+                        <div className="col-12 text-center mb-5">
+                            <div className="mb-3">
+                                <img src="h.jpg" alt="Company logo" />
+                            </div>
+                            <p className="h1 mb">Welcome to <span className="text-primary">Echotranscribe</span></p>
+                            {/* <p className="lead text-muted mb-5">Those are what our application can be used for.</p> */}
                         </div>
-                        <div className="col-6 col-lg-3">
-                            <div className="card shadow mb-4">
-                                <div className="card-body">
-                                    <i className="fe fe-info fe-32 text-primary"></i>
-                                    <a href="#">
-                                        <h3 className="h5 mt-4 mb-1">Meeting</h3>
-                                    </a>
-                                    <p className="text-muted">No manual writing for meeting report. Save the audio/video and drop the file.</p>
-                                </div>
-                            </div> 
-                        </div> 
-                        <div className="col-6 col-lg-3">
-                            <div className="card shadow mb-4">
-                                <div className="card-body">
-                                <i className="fe fe-help-circle fe-32 text-success"></i>
-                                <a href="./page-faqs.html">
-                                    <h3 className="h5 mt-4 mb-1">Independant worker</h3>
-                                </a>
-                                <p className="text-muted">For worker as copywriter, type notes just by talking, using speech to write.</p>
-                                </div>
-                            </div> 
-                        </div> 
-                        <div className="col-6 col-lg-3">
-                            <div className="card shadow mb-4">
-                                <div className="card-body">
-                                <i className="fe fe-globe fe-32 text-warning"></i>
-                                <a href="#">
-                                    <h3 className="h5 mt-4 mb-1">Students</h3>
-                                </a>
-                                <p className="text-muted">Save much more time with our automatic writer for your course. </p>
-                                </div>
+                        <div className="col-12 row mb-3">
+                            <div className="col-3"></div>
+                            <div className="col-8">
+                                <p className="h4 mb-0">Free version</p>
+                                <p>Transcribe a batch file for free with some formats available. No account, no use of credit card.</p>
                             </div>
                         </div>
-                        <div className="col-6 col-lg-3">
-                            <div className="card shadow">
-                                <div className="card-body">
-                                <i className="fe fe-alert-triangle fe-32 text-danger"></i>
-                                <a href="#">
-                                    <h3 className="h5 mt-4 mb-1">Translation</h3>
-                                </a>
-                                <p className="text-muted">Yes, translation is supported as well. For audio or video format.</p>
-                                </div>
-                            </div> 
+                        <div className="col-12 row mb-3">
+                            <div className="col-3"></div>
+                            <div className="col-8">
+                                <p className="h4 mb-0">Very fast</p>
+                                <p>The AI engine provides fast and accurate answer.</p>
+                            </div>
+                        </div>
+                        <div className="col-12 row mb-3">
+                            <div className="col-3"></div>
+                            <div className="col-8">
+                                <p className="h4 mb-0">Large file size</p>
+                                <p>File up to 8 hours of length or 10go can be uploaded.</p>
+                            </div>
+                        </div>
+                        <div className="col-12 row mb-3">
+                            <div className="col-3"></div>
+                            <div className="col-8">
+                                <p className="h4 mb-0">Many audio/video formats supported</p>
+                                <p>EchoTranscribe supports many audio and video format file such as: FLAC, MULAW, AMR, AMR_WB, MP3, MP4, MOV, M4A, AAC, WAV, OGG, OPUS, MPEG</p>
+                            </div>
+                        </div>
+                        <div className="col-12 row mb-3">
+                            <div className="col-3"></div>
+                            <div className="col-8">
+                                <p className="h4 mb-0">Download your transcribed file</p>
+                                <p>Export the results in PDF, DOCX, TXT and share it with your coworkers</p>
+                            </div>
                         </div>
                     </div> 
+
+                    {/* Google speech to text */}
+                    <div className="row my-5 p-5">
+                        <div className="col-12 text-center mb-5">
+                            <div className="mb-3">
+                                <img src="h.jpg" alt="Google logo" />
+                            </div>
+                            <p className="h1 mb">Powered by Google</p>
+                            {/* <p className="lead text-muted mb-5">Those are what our application can be used for.</p> */}
+                        </div>
+                        <div className="col-12 row mb-3">
+                            <div className="col-3"></div>
+                            <div className="col-8">
+                                <p className="h4 mb-0">Accuracy</p>
+                                <p>EchoTranscribe is powered by Google AI, one the most accurate and fast Speech to text AI in the world.</p>
+                            </div>
+                        </div>
+                        <div className="col-12 row mb-3">
+                            <div className="col-3"></div>
+                            <div className="col-8">
+                                <p className="h4 mb-0">125+ languages</p>
+                                <p>Many languages around the world supported, including country unique dialects.</p>
+                            </div>
+                        </div>
+                        <div className="col-12 row mb-3">
+                            <div className="col-3"></div>
+                            <div className="col-8">
+                                <p className="h4 mb-0">Diarization</p>
+                                <p>Allows Google to make the difference between the speakers and add tag name to recognize which one is talking. Very useful for meeting, interviews and podcast.</p>
+                            </div>
+                        </div>
+                        <div className="col-12 row mb-3">
+                            <div className="col-3"></div>
+                            <div className="col-8">
+                                <p className="h4 mb-0">Security</p>
+                                <p>No worries, your data is privated and only you can have access to it. And transcribing results are stored in encrypted form.</p>
+                            </div>
+                        </div>
+                    </div> 
+                    
                     {/* Functionnalities */}
+
+                    {/* Pricing */}
                     <div className="my-5 p-5">
                         <div className="text-center">
-                            <h2 className="mb-0">Functionnalities</h2>
-                            <p className="lead text-muted mb-5">Multiples useful function for your work.</p>
-                        </div>
-                        <div className="row my-5">
-                            <div className="col-md-4">
-                                <h3 className="h5 mt-4 mb-1">Powerfull AI</h3>
-                                <p className="text-muted mb-4"></p>
-                                <ul className="list-unstyled">
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Diarization</li>
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Precision</li>
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Summarize text in a decisional way</li>
-                                </ul>
-                            </div> 
-                            <div className="col-md-4">
-                                <h3 className="h5 mt-4 mb-1">Transcribing</h3>
-                                <p className="text-muted mb-4"></p>
-                                <ul className="list-unstyled">
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Multiples languages supported</li>
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Live transcribing</li>
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>+100 language supported</li>
-                                </ul>
-                            </div> 
-                            <div className="col-md-4">
-                                <h3 className="h5 mt-4 mb-1">Save in cloud</h3>
-                                <p className="text-muted mb-4"></p>
-                                <ul className="list-unstyled">
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Lorem ipsum dolor sit amet</li>
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Centralized history</li>
-                                    <li className="my-1"><i className="fe fe-file-text mr-2 text-muted"></i>Export easily</li>
-                                </ul>
-                            </div>
-                        </div> 
-                    </div>
-                    {/* review */}
-
-                    {/* Sub */}
-                    <div>
-                        <div className="text-center">
-                            <h2 className="mb-0">Subscritpion</h2>
-                            <p className="lead text-muted mb-5">See below the offer that fits better for you</p>
+                            <h2 className="mb-0">Pricing</h2>
+                            <p className="lead text-muted mb-5">See below our subscription offer that fits better for you</p>
                         </div>
                         <div className="card-deck my-4">
                             <div className="card mb-4 shadow">
                                 <div className="card-body text-center my-4">
-                                    <a href="#">
-                                    <h3 className="h5 mt-4 mb-0">Basic</h3>
-                                    </a>
-                                    <p className="text-muted">-</p>
-                                    <span className="h1 mb-0">$9.9</span>
-                                    <p className="text-muted">month</p>
-                                    <ul className="list-unstyled mb-5">
+                                    <p className="h3 mt-4 mb-0">Free</p><hr />
+                                    <p className=" mb-0" style={{ fontSize: 60 }}>$9.9</p>
+                                    <p className="text-muted mb-4">Monthly</p>
+                                    <ul className="list-unstyled mb-4">
                                         <li>Lorem ipsum dolor sit amet</li>
                                         <li>Consectetur adipiscing elit</li>
                                         <li>Integer molestie lorem at massa</li>
                                         <li>Eget porttitor lorem</li>
                                     </ul>
+                                    <button className="btn btn-primary w-100 py-2 mb-3" style={{ fontSize: 24 }}>Sign up now</button>
+                                    <p className="text-muted fe-12">Create your account with gmail</p>
                                 </div>
                             </div> 
                         </div>
                     </div>
+                    
+                    {/* Reviews */}
+                    
+                    {/* QA */}
+                    
                 </div>
             </div> 
-            {/* <PublicFooter></PublicFooter> */}
         </div> 
 
     )

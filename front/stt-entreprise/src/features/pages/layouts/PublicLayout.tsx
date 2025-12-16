@@ -7,12 +7,12 @@ function PublicLayout() {
       <div className="wrapper">
         <PublicHeader></PublicHeader>
         <main role="main" className="main-content mt-5 pt-5">
-          <div className='container-fluid container mt-5'>
+          <div className='container mt-5'>
           {/* <div> */}
             <Outlet />
-            <PublicFooter></PublicFooter>
           </div>
         </main>
+        <PublicFooter></PublicFooter>
       </div>
     )
 }

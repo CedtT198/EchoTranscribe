@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function PublicHeader() {
     // toggle mode sombre / clair
@@ -17,8 +17,8 @@ function PublicHeader() {
     
 
     return(
-        <nav className="navbar navbar-expand-lg navbar-light bg-white flex-row border-bottom shadow fixed-top">
-            <div className="container container-fluid">
+        <nav className="navbar-expand-lg navbar-light bg-white border-bottom shadow fixed-top" >
+            <div className="container-fluid d-flex justify-content-between align-items-center">
                 <a className="navbar-brand mx-lg-1 mr-0" href="./index.html">
                 {/* LOGO */}
                     {/* <svg version="1.1" id="logo" className="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
@@ -32,11 +32,11 @@ function PublicHeader() {
                 <button className="navbar-toggler mt-2 mr-auto toggle-sidebar text-muted">
                     <i className="fe fe-menu navbar-toggler-icon"></i>
                 </button>
-                <div className="navbar-slide bg-white ml-lg-4" id="navbarSupportedContent">
+                <div className="navbar-slide bg-white" id="navbarSupportedContent">
                     <a href="#" className="btn toggle-sidebar d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
                         <i className="fe fe-x"><span className="sr-only"></span></i>
                     </a>
-                    <ul className="navbar-nav mr-auto">
+                    <ul className="navbar-nav mr-auto d-flex align-items-center" style={{fontSize: 16}}>
                         {/* <li className="nav-item dropdown">
                             <a href="#" id="dashboardDropdown" className="dropdown-toggle nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span className="ml-lg-2">Dashboard</span><span className="sr-only">(current)</span>
@@ -50,11 +50,19 @@ function PublicHeader() {
                             </div>
                         </li> */}
                         <li className="nav-item">
-                            <a className="nav-link" href="/public/layout">
-                                <span className="ml-lg-2">Home</span>
-                            </a>
+                            <button className="btn"  type="button" id="actionMenuButton" data-toggle="dropdown" style={{fontSize: 16}}>
+                                Tools<span className="fe fe-chevron-down fe-16 ml-1"></span>
+                            </button>
+                            <div className="dropdown-menu" aria-labelledby="actionMenuButton">
+                                <a className="dropdown-item" href="">Live Speech to text</a>
+                                <a className="dropdown-item" href="">Transcribe batch</a>
+                                <a className="dropdown-item" href="">Resume text with AI</a>
+                                <a className="dropdown-item" href="">Translate</a>
+                                {/* <a className="dropdown-item" href="#">Batch</a>
+                                <a className="dropdown-item" href="#">Live</a> */}
+                            </div>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <a className="nav-link" href="/public/layout/live">
                                 <span className="ml-lg-2">Live</span>
                             </a>
@@ -68,15 +76,10 @@ function PublicHeader() {
                             <a className="nav-link" href="/public/layout/resume">
                                 <span className="ml-lg-2">Resume</span>
                             </a>
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                             <a className="nav-link" href="/public/layout/history">
                                 <span className="ml-lg-2">History</span>
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/public/layout/subscription">
-                                <span className="badge badge-pill badge-danger">My subscription</span>
                             </a>
                         </li>
                         {/* <li className="nav-item dropdown more">
@@ -100,12 +103,12 @@ function PublicHeader() {
                         </li> */}
                     </ul>
                 </div>
-                <ul className="navbar-nav d-flex flex-row">
-                    <li className="nav-item">
+                <ul className="navbar-nav d-flex flex-row" style={{fontSize: 16}}>
+                    {/* <li className="nav-item">
                         <a className="nav-link text-muted my-2" href="#" ref={modSwitcher} id="modeSwitcher" onClick={toggleTheme} data-mode="light">
                             <i className="fe fe-sun fe-16"></i>
                         </a>
-                    </li>
+                    </li> */}
                     {/* <li className="nav-item">
                         <a className="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-shortcut">
                             <i className="fe fe-grid fe-16"></i>
@@ -120,14 +123,19 @@ function PublicHeader() {
                     
                     {/* rehefa deconnecte */}
                     <li className="nav-item">
+                        <a className="nav-link" href="/public/layout/subscription">
+                            <span className="ml-lg-2">Pricing</span>
+                        </a>
+                    </li>
+                    <li className="nav-item">
                         <a className="nav-link" href="/public/sign-in">
                             <span className="ml-lg-2">Login</span>
                         </a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/public/sign-up">
-                            <span className="badge badge-pill badge-primary">Sign up</span>
-                        </a>
+                    <li className="nav-item ml-2">
+                        <button className="btn btn-primary">
+                            <a className="text-light" href="/public/sign-up" style={{fontSize: 16}}>Start now</a>
+                        </button>
                     </li>
                     {/* rehefa connecte */}
                     <li className="nav-item dropdown ml-lg-0">
@@ -156,6 +164,7 @@ function PublicHeader() {
                         </ul>
                     </li>
                 </ul>
+                <div></div>
             </div>
         </nav>
     )
