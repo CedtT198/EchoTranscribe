@@ -19,7 +19,7 @@ function Resume() {
                       </div>
                       <div className="container mb-4">
                           <h5 className="card-title">Choose the type of result</h5>
-                          <div className="row">
+                          <div className="row p-4">
                               <div className="custom-control custom-radio col-md-4">
                                   <input type="radio" className="custom-control-input" id="customControlValidation1" name="radio-stacked" required/>
                                   <label className="custom-control-label" htmlFor="customControlValidation1">Standard</label>
