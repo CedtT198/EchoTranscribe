@@ -51,7 +51,7 @@ function PublicFooter() {
                                     <a href="" className="text-light">Pricing</a>
                                 </li>
                                 <li  className="mx-1 my-1">
-                                    <a href="/public/layout/review" className="text-light">Reviews</a>
+                                    <a href="/public/layout/listReview" className="text-dark">Reviews</a>
                                 </li>
                                 <li  className="mx-1 my-1">
                                     <a href="" className="text-light">QA</a>
