@@ -1,6 +1,6 @@
 package com.speech_to_text.application.domain.service;
 
-import com.speech_to_text.application.domain.port.in.SecurityUseCase;
+import com.speech_to_text.application.domain.port.in.BCryptUseCase;
 
 import lombok.AllArgsConstructor;
 
@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class SecurityService implements SecurityUseCase{
+public class BCryptService implements BCryptUseCase{
     private BCryptPasswordEncoder encoder;
 
-    public SecurityService() {
+    public BCryptService() {
         this.encoder = new BCryptPasswordEncoder();
     }
 
     @Override
-    public String crypt(String word) {
+    public String hash(String word) {
         return encoder.encode(word);
     }
 

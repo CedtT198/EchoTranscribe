@@ -12,14 +12,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SignService implements SignUseCase {
     private final UserRepository userRepository;
-    // private final SecurityService securityService;
+    private final BCryptService bcryptService;
 
     @Override
     public User checkLogin(String email, String password) throws Exception {
         User user = userRepository.findByMail(email);
         if (user != null) {
-            // String passEncoded = securityService.crypt(password);
-            if (user.getPassword().equals(password)) {
+            if (bcryptService.matches(password, user.getPassword())) {
+            // if (user.getPassword().equals(password)) {
                 return user; 
             }
             else {
