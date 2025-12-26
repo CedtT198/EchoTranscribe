@@ -1,10 +1,10 @@
 function PublicFooter() {
     return(
-        <footer className="my-5">
-            <div className="mb-4 container">
+        <footer className="mt-5 text-white" style={{ background: '#222'}}>
+            <div className="container">
                 <div className="row mt-5">
                     <div className="col-xs-12 col-md-4 col-lg-4 mt-5">
-                        <h3>EchoTranscribe</h3>
+                        <p className="h2 text-light">EchoTranscribe</p>
                         <p>With EchoTranscribe you can automatically transcribe your audio/video  files into more than 125 languages.</p>
                         <div>
                             <button className="circle circle-md bg-light border-primary mx-1">
@@ -23,13 +23,13 @@ function PublicFooter() {
                             <p className="font-weight-bolder">Tools</p><hr />
                             <ul className="list-unstyled">
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-dark">Live transcribe</a>
+                                    <a href="" className="text-light">Live transcribe</a>
                                 </li>
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-dark">Audio to text</a>
+                                    <a href="" className="text-light">Audio to text</a>
                                 </li>
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-dark">Video to text</a>
+                                    <a href="" className="text-light">Video to text</a>
                                 </li>
                             </ul>
                         </div>
@@ -37,10 +37,10 @@ function PublicFooter() {
                             <p className="font-weight-bolder">Ressources</p><hr />
                             <ul className="list-unstyled">
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-dark">Help</a>
+                                    <a href="" className="text-light">Help</a>
                                 </li>
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-dark">API</a>
+                                    <a href="" className="text-light">API</a>
                                 </li>
                             </ul>
                         </div>
@@ -48,19 +48,19 @@ function PublicFooter() {
                             <p className="font-weight-bolder">Company</p><hr />
                             <ul className="list-unstyled">
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-dark">Pricing</a>
+                                    <a href="" className="text-light">Pricing</a>
                                 </li>
                                 <li  className="mx-1 my-1">
                                     <a href="/public/layout/listReview" className="text-dark">Reviews</a>
                                 </li>
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-dark">QA</a>
+                                    <a href="" className="text-light">QA</a>
                                 </li>
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-dark">Terms</a>
+                                    <a href="" className="text-light">Terms</a>
                                 </li>
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-dark">Privacy</a>
+                                    <a href="" className="text-light">Privacy</a>
                                 </li>
                             </ul>
                         </div>
@@ -74,10 +74,10 @@ function PublicFooter() {
                             <div>
                                 <ul className="list-unstyled d-flex gap-6">
                                     <li className="mx-1">
-                                        <a href="" className="text-dark">Contact</a>
+                                        <a href="" className="text-light">Contact</a>
                                     </li>
                                     <li  className="mx-1">
-                                        <a href="" className="text-dark">About</a>
+                                        <a href="" className="text-light">About</a>
                                     </li>
                                 </ul>
                             </div>

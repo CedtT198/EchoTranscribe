@@ -9,44 +9,43 @@ function History() {
                 <div className="card-body row">
                     {/* filter */}
                     <div className="col-12 mb-4 mt-1">
-                        <div className="">
-                            <form className="form-inline">
-                                <div className="form-row d-flex">
-                                    <div className="form-group col-auto">
-                                        <label htmlFor="search" className="sr-only">Search</label>
-                                        <input type="text" className="form-control" id="search" name="search" placeholder="Search"/>
-                                    </div>
-                                    <div className="form-group col-auto">
-                                        <label htmlFor="date_begin" className="sr-only">Date begin</label>
-                                        <input type="date" className="form-control" id="date_begin" name="date_begin"/>
-                                    </div>
-                                    <div className="form-group col-auto">
-                                        <label htmlFor="date_end" className="sr-only">Date end</label>
-                                        <input type="date" className="form-control" id="date_end" name="date_end"/>
-                                    </div>
-                                    <div className="form-group col-auto">
-                                        <select className="custom-select mr-sm-2" id="inlineFormCustomSelectPref">
-                                            <option selected>Choose</option>
-                                            <option value="1">Batch</option>
-                                            <option value="2">Live</option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group col-auto">
-                                        <button className="btn btn-primary">Filter</button>
-                                    </div>
-                                    <div className="form-group col-auto ">
-                                        <button className="btn btn-success" type="button" id="actionMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            New transcribing<span className="fe fe-chevron-down fe-12 ml-2"></span>
-                                        </button>
-                                        <div className="dropdown-menu" aria-labelledby="actionMenuButton">
-                                            <a className="dropdown-item" href="#">Batch</a>
-                                            <a className="dropdown-item" href="#">Live</a>
-                                        </div>
+                        <div className="container">
+                            <form className="row">
+                                <div className="form-group col-md-2 col-lg-2 col-xs-12">
+                                    <label htmlFor="search" className="sr-only">Search</label>
+                                    <input type="text" className="form-control" id="search" name="search" placeholder="Search"/>
+                                </div>
+                                <div className="form-group col-md-3 col-lg-3 col-xs-12">
+                                    <label htmlFor="date_begin" className="sr-only">Date begin</label>
+                                    <input type="date" className="form-control" id="date_begin" name="date_begin"/>
+                                </div>
+                                <div className="form-group col-md-3 col-lg-3 col-xs-12">
+                                    <label htmlFor="date_end" className="sr-only">Date end</label>
+                                    <input type="date" className="form-control" id="date_end" name="date_end"/>
+                                </div>
+                                <div className="form-group col-md-2 col-lg-2 col-xs-12">
+                                    <select className="custom-select mr-sm-2" id="inlineFormCustomSelectPref">
+                                        <option selected>Choose</option>
+                                        <option value="1">Batch</option>
+                                        <option value="2">Live</option>
+                                    </select>
+                                </div>
+                                <div className="form-group col-xs-6 mr-3 ml-2">
+                                    <button className="btn btn-primary">Filter</button>
+                                </div>
+                                <div className="form-group col-xs-6">
+                                    <button className="btn btn-success text-light" type="button" id="actionMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        New
+                                    </button>
+                                    <div className="dropdown-menu" aria-labelledby="actionMenuButton">
+                                        <a className="dropdown-item" href="#">Batch</a>
+                                        <a className="dropdown-item" href="#">Live</a>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+
                     {/* list */}
                     <div className="col-12 mb-3">
                         <table className="table table-hover table-borderless border-v">
@@ -129,10 +128,11 @@ function History() {
                             </tbody>
                         </table>
                     </div>
+
                     {/* pagination */}
-                    <div className="col-12 row d-flex">
+                    <div className="col-12 row">
                         <div className="col-md-6 col-lg-6 col-xs-12">
-                            <p className="text-muted align-items-center">Showing 1 to 16 of 124 entites</p>
+                            <p className="text-muted d-flex align-items-center">Showing 1 to 16 of 124 entites</p>
                         </div>
                         <div className="col-md-6 col-lg-6 col-xs-12 text-right">
                             <nav aria-label="Table Paging" className="">
