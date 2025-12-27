@@ -1,6 +1,8 @@
 package com.speech_to_text.application.domain.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,6 @@ public class User {
     String zip;
     String password;
     String creationDate;
-    String role;
+    Set<String> roles = new HashSet<>();
 }
  

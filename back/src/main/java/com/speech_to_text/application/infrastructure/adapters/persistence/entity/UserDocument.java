@@ -1,6 +1,9 @@
 package com.speech_to_text.application.infrastructure.adapters.persistence.entity;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.Email;
@@ -52,7 +55,8 @@ public class UserDocument {
     String confirmPassword;
     
     String creationDate;
-    String role;
+
+    Set<String> roles = new HashSet<>();
 
     // public UserDocument(User user) {
     //     this.id = user.getId();
