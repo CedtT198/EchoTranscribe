@@ -51,7 +51,7 @@ public class SignController {
     ResponseEntity<?> validate(@Valid @RequestBody UserDocument user) {
         Map<String, String> res = new HashMap<>();
 
-        if (!user.getPassword().equals(user.getConfirm_password())) {
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
             res.put("error", "`Password` and `Confirm Password` must match.");
             return ResponseEntity.status(401).body(res);
         }

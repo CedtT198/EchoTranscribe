@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class User {
     String id;
     String name;
-    String first_name;
+    String firstName;
     LocalDate birthday;
     String mail;
     String address;
@@ -19,7 +19,7 @@ public class User {
     String city;    
     String zip;
     String password;
-    String creation_date;
+    String creationDate;
     String role;
 }
  

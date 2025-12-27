@@ -23,7 +23,7 @@ public class UserDocument {
     String name;
 
     @NotBlank(message = "First name required.")
-    String first_name;
+    String firstName;
 
     @Past(message = "Birthday must be in the past")
     LocalDate birthday;
@@ -49,9 +49,9 @@ public class UserDocument {
     String password;
 
     @NotBlank(message = "Confirm password required.")
-    String confirm_password;
+    String confirmPassword;
     
-    String creation_date;
+    String creationDate;
     String role;
 
     // public UserDocument(User user) {

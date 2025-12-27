@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import com.speech_to_text.application.domain.model.User;
 import com.speech_to_text.application.domain.port.out.UserRepository;
 import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserDocument;
-import com.speech_to_text.application.infrastructure.mapper.BaseMapper;
+// import com.speech_to_text.application.infrastructure.mapper.BaseMapper;
+import com.speech_to_text.application.infrastructure.mapper.GenericMapper;
+
 import lombok.AllArgsConstructor;
 
 interface SpringDataUser extends MongoRepository<UserDocument, String> {
@@ -21,11 +23,11 @@ public class MongoUserRepository implements UserRepository{
 
     private SpringDataUser repo;
     // private UserMapper mapper;
-    private BaseMapper mapper;
+    private GenericMapper mapper;
 
     @Override
     public List<User> findAll() {
-    return repo.findAll().stream().map(doc -> mapper.map(doc, User.class)).toList();
+    return mapper.mapList(repo.findAll(), User.class);
         // return repo.findAll().stream().map(mapper::toDomain).toList();
     }
 
