@@ -3,9 +3,7 @@ import Routage from "./routes/Routage"
 
 function App() {  
   return (
-    <BrowserRouter>
-      <Routage></Routage>
-    </BrowserRouter>
+    <Routage></Routage>
   )
 };
 

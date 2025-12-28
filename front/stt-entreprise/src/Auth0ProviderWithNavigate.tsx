@@ -1,0 +1,31 @@
+// src/auth/Auth0ProviderWithNavigate.tsx
+import { Auth0Provider } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
+import React from "react";
+
+export const Auth0ProviderWithNavigate: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const navigate = useNavigate();
+
+  const onRedirectCallback = (appState?: { returnTo?: string }) => {
+    console.log("onRedirectCallback appelé !", appState);
+    navigate(appState?.returnTo || "/public/layout/", { replace: true });
+  };
+  console.log("Auth0Provider rendu");
+
+  return (
+    <Auth0Provider
+      domain="dev-jdtdmvnllnhe51fm.us.auth0.com"
+      clientId="PHjpMBH8DIi5eT4R4R34oq1xA6qPvsYD"
+      authorizationParams={{
+        redirect_uri: window.location.origin + "/callback",
+        audience: "https://echo.transcribe.api.com/",
+      }}
+      onRedirectCallback={onRedirectCallback}
+      useRefreshTokens={true}           // Important pour éviter le fallback iframe qui peut être bloqué
+      cacheLocation="localstorage"      // Persistance + refresh tokens
+      useRefreshTokensFallback={true}   // Fallback si besoin (mais avec refresh tokens ça devrait éviter l'iframe)
+    >
+      {children}
+    </Auth0Provider>
+  );
+};

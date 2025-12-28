@@ -1,11 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-// import '../public/pages/notFound.scss'
-// import '../public/pages/sign.scss'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App.tsx';
+import { Auth0ProviderWithNavigate } from './Auth0ProviderWithNavigate';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <BrowserRouter>
+      <Auth0ProviderWithNavigate>
+        <App />
+      </Auth0ProviderWithNavigate>
+    </BrowserRouter>
   </StrictMode>
-)
+);

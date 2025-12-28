@@ -18,12 +18,10 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/sign/**").permitAll()
+                // .requestMatchers("/sign/**").permitAll()
                 .anyRequest().authenticated()
             )
-            .oauth2Login(oauth2 -> oauth2
-                .defaultSuccessUrl("/", true)
-            );
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {}));
             // .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
