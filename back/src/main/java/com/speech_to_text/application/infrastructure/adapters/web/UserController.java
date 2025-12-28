@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserController {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     private UserService userService;
   
     @GetMapping("/findAll")
@@ -30,8 +34,8 @@ public class UserController {
     public ResponseEntity<?> save(@RequestBody User user) {
         Map<String, String> res = new HashMap<>();
         
-        // String passEncoded = securityService.crypt(user.getPassword());
-        // user.setPassword(passEncoded);
+        String passEncoded = passwordEncoder.encode(user.getPassword());
+        user.setPassword(passEncoded);
 
         userService.save(user);
         System.out.println(user.getMail()+" created an account.");

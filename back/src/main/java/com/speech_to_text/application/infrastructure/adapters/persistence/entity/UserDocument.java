@@ -1,6 +1,9 @@
 package com.speech_to_text.application.infrastructure.adapters.persistence.entity;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.Email;
@@ -23,7 +26,7 @@ public class UserDocument {
     String name;
 
     @NotBlank(message = "First name required.")
-    String first_name;
+    String firstName;
 
     @Past(message = "Birthday must be in the past")
     LocalDate birthday;
@@ -49,10 +52,11 @@ public class UserDocument {
     String password;
 
     @NotBlank(message = "Confirm password required.")
-    String confirm_password;
+    String confirmPassword;
     
-    String creation_date;
-    String role;
+    String creationDate;
+
+    Set<String> roles = new HashSet<>();
 
     // public UserDocument(User user) {
     //     this.id = user.getId();

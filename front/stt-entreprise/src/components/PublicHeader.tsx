@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { useRef, useState } from "react";
 
 function PublicHeader() {
@@ -13,9 +14,41 @@ function PublicHeader() {
             modSwitcher.current?.setAttribute("data-mode", "light");
         }
     }
-    //
     
+    const {
+        isLoading, // Loading state, the SDK needs to reach Auth0 on load
+        isAuthenticated,
+        error,
+        loginWithRedirect: login, // Starts the login flow
+        logout: auth0Logout, // Starts the logout flow
+        user, // User profile
+    } = useAuth0();
 
+    console.log("useAuth0 state:", { isLoading, isAuthenticated, user: user?.email, error: error?.message });
+
+    const handleLogin = () =>
+        login({
+            appState: { returnTo: "/public/layout" },
+        });
+
+    const signup = () =>
+        login({
+            authorizationParams: { screen_hint: "signup" },
+            appState: { returnTo: "/public/layout" },
+        });
+
+    const logout = () =>
+        auth0Logout({
+            logoutParams: { returnTo: window.location.origin },
+        });
+    
+    if (isLoading) return (
+        <>
+            <div className="spinner-border mr-3 text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+        </>
+    );
     return(
         <nav className="navbar-expand-lg navbar-light bg-white border-bottom shadow fixed-top" >
             <div className="container-fluid d-flex justify-content-between align-items-center">
@@ -114,7 +147,7 @@ function PublicHeader() {
                             <i className="fe fe-grid fe-16"></i>
                         </a>
                     </li> */}
-                    {/* <li className="nav-item nav-notif">
+                    {/*  <li className="nav-item nav-notif">
                         <a className="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-notif">
                             <i className="fe fe-bell fe-16"></i>
                             <span className="dot dot-md bg-success"></span>
@@ -127,42 +160,53 @@ function PublicHeader() {
                             <span className="ml-lg-2">Pricing</span>
                         </a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/public/sign-in">
-                            <span className="ml-lg-2">Login</span>
-                        </a>
-                    </li>
-                    <li className="nav-item ml-2">
-                        <button className="btn btn-primary">
-                            <a className="text-light" href="/public/sign-up" style={{fontSize: 16}}>Start now</a>
-                        </button>
-                    </li>
-                    {/* rehefa connecte */}
-                    <li className="nav-item dropdown ml-lg-0">
-                        <a className="nav-link dropdown-toggle text-muted" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span className="avatar avatar-sm mt-2">
-                                {/* soloina icon representatif kely */}
-                                <img src="./assets/avatars/face-1.jpg" alt="..." className="avatar-img rounded-circle"/>
-                            </span>
-                        </a>
-                        <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    {!isAuthenticated ? (
+                        <>
                             <li className="nav-item">
-                                <a className="nav-link pl-3" href="/public/layout/profile">
-                                    <span className="fe fe-user fe-16 mr-2"></span>Profile
+                                <a className="nav-link" onClick={handleLogin}>
+                                    <span className="ml-lg-2">Login</span>
                                 </a>
                             </li>
+                            <li className="nav-item ml-2">
+                                <button className="btn btn-primary" onClick={signup}>
+                                    <span className="text-light" style={{fontSize: 16}}>Start now</span>
+                                </button>
+                            </li>
+                        </>
+                    ) : (
+                        <>
                             <li className="nav-item">
-                                <a className="nav-link pl-3" href="/public/layout/settings">
-                                    <span className="fe fe-settings fe-16 mr-2"></span>Settings
+                                <a className="nav-link">
+                                    <span className="ml-lg-2">{user?.email}</span>
                                 </a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link pl-3 text-danger" href="/public/sign-in">
-                                    <span className="fe fe-log-out danger fe-16 mr-2"></span>Log out
+                            <li className="nav-item dropdown ml-lg-0">
+                                <a className="nav-link dropdown-toggle text-muted" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span className="avatar avatar-sm mt-2">
+                                        {/* soloina icon representatif kely */}
+                                        <img src="./assets/avatars/face-1.jpg" alt="..." className="avatar-img rounded-circle"/>
+                                    </span>
                                 </a>
+                                <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                    <li className="nav-item">
+                                        <a className="nav-link pl-3" href="/public/layout/profile">
+                                            <span className="fe fe-user fe-16 mr-2"></span>Profile
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link pl-3" href="/public/layout/settings">
+                                            <span className="fe fe-settings fe-16 mr-2"></span>Settings
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link pl-3 text-danger" onClick={logout}>
+                                            <span className="fe fe-log-out danger fe-16 mr-2"></span>Log out
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                        </ul>
-                    </li>
+                        </>
+                    )}
                 </ul>
                 <div></div>
             </div>
