@@ -6,13 +6,9 @@ import org.springframework.stereotype.Repository;
 import com.speech_to_text.application.domain.model.SubscriptionType;
 import com.speech_to_text.application.domain.port.out.SubscriptionTypeRepository;
 import com.speech_to_text.application.infrastructure.adapters.persistence.entity.SubscriptionTypeDocument;
-// import com.speech_to_text.application.infrastructure.mapper.UserMapper;
+import com.speech_to_text.application.infrastructure.mapper.GenericMapper;
 
 import lombok.AllArgsConstructor;
-
-// interface SpringDataUser extends MongoRepository<UserDocument, String> {
-//     Optional<UserDocument> findByMail(String mail);
-// }
 
 interface SpringDataSubType extends MongoRepository<SubscriptionTypeDocument, String> {}
 
@@ -21,11 +17,10 @@ interface SpringDataSubType extends MongoRepository<SubscriptionTypeDocument, St
 public class MongoSubscriptionTypeRepository implements SubscriptionTypeRepository {
 
     private final SpringDataSubType repo;
-    // private UserMapper mapper;
+    private GenericMapper mapper;
 
     @Override
     public List<SubscriptionType> findAll() {
-        // return repo.findAll().stream().map(mapper::toDomain).toList();
-        return null;
+        return mapper.mapList(repo.findAll(), SubscriptionType.class);
     }
 }

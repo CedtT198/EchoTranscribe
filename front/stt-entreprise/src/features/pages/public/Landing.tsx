@@ -1,3 +1,6 @@
+import Pricing from "../../../components/Pricing";
+import QA from "../../../components/QA";
+
 function Landing() {
     return (
         <div>
@@ -123,33 +126,20 @@ function Landing() {
                     {/* Functionnalities */}
 
                     {/* Pricing */}
-                    <div className="my-5 p-5">
-                        <div className="text-center">
-                            <h2 className="mb-0">Pricing</h2>
-                            <p className="lead text-muted mb-5">See below our subscription offer that fits better for you</p>
-                        </div>
-                        <div className="card-deck my-4">
-                            <div className="card mb-4 shadow">
-                                <div className="card-body text-center my-4">
-                                    <p className="h3 mt-4 mb-0">Free</p><hr />
-                                    <p className=" mb-0" style={{ fontSize: 60 }}>$9.9</p>
-                                    <p className="text-muted mb-4">Monthly</p>
-                                    <ul className="list-unstyled mb-4">
-                                        <li>Lorem ipsum dolor sit amet</li>
-                                        <li>Consectetur adipiscing elit</li>
-                                        <li>Integer molestie lorem at massa</li>
-                                        <li>Eget porttitor lorem</li>
-                                    </ul>
-                                    <button className="btn btn-primary w-100 py-2 mb-3" style={{ fontSize: 24 }}>Sign up now</button>
-                                    <p className="text-muted fe-12">Create your account with gmail</p>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
+                    <Pricing></Pricing>
                     
                     {/* Reviews */}
                     
                     {/* QA */}
+                    <div className="row mt-3 pt-5">
+                        <div className="col-12 text-center mb-5">
+                            <p className="h1 mb-0">Q&As</p>
+                            <p className="text-muted">Those the common questions asked by the user.</p>
+                            {/* <p className="lead text-muted mb-5">Those are what our application can be used for.</p> */}
+                        </div>
+                    </div>
+                    <QA about="general" /> 
+                    {/* <QA about="general" />  */}
                     
                 </div>
             </div> 

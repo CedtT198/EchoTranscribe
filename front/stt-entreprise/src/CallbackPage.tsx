@@ -11,7 +11,7 @@ export const CallbackPage = () => {
     const process = async () => {
       try {
         const { appState } = await handleRedirectCallback();
-        console.log("handleRedirectCallback réussi", appState);
+        // console.log("handleRedirectCallback réussi", appState);
         navigate(appState?.returnTo || "/public/layout/", { replace: true });
       } catch (err) {
         console.error("Erreur callback", err);

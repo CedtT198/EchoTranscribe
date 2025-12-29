@@ -5,18 +5,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "subscription_type")
-public class SubscriptionTypeDocument {
+@Document(collection = "qa")
+public class QADocument {
     @Id
     String id;
 
-    String name;
-    List<String> description;
-    double price;
-    String frequency;
+    String about;
+    String question;
+    String answer;
 }

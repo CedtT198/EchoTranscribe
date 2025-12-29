@@ -15,16 +15,7 @@ function PublicHeader() {
         }
     }
     
-    const {
-        isLoading, // Loading state, the SDK needs to reach Auth0 on load
-        isAuthenticated,
-        error,
-        loginWithRedirect: login, // Starts the login flow
-        logout: auth0Logout, // Starts the logout flow
-        user, // User profile
-    } = useAuth0();
-
-    console.log("useAuth0 state:", { isLoading, isAuthenticated, user: user?.email, error: error?.message });
+    const { isAuthenticated, loginWithRedirect: login,  logout: auth0Logout,  user } = useAuth0();
 
     const handleLogin = () =>
         login({
@@ -42,13 +33,6 @@ function PublicHeader() {
             logoutParams: { returnTo: window.location.origin },
         });
     
-    if (isLoading) return (
-        <>
-            <div className="spinner-border mr-3 text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-            </div>
-        </>
-    );
     return(
         <nav className="navbar-expand-lg navbar-light bg-white border-bottom shadow fixed-top" >
             <div className="container-fluid d-flex justify-content-between align-items-center">

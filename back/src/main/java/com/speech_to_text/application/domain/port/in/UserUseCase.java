@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import com.speech_to_text.application.domain.model.User;
 
-public  interface UserUserCase {
+public  interface UserUseCase {
     List<User> findAll();
     List<User> findByAbonnements(LocalDate date1, LocalDate date2, String typeAbonnement);
     User findById(String id);

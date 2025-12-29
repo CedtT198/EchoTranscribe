@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.speech_to_text.application.domain.model.User;
-import com.speech_to_text.application.domain.port.in.UserUserCase;
+import com.speech_to_text.application.domain.port.in.UserUseCase;
 import com.speech_to_text.application.domain.port.out.UserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserUserCase {
+public class UserService implements UserUseCase {
 
     private final UserRepository userRepo;
 
