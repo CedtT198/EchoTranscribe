@@ -1,29 +1,7 @@
-import { useState, useEffect } from "react";
-import { findAllSubType } from "../../../api/sub_type";
-import { useAuth0 } from "@auth0/auth0-react";
+import Pricing from "../../../components/Pricing";
+import QA from "../../../components/QA";
 
 function Landing() {
-    const [sub_types, setSub] = useState([]);
-    useEffect(() => {
-        const fetchSubs = async () => {
-        try {
-            const data = await findAllSubType();
-            setSub(data);
-        } catch (err) {
-            console.log((err as Error).message);
-        }
-        };
-
-        fetchSubs();
-    }, []);
-    
-    const { isAuthenticated, loginWithRedirect: login } = useAuth0();
-
-    const signup = () => login({
-        authorizationParams: { screen_hint: "signup" },
-        appState: { returnTo: "/public/layout" },
-    });
-
     return (
         <div>
             <div className="row justify-content-center">
@@ -148,39 +126,20 @@ function Landing() {
                     {/* Functionnalities */}
 
                     {/* Pricing */}
-                        <div className="my-5 p-5">
-                            <div className="text-center">
-                                <h2 className="mb-0">Pricing</h2>
-                                <p className="lead text-muted mb-5">See below our subscription offer that fits better for you</p>
-                            </div>
-                            <div className="card-deck my-4">
-                                {sub_types.map(sub => (
-                                    <div className="card mb-4 shadow">
-                                        <div className="card-body text-center p-5 d-flex flex-column accordion-item-hover">
-                                            <div className="border-bottom-1">
-                                                <p className="h3 mb-0">{sub.name}</p>
-                                                <p className=" mb-0" style={{ fontSize: 40 }}>${sub.price}</p>
-                                                <p className="text-muted">{sub.frequency}</p><hr/>
-                                            </div>
-                                            <ul className="mb-5 text-left px-2">
-                                                {sub.description.map((f, i) => (
-                                                    <li key={i} className="mb-1">{f}</li>
-                                                ))}
-                                            </ul>
-                                            {!isAuthenticated &&
-                                                <div className="py-2 mt-auto">
-                                                    <button className="btn btn-primary w-100" style={{ fontSize: 18 }} onClick={signup}>Sign up now</button>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div> 
-                                ))}
-                            </div>
-                        </div>
+                    <Pricing></Pricing>
                     
                     {/* Reviews */}
                     
                     {/* QA */}
+                    <div className="row mt-3 pt-5">
+                        <div className="col-12 text-center mb-5">
+                            <p className="h1 mb-0">Q&As</p>
+                            <p className="text-muted">Those the common questions asked by the user.</p>
+                            {/* <p className="lead text-muted mb-5">Those are what our application can be used for.</p> */}
+                        </div>
+                    </div>
+                    <QA about="general" /> 
+                    {/* <QA about="general" />  */}
                     
                 </div>
             </div> 

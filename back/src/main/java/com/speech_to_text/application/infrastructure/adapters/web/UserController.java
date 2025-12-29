@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.speech_to_text.application.domain.model.User;
-import com.speech_to_text.application.domain.service.UserService;
+import com.speech_to_text.application.domain.port.in.UserUseCase;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -23,11 +23,11 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    private UserService userService;
+    private UserUseCase userUseCase;
   
     @GetMapping("/findAll")
     public ResponseEntity<List<User>> findAll() {
-        return ResponseEntity.ok(userService.findAll());
+        return ResponseEntity.ok(userUseCase.findAll());
     }
 
     @PostMapping("/save")
@@ -37,7 +37,7 @@ public class UserController {
         String passEncoded = passwordEncoder.encode(user.getPassword());
         user.setPassword(passEncoded);
 
-        userService.save(user);
+        userUseCase.save(user);
         System.out.println(user.getMail()+" created an account.");
         
         res.put("success", "Your account has been created, sign in now.");

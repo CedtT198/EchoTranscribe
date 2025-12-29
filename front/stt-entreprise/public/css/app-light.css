@@ -12063,7 +12063,7 @@ a.uppy-Dashboard-poweredBy {
   text-decoration: none;
 }
 
-.accordion-item-hover:hover .fe-plus {
-  transform: rotate(90deg);
+.accordion-item-hover:hover .fe-plus, .accordion-item-hover:hover .fe-minus{
+  transform: rotate(45);
   transition: transform 0.5s ease;
 }

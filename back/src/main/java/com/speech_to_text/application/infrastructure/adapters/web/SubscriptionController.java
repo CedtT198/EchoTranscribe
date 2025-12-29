@@ -6,19 +6,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.speech_to_text.application.domain.model.SubscriptionType;
-import com.speech_to_text.application.domain.service.SubscriptionTypeService;
+import com.speech_to_text.application.domain.port.in.SubscriptionTypeUseCase;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/subscription")
 public class SubscriptionController {
-    private SubscriptionTypeService subTypeService;
+    private SubscriptionTypeUseCase subTypeUseCase;
     // private UserService userService;
   
     @GetMapping("/type/findAll")
     public ResponseEntity<List<SubscriptionType>> findAll() {
-        return ResponseEntity.ok(subTypeService.findAll());
+        return ResponseEntity.ok(subTypeUseCase.findAll());
     }
 
 }

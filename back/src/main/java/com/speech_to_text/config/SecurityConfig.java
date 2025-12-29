@@ -16,16 +16,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
                 // prod
-                .requestMatchers("/subscription/**").permitAll()
+                .requestMatchers("/subscription/**", "/qa/**").permitAll()
                 .anyRequest().authenticated()
                 // dev
                 // .requestMatchers("/subscription/**").permitAll()
                 // .anyRequest().permitAll()
             )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {}));
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {}))
+            .csrf(csrf -> csrf.disable());
             // .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
