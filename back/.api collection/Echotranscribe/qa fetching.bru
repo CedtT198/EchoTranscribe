@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:8080/subscription/type/findAll
+  url: http://localhost:8080/qa/findAll?about=general
   body: none
   auth: inherit
+}
+
+params:query {
+  about: general
 }
 
 settings {
