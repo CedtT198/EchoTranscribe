@@ -1,4 +1,29 @@
+import { useState, useEffect } from "react";
+import { findAllSubType } from "../../../api/sub_type";
+import { useAuth0 } from "@auth0/auth0-react";
+
 function Landing() {
+    const [sub_types, setSub] = useState([]);
+    useEffect(() => {
+        const fetchSubs = async () => {
+        try {
+            const data = await findAllSubType();
+            setSub(data);
+        } catch (err) {
+            console.log((err as Error).message);
+        }
+        };
+
+        fetchSubs();
+    }, []);
+    
+    const { isAuthenticated, loginWithRedirect: login } = useAuth0();
+
+    const signup = () => login({
+        authorizationParams: { screen_hint: "signup" },
+        appState: { returnTo: "/public/layout" },
+    });
+
     return (
         <div>
             <div className="row justify-content-center">
@@ -123,29 +148,35 @@ function Landing() {
                     {/* Functionnalities */}
 
                     {/* Pricing */}
-                    <div className="my-5 p-5">
-                        <div className="text-center">
-                            <h2 className="mb-0">Pricing</h2>
-                            <p className="lead text-muted mb-5">See below our subscription offer that fits better for you</p>
+                        <div className="my-5 p-5">
+                            <div className="text-center">
+                                <h2 className="mb-0">Pricing</h2>
+                                <p className="lead text-muted mb-5">See below our subscription offer that fits better for you</p>
+                            </div>
+                            <div className="card-deck my-4">
+                                {sub_types.map(sub => (
+                                    <div className="card mb-4 shadow">
+                                        <div className="card-body text-center p-5 d-flex flex-column accordion-item-hover">
+                                            <div className="border-bottom-1">
+                                                <p className="h3 mb-0">{sub.name}</p>
+                                                <p className=" mb-0" style={{ fontSize: 40 }}>${sub.price}</p>
+                                                <p className="text-muted">{sub.frequency}</p><hr/>
+                                            </div>
+                                            <ul className="mb-5 text-left px-2">
+                                                {sub.description.map((f, i) => (
+                                                    <li key={i} className="mb-1">{f}</li>
+                                                ))}
+                                            </ul>
+                                            {!isAuthenticated &&
+                                                <div className="py-2 mt-auto">
+                                                    <button className="btn btn-primary w-100" style={{ fontSize: 18 }} onClick={signup}>Sign up now</button>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div> 
+                                ))}
+                            </div>
                         </div>
-                        <div className="card-deck my-4">
-                            <div className="card mb-4 shadow">
-                                <div className="card-body text-center my-4">
-                                    <p className="h3 mt-4 mb-0">Free</p><hr />
-                                    <p className=" mb-0" style={{ fontSize: 60 }}>$9.9</p>
-                                    <p className="text-muted mb-4">Monthly</p>
-                                    <ul className="list-unstyled mb-4">
-                                        <li>Lorem ipsum dolor sit amet</li>
-                                        <li>Consectetur adipiscing elit</li>
-                                        <li>Integer molestie lorem at massa</li>
-                                        <li>Eget porttitor lorem</li>
-                                    </ul>
-                                    <button className="btn btn-primary w-100 py-2 mb-3" style={{ fontSize: 24 }}>Sign up now</button>
-                                    <p className="text-muted fe-12">Create your account with gmail</p>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
                     
                     {/* Reviews */}
                     

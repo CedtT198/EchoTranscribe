@@ -14,9 +14,19 @@ import Live from "../features/pages/public/Live"
 import ListReview from "../features/pages/public/ListReview"
 import AddReview from "../features/pages/public/AddReview"
 import { CallbackPage } from "../CallbackPage"
+import { useAuth0 } from "@auth0/auth0-react"
 
 
 function PersoRoutes() {
+    const { isLoading } = useAuth0();
+
+    if (isLoading) return (
+        <>
+            <div className="spinner-border mr-3 text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+        </>
+    );
     return (
         <Routes>
             <Route path="/callback" element={<CallbackPage />} />

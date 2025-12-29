@@ -58,20 +58,19 @@ db.createCollection("subscription_type")
 db.subscription_type.insertMany([
    {
       name: "Free plan",
-      description: "",
-      price: 0
+      description: ["Transcribe in 125+ languages", "3 min of transcription only", "Limited format supported"]
    },
    {
-      name: "Independant",
-      description: "",
+      name: "Pro",
+      description: ["Transcribe in 125+ languages", "AI summary", "Many formats supported: FLAC, MULAW, AMR, AMR_WB, MP3, MP4, MOV, M4A, AAC, WAV, OGG, OPUS, MPEG", "Stored and centralized data history", "Sharable results"],
       frequency: "Monthly",
-      price: 9.99
+      price: 19.99
    },
    {
       name: "Company",
-      description: "",
+      description: ["Transcribe in 125+ languages", "Everything in Pro, plus:", "3 additional team member", "API access", "Priority support"],
       frequency: "Monthly",
-      price: 29.99
+      price: 49.99
    }
 ])
 
@@ -124,5 +123,4 @@ db.transcribing.insertMany([
 
 // any amin'ny back daoly no ilaina
 db.createCollection("summary_type")
-db.createCollection("subscription_type")
 db.createCollection("type_transcription")
