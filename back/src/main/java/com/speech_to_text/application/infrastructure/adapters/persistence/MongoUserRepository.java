@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 
 interface SpringDataUser extends MongoRepository<UserDocument, String> {
     Optional<UserDocument> findByMail(String mail);
+    Optional<UserDocument> findByAuth0Id(String auth0Id);
 }
 
 @Repository
@@ -24,6 +25,12 @@ public class MongoUserRepository implements UserRepository{
     private SpringDataUser repo;
     // private UserMapper mapper;
     private GenericMapper mapper;
+
+    @Override
+    public User findByAuth0Id(String auth0Id) {
+        UserDocument userDoc =  repo.findByAuth0Id(auth0Id).orElse(null);
+        return mapper.map(userDoc, User.class);
+    }    
 
     @Override
     public List<User> findAll() {
@@ -50,8 +57,27 @@ public class MongoUserRepository implements UserRepository{
     }
 
     @Override
+    public boolean delete(String auth0Id) {
+        Optional<UserDocument> existing = repo.findByAuth0Id(auth0Id);
+        if (existing.isPresent()) {
+            repo.delete(existing.get());
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public User update(User user) {
+        UserDocument existing = repo.findByAuth0Id(user.getAuth0Id()).orElse(null);
+        if (existing == null) {
+            return null;
+        }
+        return save(user);
+    }
+
+    @Override
     public User save(User user) {
         UserDocument doc = mapper.map(user, UserDocument.class);
         return mapper.map(repo.save(doc), User.class);
-    }    
+    }
 }

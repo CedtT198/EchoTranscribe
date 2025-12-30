@@ -1,9 +1,12 @@
-import { BrowserRouter } from "react-router-dom";
+import AuthBootstrap from "./AuthBootstrap"
 import Routage from "./routes/Routage"
 
 function App() {  
   return (
-    <Routage></Routage>
+    <>
+      <AuthBootstrap></AuthBootstrap>
+      <Routage></Routage>
+    </>
   )
 };
 

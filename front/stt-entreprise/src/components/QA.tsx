@@ -17,7 +17,7 @@ function QA ({ about }: QAProps) {
             try {
                 const data = await findAllQA(url);
                 setQA(data);
-                console.log("QAS "+data);
+                // console.log("QAS "+data);
             } catch (err) {
                 console.log((err as Error).message);
             }

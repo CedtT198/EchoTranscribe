@@ -5,12 +5,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.speech_to_text.application.domain.model.User;
 import com.speech_to_text.application.domain.port.in.UserUseCase;
@@ -22,20 +28,66 @@ import lombok.AllArgsConstructor;
 public class UserController {
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    // private PasswordEncoder passwordEncoder;
     private UserUseCase userUseCase;
   
+    @GetMapping("/getOrCreate")
+    public ResponseEntity<?> getOrCreateUser(JwtAuthenticationToken auth) {
+        Map<String, Object> res = new HashMap<>();
+
+        Jwt jwt = auth.getToken();
+
+        String auth0Id = jwt.getSubject();
+        String email = jwt.getClaim("email");
+        
+        // System.out.println("Auth0 ID: " + auth0Id);
+        // System.out.println("Email: " + email);
+        
+        User user = userUseCase.getOrCreate(auth0Id, email);
+        
+        System.out.println("\nVOHANTSO\n");
+        res.put("user", user);
+        return ResponseEntity.status(200).body(res);
+    }
+
     @GetMapping("/findAll")
     public ResponseEntity<List<User>> findAll() {
         return ResponseEntity.ok(userUseCase.findAll());
+    }
+    
+    @GetMapping("/me")
+    public ResponseEntity<User> me(JwtAuthenticationToken auth) {
+        return ResponseEntity.ok(userUseCase.findByAuth0Id(auth.getToken().getSubject()));
+    }
+
+    @GetMapping("/findByAuth0Id/{auth0Id}")
+    public ResponseEntity<User> findByAuth0Id(@PathVariable String auth0Id) {
+        return ResponseEntity.ok(userUseCase.findByAuth0Id(auth0Id));
+    }
+    
+    @DeleteMapping("/delete/{auth0Id}")
+    public ResponseEntity<Boolean> delete(@PathVariable String auth0Id) {
+        System.err.println("delete vohantso");
+        return ResponseEntity.ok(userUseCase.delete(auth0Id));
+    }
+    
+    @PostMapping("/block/{auth0Id}")
+    public ResponseEntity<Boolean> block(@PathVariable String auth0Id) {
+        System.err.println("block vohantso");
+        return ResponseEntity.ok(userUseCase.block(auth0Id));
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<User> update(@RequestBody User user) {
+        return ResponseEntity.ok(userUseCase.update(user));
     }
 
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody User user) {
         Map<String, String> res = new HashMap<>();
         
-        String passEncoded = passwordEncoder.encode(user.getPassword());
-        user.setPassword(passEncoded);
+        // String passEncoded = passwordEncoder.encode(user.getPassword());
+        // user.setPassword(passEncoded);
 
         userUseCase.save(user);
         System.out.println(user.getMail()+" created an account.");

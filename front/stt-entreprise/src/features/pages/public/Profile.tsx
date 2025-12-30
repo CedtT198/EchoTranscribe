@@ -1,14 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormDataUpdateUser, ValidationErrors} from '../../../components/Global';
-import { useLocation } from "react-router-dom";
-import { updateUser } from "../../../api/userApi";
+// import { useLocation } from "react-router-dom";
+import { deleteUser, getMyProfile, updateUser } from "../../../api/userApi";
+import { useAuth0 } from "@auth0/auth0-react";
+import AutoLogout from "../../../components/AutoLogout";
+import { useAuthToken } from "../../../auth/authToken";
+import Loading from "../../../components/Loading";
 
 function Profile() {
-    // alaina ato le donnees mombanle user rehetra
-    const location = useLocation();
-    const state = location.state as { message: string };
-    // 
+    // USER PROFILE
+    const token = useAuthToken()
+    // console.log('TOKEN 1 = '+token)
 
+    const { user } = useAuth0();
+    const [loading, setLoading] = useState(true);
+
+    const [userData, setUserData] = useState<any>(null);
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await getMyProfile(token);
+                setUserData(response);
+                // console.log(userData);
+            } catch (error) {
+                console.log((error as Error).message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        if (user && token) fetchUserData()
+    }, [user, token]);
+    
+    // const location = useLocation();
+    // const state = location.state as { message: string };
+    // END USER PROFILE
+
+
+    // UPDATE USER 
     const [formData, setFormData] = useState<FormDataUpdateUser>({
         name: "art",
         first_name: "art",
@@ -55,10 +84,33 @@ function Profile() {
             setError("Error connecting to the server.");
         }
     };
+    // END UPDATE USER
 
+
+    // DANGER ZONE
+    // Delete
+    const deleteAccount = async () => {
+        try {
+            const deleted = await deleteUser(user.sub, token);
+            console.log("deleted: "+deleted); 
+            <AutoLogout shouldLogout={deleted} />
+        } catch (error) {
+            console.log((error as Error).message);
+        }
+    }
+
+    // Block
+    // const blockAccount = async () => {
+    //     await blockUser(user?.sub);
+    // }
+    // END DANGER ZONE
+
+    if (loading) return (
+        <Loading></Loading>
+    );
     return (
         <div className="container">
-            <h2 className="page-title mb-0">Profile</h2>
+            <p className="page-title h2 mb-0">Profile</p>
             <p className="tect-muted">All about your personal information and subscription activities.</p>
             <div className="row">
                 {/* info */}
@@ -78,22 +130,22 @@ function Profile() {
                                 </a>
                             </div>
                             <div className="col-xs-12 col-md-4 col-lg-4 px-4">
-                                <h4 className="mb-1">First name, Name</h4>
-                                <p className="mb-3"><span className="badge badge-dark">test@gmail.com</span></p>
+                                <h4 className="mb-1">{userData.firstName ? userData.firstName : "-----"}, {userData.name ? userData.name: "-----"}</h4>
+                                <p className="mb-3"><span className="badge badge-dark">{user?.email}</span></p>
                             </div>
                             <div className="col-xs-12 col-md-3 col-lg-3 px-4">
                                 <div className="col-12">
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-calendar fe-16 mr-2"></span>02/02/2022
+                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.birthday ? userData.birthday : "--/--/----"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-map fe-16 mr-2"></span>Country
+                                        <span className="fe fe-map fe-16 mr-2"></span>{userData.country ? userData.country : "----"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-map-pin fe-16 mr-2"></span>City + Zip code
+                                        <span className="fe fe-map-pin fe-16 mr-2"></span>{userData.country ? userData.country : "----"}, {userData.zip ? userData.zip : "----"}, 
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-calendar fe-16 mr-2"></span>Joined date
+                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.creationDate ? userData.creationDate : "----"}
                                     </p>
                                     <p className="mb-0 text-muted">
                                         <span className="fe fe-edit fe-16 mr-2"></span>Last update date
@@ -101,7 +153,7 @@ function Profile() {
                                 </div>
                             </div>
                             <div className="col-md-2 col-lg-2 col-xs-12 mb-4">
-                                <div className="text-center">
+                                <div className="text-center mt-4">
                                     <button type="button" className="btn btn-warning text-white" data-toggle="modal" data-target=".modal-full">Update</button>
                                 </div>
                                 <div className="modal fade modal-full"  role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -158,19 +210,19 @@ function Profile() {
                 {/* sub */}
                 <div className="col-md-12 row">
                     <div className="col-md-9 col-lg-9 col-xs-12">
-                        <h3>Your actual subscription</h3>
+                        <p className="h3 mb-0">Your actual subscription</p>
                         <p className="text-muted">Everything about your active subscription(s).</p>
                     </div>
-                    <div className="col-md-3 col-lg-3 col-xs-12">
+                    <div className="col-md-3 col-lg-3 col-xs-12 d-flex align-items-center justify-content-center">
                         <div className="text-center">
-                            <button type="button" className="btn btn-info" data-toggle="modal" data-target="#varyModal" data-whatever="@mdo">Enter invitation code</button>
+                            <button type="button" className="btn btn-info" data-toggle="modal" data-target="#codeModal" data-whatever="@mdo">Enter invitation code</button>
                         </div>
-                        <div className="modal fade" id="varyModal" role="dialog" aria-labelledby="varyModalLabel" aria-hidden="true">
+                        <div className="modal fade" id="codeModal" role="dialog" aria-labelledby="codeModalLabel" aria-hidden="true">
                             <div className="modal-dialog" role="document">
                                 <div className="modal-content">
                                     <div className="modal-header row">
                                         <div className="col-10">
-                                            <h5 className="modal-title" id="varyModalLabel">Invitation code</h5>
+                                            <h5 className="modal-title" id="codeModalLabel">Invitation code</h5>
                                             <p className='text-muted'>It allows you to use the same subscription as the one who gives you the code.</p>
                                         </div>
                                         <div className="col-2">
@@ -235,9 +287,9 @@ function Profile() {
                 </div>
                 {/* sub records */}
                 <div className="col-12 mb-5">
-                <hr />
+                    <hr />
                     <div className="text-center">
-                        <h3>Subscription records</h3>
+                        <p className="h3">Subscription records</p>
                         <p className="text-muted"></p>
                     </div>
                     <table className="table table-striped">
@@ -342,6 +394,83 @@ function Profile() {
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                
+                {/* Danger zone */}
+                <div className="col-12 my-5">
+                    <div className="">
+                        <p className="h3 mb-0">Danger zone</p>
+                        <p className="text-muted">Warning! Unless you have real reason, don't.</p>
+                    </div>
+                    <div>
+                        {/* delete */}
+                        <div className="alert alert-danger container row" role="alert">
+                            <div className="col-md-10 col-lg-10 col-xs-12">
+                                <p className="font-weight-bold" style={{fontSize: "17px"}}>Delete your account</p>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex ut praesentium magnam repellat harum. Omnis sunt adipisci quasi quod, optio eos amet, rerum perferendis, laboriosam reiciendis consequatur harum distinctio iste.</p>
+                            </div>
+                            <div className="col-md-2 col-lg-2 col-xs-12 d-flex align-items-center justify-content-center">
+                                <div className="text-center">
+                                    <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-whatever="@mdo">Delete</button>
+                                </div>
+                                <div className="modal fade" id="deleteModal" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div className="modal-dialog" role="document">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <div className="col-10">
+                                                    <h5 className="modal-title" id="deleteModalLabel">Confirmation</h5>
+                                                    <p className='text-muted'>Are you sure about deleting your account within all the records ?.</p>
+                                                </div>
+                                                <div className="col-2">
+                                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="modal-footer">
+                                                {/* <button type="button" className="btn mb-2 btn-danger" data-dismiss="modal">Close</button> */}
+                                                <button type="button" className="btn mb-2 btn-danger" onClick={deleteAccount}>Yes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* block */}
+                        {/* <div className="alert alert-danger container row" role="alert">
+                            <div className="col-md-10 col-lg-10 col-xs-12">
+                                <p className="font-weight-bold" style={{fontSize: "17px"}}>Deactivate your account</p>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex ut praesentium magnam repellat harum. Omnis sunt adipisci quasi quod, optio eos amet, rerum perferendis, laboriosam reiciendis consequatur harum distinctio iste.</p>
+                            </div>
+                            <div className="col-md-2 col-lg-2 col-xs-12 d-flex align-items-center justify-content-center">
+                                <div className="text-center">
+                                    <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#blockModal" data-whatever="@mdo">Deactivate</button>
+                                </div>
+                                <div className="modal fade" id="blockModal" role="dialog" aria-labelledby="blockModalLabel" aria-hidden="true">
+                                    <div className="modal-dialog" role="document">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <div className="col-10">
+                                                    <h5 className="modal-title" id="blockModalLabel">Confirmation</h5>
+                                                    <p className='text-muted'>Are you sure about deactivating your account ?</p>
+                                                </div>
+                                                <div className="col-2">
+                                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn mb-2 btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="button" className="btn mb-2 btn-danger" onClick={blockAccount}>Yes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> */}
+                    </div>
                 </div>
             </div>
         </div>

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User {
     String id;
+    String auth0Id;
     String name;
     String firstName;
     LocalDate birthday;
@@ -20,7 +21,6 @@ public class User {
     String country;
     String city;    
     String zip;
-    String password;
     String creationDate;
     Set<String> roles = new HashSet<>();
 }
