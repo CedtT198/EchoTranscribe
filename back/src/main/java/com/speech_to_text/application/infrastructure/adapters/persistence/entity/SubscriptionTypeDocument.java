@@ -14,7 +14,6 @@ import java.util.List;
 public class SubscriptionTypeDocument {
     @Id
     String id;
-
     String name;
     List<String> description;
     double price;

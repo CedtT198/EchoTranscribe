@@ -6,10 +6,6 @@ import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,41 +17,17 @@ import lombok.NoArgsConstructor;
 public class UserDocument {
     @Id
     String id;
-
-    @NotBlank(message = "Name required.")
+    String auth0Id;
     String name;
-
-    @NotBlank(message = "First name required.")
     String firstName;
-
-    @Past(message = "Birthday must be in the past")
     LocalDate birthday;
-
-    @Email(message = "Invalid email.")
-    @NotBlank(message = "Email required.")
     String mail;
-
-    @NotBlank(message = "Address required.")
     String address;
-
-    @NotBlank(message = "Address required.")
     String country;
-    
-    @NotBlank(message = "City required.")
     String city;
-    
-    @NotBlank(message = "Zip code required.")
     String zip;
-
-    @NotBlank(message = "Password required.")
-    @Size(min = 8, message = "Password has to be at least 8 characters.")
-    String password;
-
-    @NotBlank(message = "Confirm password required.")
-    String confirmPassword;
-    
+    String confirmPassword;    
     String creationDate;
-
     Set<String> roles = new HashSet<>();
 
     // public UserDocument(User user) {

@@ -1,0 +1,4 @@
+amboarina atao clean:
+- logout (publicheader) et autologout
+- API dans userapi.tsx, api.tsx
+- authbootstrap

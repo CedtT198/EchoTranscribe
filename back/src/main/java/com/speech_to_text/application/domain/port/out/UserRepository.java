@@ -10,4 +10,7 @@ public  interface UserRepository {
     User findById(String id);
     User findByMail(String mail);
     User save(User user);
+    User findByAuth0Id(String auth0Id);
+    User update(User user);
+    boolean delete(String auth0Id);
 }

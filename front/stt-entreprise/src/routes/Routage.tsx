@@ -13,23 +13,20 @@ import Export from "../features/pages/public/Export"
 import Live from "../features/pages/public/Live"
 import ListReview from "../features/pages/public/ListReview"
 import AddReview from "../features/pages/public/AddReview"
-import { CallbackPage } from "../CallbackPage"
+// import { CallbackPage } from "../CallbackPage"
 import { useAuth0 } from "@auth0/auth0-react"
+import Loading from "../components/Loading"
 
 
 function PersoRoutes() {
     const { isLoading } = useAuth0();
 
     if (isLoading) return (
-        <>
-            <div className="spinner-border mr-3 text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-            </div>
-        </>
+        <Loading></Loading>
     );
     return (
         <Routes>
-            <Route path="/callback" element={<CallbackPage />} />
+            {/* <Route path="/callback" element={<CallbackPage />} /> */}
 
             <Route path="*" element={<NotFound />}></Route>
             <Route path="/admin/log" element={<Log />}></Route>
