@@ -1,4 +1,4 @@
-package com.speech_to_text.application.domain.model;
+package com.speech_to_text.application.domain.model.user;
 
 import java.time.LocalDate;
 import java.util.HashSet;

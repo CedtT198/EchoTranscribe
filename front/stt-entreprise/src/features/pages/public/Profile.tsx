@@ -19,7 +19,7 @@ function Profile() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await getMyProfile(token);
+                const response = (await getMyProfile(token)).json();
                 setUserData(response);
                 // console.log(userData);
             } catch (error) {

@@ -1,13 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
-import { findAllSubType } from "../api/sub_type";
+import { findAllSubType } from "../api/subTypeApi";
 
 function Pricing () {
     const [sub_types, setSub] = useState([]);
     useEffect(() => {
         const fetchSubs = async () => {
             try {
-                const data = await findAllSubType();
+                const data = await (await findAllSubType()).json();
                 setSub(data);
             } catch (err) {
                 console.log((err as Error).message);

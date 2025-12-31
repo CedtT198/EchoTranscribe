@@ -16,14 +16,15 @@ export const apiGet = async (url: string, token?: any) => {
     if (!response.ok) {
         throw new Error(`GET ${url} failed (${response.status})`);
     }
-    return response.json();
+    return response;
 }
 
-export const apiPost = async (url: string, data: T, token?: string) => {
-    const headers: HeadersInit = { "Content-Type": "application/json" };
-    if (token) {
-        headers.Authorization = `Bearer ${token}`;
-    }
+export const apiPost = async (url: string, data: T, token?: string | null, ct?: string) => {
+    let contentType = "application/json"
+    if (ct) contentType = ct;
+
+    const headers: HeadersInit = { "Content-Type": contentType };
+    if (token) headers.Authorization = `Bearer ${token}`;
 
     const response = await fetch(`${SERVER_URL}${url}`, {
         method: "POST",
@@ -40,5 +41,5 @@ export const apiPost = async (url: string, data: T, token?: string) => {
     //     headers: { "Content-Type": "application/json" },
     //     body: JSON.stringify(data),
     // });
-    return response.json();
+    return response;
 }

@@ -1,4 +1,4 @@
-package com.speech_to_text.application.domain.model;
+package com.speech_to_text.application.domain.model.subscription;
 
 import java.time.LocalDate;
 

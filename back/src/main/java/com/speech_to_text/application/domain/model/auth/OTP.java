@@ -1,4 +1,4 @@
-package com.speech_to_text.application.domain.model;
+package com.speech_to_text.application.domain.model.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,7 +2,8 @@ package com.speech_to_text.application.domain.port.out;
 
 import java.time.LocalDate;
 import java.util.List;
-import com.speech_to_text.application.domain.model.User;
+
+import com.speech_to_text.application.domain.model.user.User;
 
 public  interface UserRepository {
     List<User> findAll();

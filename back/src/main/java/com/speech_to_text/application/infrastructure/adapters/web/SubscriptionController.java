@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.speech_to_text.application.domain.model.SubscriptionType;
+
+import com.speech_to_text.application.domain.model.subscription.SubscriptionType;
 import com.speech_to_text.application.domain.port.in.SubscriptionTypeUseCase;
 
 import lombok.AllArgsConstructor;

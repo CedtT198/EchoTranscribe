@@ -2,3 +2,18 @@ amboarina atao clean:
 - logout (publicheader) et autologout
 - API dans userapi.tsx, api.tsx
 - authbootstrap
+- emplacement dossier
+
+design:
+- landing
+- live / batch (atao anaty settings ny option)
+- history (filter)
+- 
+
+features:
+- translattion
+- live translation
+- n'autoriser que file audio/video
+
+debug:
+- consent failed

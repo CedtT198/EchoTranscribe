@@ -150,5 +150,4 @@ db.transcribing.insertMany([
 ])
 
 // any amin'ny back daoly no ilaina
-db.createCollection("summary_type")
 db.createCollection("type_transcription")

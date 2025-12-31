@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.speech_to_text.application.domain.model.SubscriptionType;
+import com.speech_to_text.application.domain.model.subscription.SubscriptionType;
 import com.speech_to_text.application.domain.port.in.SubscriptionTypeUseCase;
 import com.speech_to_text.application.domain.port.out.SubscriptionTypeRepository;
 import lombok.AllArgsConstructor;

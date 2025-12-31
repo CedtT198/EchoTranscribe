@@ -71,10 +71,10 @@ function PublicHeader() {
                                 Tools<span className="fe fe-chevron-down fe-16 ml-1"></span>
                             </button>
                             <div className="dropdown-menu" aria-labelledby="actionMenuButton">
-                                <a className="dropdown-item" href="">Live Speech to text</a>
-                                <a className="dropdown-item" href="">Transcribe batch</a>
-                                <a className="dropdown-item" href="">Resume text with AI</a>
-                                <a className="dropdown-item" href="">Translate</a>
+                                <a className="dropdown-item" href="/public/layout/live">Live Speech to text</a>
+                                <a className="dropdown-item" href="/public/layout/batch">Transcribe batch</a>
+                                <a className="dropdown-item" href="/public/layout/resume">Resume text with AI</a>
+                                <a className="dropdown-item" href="#">Translate</a>
                                 {/* <a className="dropdown-item" href="#">Batch</a>
                                 <a className="dropdown-item" href="#">Live</a> */}
                             </div>

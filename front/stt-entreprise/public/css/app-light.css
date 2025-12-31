@@ -12067,3 +12067,11 @@ a.uppy-Dashboard-poweredBy {
   transform: rotate(45);
   transition: transform 0.5s ease;
 }
+
+.ql-container {
+  min-height: 500px;
+}
+
+.ql-editor {
+  min-height: 460px;
+}

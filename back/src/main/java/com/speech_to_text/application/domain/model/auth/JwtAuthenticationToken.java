@@ -1,4 +1,4 @@
-package com.speech_to_text.application.domain.model;
+package com.speech_to_text.application.domain.model.auth;
 // package com.speech_to_text.domain.model;
 
 // import org.springframework.security.authentication.AbstractAuthenticationToken;

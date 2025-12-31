@@ -7,8 +7,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.speech_to_text.application.domain.model.TokenResponse;
-import com.speech_to_text.application.domain.model.User;
+import com.speech_to_text.application.domain.model.auth.TokenResponse;
+import com.speech_to_text.application.domain.model.user.User;
 import com.speech_to_text.application.domain.port.in.UserUseCase;
 import com.speech_to_text.application.domain.port.out.UserRepository;
 import com.speech_to_text.config.Auth0Properties;

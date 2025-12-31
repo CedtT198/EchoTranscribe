@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.speech_to_text.application.domain.model.User;
+
+import com.speech_to_text.application.domain.model.user.User;
 import com.speech_to_text.application.domain.port.in.UserUseCase;
 import lombok.AllArgsConstructor;
 

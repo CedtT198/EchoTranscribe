@@ -3,7 +3,7 @@ import Log from "../features/pages/admin/Log"
 import NotFound from "../features/pages/NotFound"
 import Landing from "../features/pages/public/Landing"
 import PublicLayout from "../features/pages/layouts/PublicLayout"
-import Transcribe from "../features/pages/public/Transcribe"
+import Batch from "../features/pages/public/Batch"
 import Resume from "../features/pages/public/Resume"
 import Subscription from "../features/pages/public/Subscription"
 import Profile from "../features/pages/public/Profile"
@@ -34,7 +34,7 @@ function PersoRoutes() {
             <Route path="/" element={<Navigate to="/public/layout/" replace />} />
             <Route path="/public/layout/" element={<PublicLayout />}>
                 <Route index element={<Landing />} />
-                <Route path="transcribe" element={<Transcribe />} />
+                <Route path="batch" element={<Batch />} />
                 <Route path="resume" element={<Resume />} />
                 <Route path="subscription" element={<Subscription />} />
                 <Route path="profile" element={<Profile />} />
