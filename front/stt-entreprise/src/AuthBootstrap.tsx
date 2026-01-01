@@ -1,8 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useRef } from "react";
+import { useAuthToken } from "./auth/useAuthToken";
 
-const AuthBootstrap = () => {
-    const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+export const AuthBootstrap = () => {
+    const token = useAuthToken();
+    const { isAuthenticated, isLoading } = useAuth0();
+    // const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
 
     const hasSynced = useRef(false);
 
@@ -17,7 +20,7 @@ const AuthBootstrap = () => {
 
     const syncUser = async () => {
         try {
-            const token = await getAccessTokenSilently();
+            // const token = await getAccessTokenSilently();
             await fetch("http://localhost:8080/user/getOrCreate", {
                 headers: {
                     Authorization: `Bearer ${token}`

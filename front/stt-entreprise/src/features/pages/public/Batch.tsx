@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { transcribeFile } from "../../../api/transcribeApi";
-import { useAuthToken } from "../../../auth/authToken";
+import { useAuthToken } from "../../../auth/useAuthToken";
 
 interface FormDataTranscription {
   file?: File,
@@ -67,18 +67,12 @@ function Transcribe() {
   
     const fd = new FormData();
     fd.append('file', formData.file);
-    // fd.append('metadata', JSON.stringify({
-    //   languages: formData.languages,
-    //   maxPeople: formData.maxPeople,
-    //   diarization: formData.diarization,
-    //   minPeople: formData.minPeople
-    // }));
     
     const metadataJson = JSON.stringify({
       languages: formData.languages,
       diarization: formData.diarization,
-      maxPeople: Number(formData.maxPeople),
-      minPeople: Number(formData.minPeople)
+      maxPeople: formData.maxPeople,
+      minPeople: formData.minPeople
     });
     console.log(metadataJson)
     fd.append('metadata', new Blob([metadataJson], { type: 'application/json' }));

@@ -1,37 +1,27 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRef, useState } from "react";
+import { useAuth } from "../auth/useAuth";
 
 function PublicHeader() {
     // toggle mode sombre / clair
     // const lightmod = document.getElementById("lightTheme") as HTMLLinkElement | null;
     // const darkmod = document.getElementById("darkTheme") as HTMLLinkElement | null;
-    const modSwitcher = useRef<HTMLDivElement>(null);
-    const toggleTheme = () => {
-        if (modSwitcher.current?.getAttribute("data-mode") == "light") {
-            modSwitcher.current?.setAttribute("data-mode", "dark");
-        }
-        else {
-            modSwitcher.current?.setAttribute("data-mode", "light");
-        }
-    }
+    // const modSwitcher = useRef<HTMLDivElement>(null);
+    // const toggleTheme = () => {
+    //     if (modSwitcher.current?.getAttribute("data-mode") == "light") {
+    //         modSwitcher.current?.setAttribute("data-mode", "dark");
+    //     }
+    //     else {
+    //         modSwitcher.current?.setAttribute("data-mode", "light");
+    //     }
+    // }
     
-    const { isAuthenticated, loginWithRedirect: login,  logout: auth0Logout,  user } = useAuth0();
+    const { isAuthenticated, user } = useAuth0();
 
-    const handleLogin = () =>
-        login({
-            appState: { returnTo: "/public/layout" },
-        });
-
-    const signup = () =>
-        login({
-            authorizationParams: { screen_hint: "signup" },
-            appState: { returnTo: "/public/layout" },
-        });
-
-    const logout = () =>
-        auth0Logout({
-            logoutParams: { returnTo: window.location.origin },
-        });
+    const { loginAuth0, signupAuth0, logoutAuth0 } = useAuth();
+    const handleLogin = () => loginAuth0(  )
+    const signup = () => signupAuth0(  )
+    const logout = () => logoutAuth0()
     
     return(
         <nav className="navbar-expand-lg navbar-light bg-white border-bottom shadow fixed-top" >

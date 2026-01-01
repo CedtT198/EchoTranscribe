@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 import { findAllSubType } from "../api/subTypeApi";
+import { useAuth } from "../auth/useAuth";
 
 function Pricing () {
     const [sub_types, setSub] = useState([]);
@@ -17,12 +18,11 @@ function Pricing () {
         fetchSubs();
     }, []);
     
-    const { isAuthenticated, loginWithRedirect: login } = useAuth0();
+    const { isAuthenticated } = useAuth0();
 
-    const signup = () => login({
-        authorizationParams: { screen_hint: "signup" },
-        appState: { returnTo: "/public/layout/subscription" },
-    });
+    const { signupAuth0 } = useAuth();
+    const signup = () => signupAuth0()
+
     return (
         <div className="card-deck my-4 px-4">
             {sub_types.map((sub, i) => (

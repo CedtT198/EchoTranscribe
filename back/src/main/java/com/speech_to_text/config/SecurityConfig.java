@@ -20,11 +20,11 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(authorize -> authorize
                 // prod
-                .requestMatchers("/subscription/**", "/qa/**").permitAll()
-                .anyRequest().authenticated()
+                // .requestMatchers("/subscription/**", "/qa/**").permitAll()
+                // .anyRequest().authenticated()
                 // dev
                 // .requestMatchers("/subscription/**").permitAll()
-                // .anyRequest().permitAll()
+                .anyRequest().permitAll()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {}))
             .csrf(csrf -> csrf.disable());

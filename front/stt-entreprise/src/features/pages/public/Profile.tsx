@@ -4,7 +4,7 @@ import type { FormDataUpdateUser, ValidationErrors} from '../../../components/Gl
 import { deleteUser, getMyProfile, updateUser } from "../../../api/userApi";
 import { useAuth0 } from "@auth0/auth0-react";
 import AutoLogout from "../../../components/AutoLogout";
-import { useAuthToken } from "../../../auth/authToken";
+import { useAuthToken } from "../../../auth/useAuthToken";
 import Loading from "../../../components/Loading";
 
 function Profile() {
