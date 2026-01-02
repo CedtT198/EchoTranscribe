@@ -5,23 +5,34 @@ meta {
 }
 
 post {
-  url: http://localhost:8080/user/save
-  body: json
+  url: http://localhost:8080/transcription/batch
+  body: multipartForm
   auth: inherit
-}
-
-headers {
-  Content-Type: application/json
 }
 
 body:json {
   {
-      "name": "ar",
-      "first_name": "ar",
-      "mail": "ar@gmail.com",
-      "password": "12345678",
-      "role": "Damn"
+    "languages":["en"],
+    "diarization":true,
+    "maxPeople":11,
+    "minPeople":1
   }
+}
+
+body:multipart-form {
+  file: @file(E:\ITU\S6\Soutenance\Projet de stage\resssoures\Audio file\C1_Monologue_Open-mindedness_v1.mp3)
+  metadata: '''
+    {
+      "languages":["en"],
+      "diarization":true,
+      "maxPeople":11,
+      "minPeople":1
+    }
+  ''' @contentType(application/json)
+}
+
+body:file {
+  file: @file(E:\ITU\S6\Soutenance\Projet de stage\resssoures\Audio file\C1_Monologue_Open-mindedness_v1.mp3) @contentType(multipart/form-data)
 }
 
 settings {

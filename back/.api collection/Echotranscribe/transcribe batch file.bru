@@ -1,0 +1,37 @@
+meta {
+  name: transcribe batch file
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:8080/transcription/batch
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(E:\ITU\S6\Soutenance\Projet de stage\resssoures\Audio file\C1_Monologue_Open-mindedness_v1.mp3)
+  metadata: '''
+    {
+    "model": "default",
+    "minPeople": 0,
+    "maxPeople": 0,
+    "mainLanguage": "en-US",
+    "useAlternativeLanguages": false,
+    "alternativeLanguages": [],
+    "withDiarization": false,
+    "useEnhanced": false,
+    "withAutomaticPunctuation": true,
+    "withWordTimeOffsets": true,
+    "withWordConfidence": false,
+    "filterProfanity": true,
+    "useSpeechContexts": "false"
+    }
+  ''' @contentType(application/json)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

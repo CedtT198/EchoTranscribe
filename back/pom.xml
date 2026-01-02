@@ -75,6 +75,16 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>com.github.kokorin.jaffree</groupId>
+			<artifactId>jaffree</artifactId>
+			<version>2024.08.29</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-speech</artifactId>
+			<version>4.77.0-rc1</version> 
+		</dependency>
 		<!-- <dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
