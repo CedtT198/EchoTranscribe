@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { transcribeFile } from "../../../api/transcribeApi";
+import { transcribeShortFile, transcribeLongFile } from "../../../api/transcribeApi";
 import { useAuthToken } from "../../../auth/useAuthToken";
 
 interface FormDataTranscription {
@@ -79,13 +79,16 @@ function Transcribe() {
 
     try {
       // console.log("bouton pressed")
-      const response = await transcribeFile(fd, token);
+      let response;
+      if () {
+        response = await transcribeShortFile(fd, token);
+      }
+      else {
+        response = await transcribeLongFile(fd, token);
+      }
       const data = response.data;
       console.log(data)
 
-      // if (!response.ok) {
-      //   setError(data.error || "Unkown error happened.");
-      // }
     } catch (error) {
       console.error(error);
       setError("Error connecting to the server.");

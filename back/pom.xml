@@ -83,7 +83,13 @@
 		<dependency>
 			<groupId>com.google.cloud</groupId>
 			<artifactId>google-cloud-speech</artifactId>
+			<!-- <version>4.39.0</version>  -->
 			<version>4.77.0-rc1</version> 
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.16.1</version>
 		</dependency>
 		<!-- <dependency>
 			<groupId>io.jsonwebtoken</groupId>

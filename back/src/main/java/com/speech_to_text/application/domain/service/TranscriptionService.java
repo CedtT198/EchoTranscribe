@@ -1,29 +1,14 @@
 package com.speech_to_text.application.domain.service;
 
 import java.util.List;
-import java.io.IOException;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.google.cloud.speech.v1.RecognitionAudio;
-import com.google.cloud.speech.v1.SpeechContext;
-import com.google.cloud.speech.v2.RecognitionConfig;
-import com.google.cloud.speech.v2.RecognizeResponse;
-import com.google.cloud.speech.v2.SpeakerDiarizationConfig;
-import com.google.cloud.speech.v2.SpeechClient;
-import com.google.cloud.speech.v2.SpeechRecognitionAlternative;
-import com.google.cloud.speech.v2.SpeechRecognitionResult;
-import com.google.cloud.speech.v2.WordInfo;
-// import com.google.cloud.speech.v1.RecognitionAudio;
-// import com.google.cloud.speech.v1.RecognitionConfig;
-// import com.google.cloud.speech.v1.RecognizeResponse;
-// import com.google.cloud.speech.v1.SpeakerDiarizationConfig;
-// import com.google.cloud.speech.v1.SpeechClient;
-// import com.google.cloud.speech.v1.SpeechContext;
-// import com.google.cloud.speech.v1.SpeechRecognitionAlternative;
-// import com.google.cloud.speech.v1.SpeechRecognitionResult;
-// import com.google.cloud.speech.v1.WordInfo;
+import com.google.cloud.speech.v2.*;
+import com.google.cloud.speech.v2.SpeechAdaptation.AdaptationPhraseSet;
 import com.google.protobuf.ByteString;
+// import com.google.cloud.speech.v1.*;
 import com.speech_to_text.application.domain.model.DTO.TranscribeSettingsDTO;
 import com.speech_to_text.application.domain.port.in.MediaFileUseCase;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
@@ -36,63 +21,109 @@ public class TranscriptionService implements TranscriptionUseCase {
     private final MediaFileUseCase mediaFileUseCase;
 
     @Override
-    public String transcribe(MultipartFile file, TranscribeSettingsDTO settings) throws IOException, InterruptedException {
+    public String stream(MultipartFile file, TranscribeSettingsDTO settings) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'stream'");
+    }
+    
+
+    @Override
+    public String transcribeLongFile(MultipartFile file, TranscribeSettingsDTO settings) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'transcribeLongFile'");
+    }
+
+
+    @Override
+    public String transcribeShortFile(MultipartFile file, TranscribeSettingsDTO settings) throws Exception {
 
         ByteString convertedFile = mediaFileUseCase.convertAudiotoFLAC(file);
         System.out.println("Conversion/Extraction audio from video done.");
+        
+        String location = "eu";
+        String projectId = "echotranscribe";
+        String recognizer = String.format("projects/%s/locations/%s/recognizers/_", projectId, location);
 
-        try (SpeechClient speechClient = SpeechClient.create()) {
+        try (SpeechClient speechClient = SpeechClient.create(
+            SpeechSettings.newBuilder()
+                .setEndpoint(location + "-speech.googleapis.com:443")
+                .build()
+        )) {
             RecognitionConfig config = buildConfig(settings);
-            RecognitionAudio audio = RecognitionAudio.newBuilder()
+
+            RecognizeRequest request = RecognizeRequest.newBuilder()
+                .setRecognizer(recognizer)
+                .setConfig(config)
                 .setContent(convertedFile)
                 .build();
 
-            // Appel synchrone
-            RecognizeResponse response = speechClient.recognize(config, audio);
+            RecognizeResponse response = speechClient.recognize(request);
+            List<SpeechRecognitionResult> results = response.getResultsList();
+
+            for (SpeechRecognitionResult result : results) {
+                if (result.getAlternativesCount() > 0) {
+                    SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
+                    System.out.println(alternative.getTranscript());
+                }
+            }
+            // return "done, check server"; 
             return formatTranscript(response, settings.withDiarization);
         }
         catch (Exception e) {
-            throw new RuntimeException("Error transcribing", e);
+            throw new Exception(e.getMessage());
         }
+        // return "";
     }
 
 
     private RecognitionConfig buildConfig(TranscribeSettingsDTO settings) {
-        RecognitionConfig.Builder config = RecognitionConfig.newBuilder()
-            .setEncoding(RecognitionConfig.AudioEncoding.FLAC)
-            .setSampleRateHertz(16000)
-            .setLanguageCode(settings.mainLanguage)
-            .setAudioChannelCount(1)
+        RecognitionFeatures.Builder features = RecognitionFeatures.newBuilder();
 
-            .setModel(settings.model)
-            .setUseEnhanced(settings.useEnhanced)  
-            .setEnableAutomaticPunctuation(settings.withAutomaticPunctuation)
-            // .setEnableWordTimeOffsets(true)  // Better for sub-title
-            // .setEnableWordConfidence(true)
-            .setMaxAlternatives(1)  // Alternatives
-            .setProfanityFilter(settings.filterProfanity);
+        RecognitionConfig.Builder config = RecognitionConfig.newBuilder()
+            .setAutoDecodingConfig(AutoDetectDecodingConfig.newBuilder().build())
+            .addLanguageCodes(settings.mainLanguage)
+            .setModel(settings.model);
+
+            features.setEnableAutomaticPunctuation(settings.withAutomaticPunctuation)
+                                .setMaxAlternatives(1)
+                                .setProfanityFilter(settings.filterProfanity);
+                                // .setUseEnhanced(settings.useEnhanced) // tamin'ny v1
+                                // .setEnableWordTimeOffsets(true)  // Better for sub-title
+                                // .setEnableWordConfidence(true);
         
         if (settings.useAlternativeLanguages && settings.alternativeLanguages != null && !settings.alternativeLanguages.isEmpty()) {
-            config.addAllAlternativeLanguageCodes(settings.alternativeLanguages);
+            config.addAllLanguageCodes(settings.alternativeLanguages);
         }
         
         if (settings.withDiarization) {
-            config.setDiarizationConfig(SpeakerDiarizationConfig.newBuilder()
-                .setEnableSpeakerDiarization(true)
+            features.setDiarizationConfig(SpeakerDiarizationConfig.newBuilder()
                 .setMinSpeakerCount(settings.minPeople)
                 .setMaxSpeakerCount(settings.maxPeople)
                 .build());
         }
 
         if (settings.useSpeechContexts) {
-            SpeechContext.Builder speechContextBuilder = SpeechContext.newBuilder();
-            speechContextBuilder.setBoost(settings.boostSpeechContexts);
+            List<PhraseSet.Phrase> phraseObjects = settings.speechContextsPhrases.stream()
+                .map(phrase -> PhraseSet.Phrase.newBuilder()
+                    .setValue(phrase)
+                    .setBoost(settings.boostSpeechContexts) 
+                    .build())
+                .collect(Collectors.toList());
 
-            for (String phrase : settings.speechContextsPhrases) {
-                speechContextBuilder.addPhrases(phrase);
-            }
-            config.addSpeechContexts(speechContextBuilder.build());
+            PhraseSet phraseSet = PhraseSet.newBuilder()
+                .addAllPhrases(phraseObjects)
+                .build();
+
+            AdaptationPhraseSet adaptationPhraseSet = AdaptationPhraseSet.newBuilder()
+                .setInlinePhraseSet(phraseSet)
+                .build();
+
+            config.setAdaptation(SpeechAdaptation.newBuilder()
+                .addAllPhraseSets(List.of(adaptationPhraseSet))
+                .build());
         }
+
+        config.setFeatures(features.build());
         return config.build();
     }
 
@@ -103,10 +134,12 @@ public class TranscriptionService implements TranscriptionUseCase {
         if (!withDiarization) {
             for (SpeechRecognitionResult result : response.getResultsList()) {
                 if (!result.getAlternativesList().isEmpty()) {
-                    transcript.append(result.getAlternativesList().get(0).getTranscript()).append(" ");
+                    SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
+                    transcript.append(" "+ alternative.getTranscript()+" ");
+                    // transcript.append(result.getAlternativesList().get(0).getTranscript()).append(" ");
                 }
             }
-            return transcript.toString().trim();
+            return transcript.toString();
         }
 
         List<SpeechRecognitionResult> results = response.getResultsList();

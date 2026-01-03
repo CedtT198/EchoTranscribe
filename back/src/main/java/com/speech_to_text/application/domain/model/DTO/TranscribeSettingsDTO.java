@@ -1,20 +1,17 @@
 package com.speech_to_text.application.domain.model.DTO;
 
 import java.util.List;
-
-import org.springframework.javapoet.ClassName;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class TranscribeSettingsDTO {
     @JsonProperty("model")
-    public String model; // other values: default, video, phone_call, command_and_search, medical_*, latest_long
+    public String model; //  can be chirp, chirp_2, chirp_3
 
     @JsonProperty("mainLanguage")
     public String mainLanguage;
