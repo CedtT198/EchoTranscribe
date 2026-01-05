@@ -1,4 +1,4 @@
-package com.speech_to_text.application.domain.service;
+package com.speech_to_text.application.domain.service.withDependance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

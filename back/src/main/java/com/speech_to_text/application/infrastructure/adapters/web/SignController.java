@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.speech_to_text.application.domain.model.user.User;
 import com.speech_to_text.application.domain.port.out.UserRepository;
-import com.speech_to_text.application.domain.service.SignService;
+import com.speech_to_text.application.domain.service.withDependance.SignService;
 import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserDocument;
 
 // import com.speech_to_text.domain.model.TokensResponse;

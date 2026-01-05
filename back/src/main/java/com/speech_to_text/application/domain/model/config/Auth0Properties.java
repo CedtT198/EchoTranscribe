@@ -1,4 +1,4 @@
-package com.speech_to_text.config;
+package com.speech_to_text.application.domain.model.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

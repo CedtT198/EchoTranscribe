@@ -1,4 +1,4 @@
-package com.speech_to_text.application.domain.service;
+package com.speech_to_text.application.domain.service.withDependance;
 
 import java.util.List;
 

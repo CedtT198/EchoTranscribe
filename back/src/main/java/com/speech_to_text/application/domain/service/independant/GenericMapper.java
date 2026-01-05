@@ -1,4 +1,4 @@
-package com.speech_to_text.application.infrastructure.mapper;
+package com.speech_to_text.application.domain.service.independant;
 
 import java.util.Collection;
 import java.util.Collections;

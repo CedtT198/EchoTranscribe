@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.speech_to_text.application.domain.model.user.User;
 import com.speech_to_text.application.domain.port.out.UserRepository;
+import com.speech_to_text.application.domain.service.independant.GenericMapper;
 import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserDocument;
-// import com.speech_to_text.application.infrastructure.mapper.BaseMapper;
-import com.speech_to_text.application.infrastructure.mapper.GenericMapper;
 
 import lombok.AllArgsConstructor;
 
