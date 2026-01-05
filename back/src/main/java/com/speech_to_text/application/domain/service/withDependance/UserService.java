@@ -3,18 +3,14 @@ package com.speech_to_text.application.domain.service.withDependance;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import com.speech_to_text.application.domain.model.auth.TokenResponse;
 import com.speech_to_text.application.domain.model.config.Auth0Properties;
 import com.speech_to_text.application.domain.model.user.User;
 import com.speech_to_text.application.domain.port.in.UserUseCase;
 import com.speech_to_text.application.domain.port.out.UserRepository;
-
 import lombok.AllArgsConstructor;
-import reactor.core.publisher.Mono;
 
 @Service
 @AllArgsConstructor

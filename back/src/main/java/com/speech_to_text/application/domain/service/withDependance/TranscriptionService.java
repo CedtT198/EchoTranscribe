@@ -18,10 +18,11 @@ import com.google.cloud.speech.v2.*;
 import com.google.cloud.speech.v2.SpeechAdaptation.AdaptationPhraseSet;
 import com.google.protobuf.ByteString;
 // import com.google.cloud.speech.v1.*;
-import com.speech_to_text.application.domain.model.DTO.TranscribeSettingsDTO;
+import com.speech_to_text.application.domain.model.DTO.TranscribeSettings;
 import com.speech_to_text.application.domain.model.config.GoogleCloud;
 import com.speech_to_text.application.domain.port.in.MediaFileUseCase;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
+import com.speech_to_text.application.domain.port.out.TranscriptionSettingsRepository;
 import com.speech_to_text.application.domain.service.independant.TaskStatus;
 
 import lombok.AllArgsConstructor;
@@ -33,10 +34,10 @@ public class TranscriptionService implements TranscriptionUseCase {
 
     private final GoogleCloud gcloud;
     private final MediaFileUseCase mediaFileUseCase;
+    private final TranscriptionSettingsRepository repo;
 
     @Override
-    public void stream(WebSocketSession session, TranscribeSettingsDTO settings) throws Exception {
-
+    public void initStreamingConfig(WebSocketSession session, TranscribeSettings settings) throws Exception {
         String recognizer = gcloud.getGlobalRecognizer();
         SpeechClient speechClient = SpeechClient.create();
 
@@ -87,7 +88,6 @@ public class TranscriptionService implements TranscriptionUseCase {
                     .setSeconds(30) 
                     .build())
                 .build())
-
             .build();
 
         StreamingRecognitionConfig streamingConfig = StreamingRecognitionConfig.newBuilder()
@@ -101,11 +101,22 @@ public class TranscriptionService implements TranscriptionUseCase {
             .build();
 
         clientStream.send(initialRequest);
+
+        session.getAttributes().put("clientStream", clientStream);
+        session.getAttributes().put("speechClient", speechClient);
     }
     
 
+    
     @Override
-    public String transcribeLongFile(MultipartFile file, TranscribeSettingsDTO settings) throws Exception {
+    public TranscribeSettings findSettings(String auth0Id, String type) {
+        return repo.findByAuth0IdAndType(auth0Id, type);
+    }
+
+
+
+    @Override
+    public String transcribeLongFile(MultipartFile file, TranscribeSettings settings) throws Exception {
         // convert the file into an FLAC for better compatibility with Google stt
         ByteString convertedFile = mediaFileUseCase.convertAudiotoFLAC(file);
 
@@ -177,7 +188,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
     @Async
     @Override
-    public void transcribeLongFileAsync(MultipartFile file, TranscribeSettingsDTO settings, String taskId) throws Exception {
+    public void transcribeLongFileAsync(MultipartFile file, TranscribeSettings settings, String taskId) throws Exception {
         // convert the file into an FLAC for better compatibility with Google stt
         ByteString convertedFile = mediaFileUseCase.convertAudiotoFLAC(file);
 
@@ -245,8 +256,8 @@ public class TranscriptionService implements TranscriptionUseCase {
 
 
 
-        @Override
-    public String transcribeShortFile(MultipartFile file, TranscribeSettingsDTO settings) throws Exception {
+    @Override
+    public String transcribeShortFile(MultipartFile file, TranscribeSettings settings) throws Exception {
         ByteString convertedFile = mediaFileUseCase.convertAudiotoFLAC(file);
         System.out.println("Conversion/Extraction audio from video done.");
         
@@ -283,7 +294,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
 
 
-    private RecognitionConfig buildConfig(TranscribeSettingsDTO settings) {
+    private RecognitionConfig buildConfig(TranscribeSettings settings) {
         RecognitionFeatures.Builder features = RecognitionFeatures.newBuilder();
         
         RecognitionConfig.Builder config = RecognitionConfig.newBuilder()

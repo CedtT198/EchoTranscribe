@@ -8,8 +8,11 @@ function Live() {
     } 
     
     const [recording, setRecording] = useState(false);
+    const [error, setError] = useState<string>();
+    const [success, setSuccess] = useState<string>();
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const wsRef = useRef<WebSocket | null>(null);
+    const [transcripts, setTranscripts] = useState<string[]>([]);
 
     const startRecording = async () => {
         try {
@@ -20,26 +23,79 @@ function Live() {
 
         mediaRecorderRef.current = mediaRecorder;
 
-        wsRef.current = new WebSocket('ws://localhost:8080/audio-stream');
-        wsRef.current.onopen = () => {
+        const ws = new WebSocket('ws://localhost:8080/audio-stream');
+        wsRef.current = ws;
+
+        ws.onopen = () => {
             console.log('WebSocket opened.');
+
+            // const data = {
+            //     type: "data",
+            //     auth0id: "",
+            //     settings: {
+            //         type: "streaming",
+            //         languageCode: "fr-FR",   
+            //         alternativeLanguageCodes: ["en-US"], 
+            //         model: "chirp",   
+            //         enableAutomaticPunctuation: true,
+            //         enableSpeakerDiarization: true,
+            //         minSpeakerCount: 1,
+            //         maxSpeakerCount: 5,
+            //         profanityFilter: false,
+            //         enableInterimResults: true,
+            //         voiceActivityTimeoutSeconds: 30, 
+            //     }
+            // };
+
+            // ws.send(JSON.stringify(data));
+
             mediaRecorder.start(250);
             setRecording(true);
         };
 
-        wsRef.current.onclose = () => console.log('WebSocket closed.');
-        wsRef.current.onerror = (error) => console.error(':', error);
+        ws.onmessage = (event) => {
+            if (typeof event.data === 'string') {
+                try {
+                    const data = JSON.parse(event.data);
+
+                    switch (data.type) {
+                    case 'received':
+                        console.log('Serveur a bien reçu userInfo');
+                        break;
+
+                    case 'transcript':
+                        console.log('Transcription:', data.transcript, 'final:', data.isFinal);
+                        setTranscripts(prev => [...prev,`[${data.isFinal ? 'FINAL' : 'INTERIM'}] ${data.transcript}`]);
+                        break;
+
+                    case 'error':
+                        console.error('Error:', data.message);
+                        setError('Error: ' + data.message);
+                        break;
+
+                    default:
+                        console.log('Message received: ', data);
+                    }
+                } catch (e) {
+                    console.log('Message received is not JSON:', event.data);
+                }
+            }
+        };
+
+
+        ws.onclose = () => console.log('WebSocket closed.');
+        ws.onerror = (error) => console.error(':', error);
 
         // Envoyer les chunks audio via WebSocket
         mediaRecorder.ondataavailable = (event: BlobEvent) => {
-            if (event.data.size > 0 && wsRef.current?.readyState === WebSocket.OPEN) {
-                wsRef.current.send(event.data); // Envoyer le blob binaire
+            if (event.data.size > 0 && ws.readyState === WebSocket.OPEN) {
+                ws.send(event.data);
             }
         };
 
         // Gérer la fin de l'enregistrement
         mediaRecorder.onstop = () => {
-            wsRef.current?.close();
+            ws?.close();
             setRecording(false);
         };
         } catch (error) {

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import com.speech_to_text.application.domain.model.DTO.TranscribeSettingsDTO;
+import com.speech_to_text.application.domain.model.DTO.TranscribeSettings;
 import com.speech_to_text.application.domain.port.in.MediaFileUseCase;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
 import com.speech_to_text.application.domain.service.independant.TaskStatus;
@@ -28,7 +28,7 @@ public class TranscriptionController {
     MediaFileUseCase mediaFileUseCase;
 
     @PostMapping(value="/longfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> transcribeLongFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscribeSettingsDTO settings)
+    public ResponseEntity<?> transcribeLongFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscribeSettings settings)
     {
         Map<String, String> res = new HashMap<>();
 
@@ -83,7 +83,7 @@ public class TranscriptionController {
 
     
     @PostMapping(value="/shortfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> transcribeShortFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscribeSettingsDTO settings)
+    public ResponseEntity<?> transcribeShortFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscribeSettings settings)
     {
         Map<String, String> res = new HashMap<>();
         if (file.isEmpty()) {

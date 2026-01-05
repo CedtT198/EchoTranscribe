@@ -10,9 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TranscribeSettingsDTO {
+public class TranscribeSettings {
     // @JsonProperty("model")
     // public String model; //  can be chirp, chirp_2, chirp_3
+
+    @JsonProperty("useSavedSettings")
+    public Boolean useSavedSettings;
 
     @JsonProperty("mainLanguage")
     public String mainLanguage;
