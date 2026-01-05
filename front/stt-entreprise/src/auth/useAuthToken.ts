@@ -18,10 +18,10 @@ export const useAuthToken = () => {
                 setToken(t);
             } catch (err) {
                 if (err.error === 'consent_required') {
-                    console.error("nety le condition d'erreur");
+                    // console.error("nety le condition d'erreur");
                     loginAuth0();
                 }
-                console.error(err);
+                // console.error(err);
             }
         };
 

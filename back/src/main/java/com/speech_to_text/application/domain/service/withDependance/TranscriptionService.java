@@ -1,5 +1,6 @@
 package com.speech_to_text.application.domain.service.withDependance;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -7,7 +8,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.WebSocketSession;
+
 import com.google.api.gax.longrunning.OperationFuture;
+import com.google.api.gax.rpc.ClientStream;
+import com.google.api.gax.rpc.ResponseObserver;
+import com.google.api.gax.rpc.StreamController;
 import com.google.cloud.speech.v2.*;
 import com.google.cloud.speech.v2.SpeechAdaptation.AdaptationPhraseSet;
 import com.google.protobuf.ByteString;
@@ -29,9 +35,72 @@ public class TranscriptionService implements TranscriptionUseCase {
     private final MediaFileUseCase mediaFileUseCase;
 
     @Override
-    public String stream(MultipartFile file, TranscribeSettingsDTO settings) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stream'");
+    public void stream(WebSocketSession session, TranscribeSettingsDTO settings) throws Exception {
+
+        String recognizer = gcloud.getGlobalRecognizer();
+        SpeechClient speechClient = SpeechClient.create();
+
+        ResponseObserver<StreamingRecognizeResponse> responseObserver = new ResponseObserver<>() {
+            @Override
+            public void onStart(StreamController controller) {}
+
+            @Override
+            public void onResponse(StreamingRecognizeResponse response) {
+                for (StreamingRecognitionResult result : response.getResultsList()) {
+                    String transcript = result.getAlternativesList().get(0).getTranscript();
+                    boolean isFinal = result.getIsFinal();
+                    try {
+                        session.sendMessage(new org.springframework.web.socket.TextMessage("{\"transcript\": \"" + transcript + "\", \"isFinal\": " + isFinal + "}"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                System.err.println("Error streaming : " + t.getMessage());
+                try {
+                    session.close();
+                } catch (IOException ignored) {}
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("Streaming finished");
+            }
+        };
+
+        ClientStream<StreamingRecognizeRequest> clientStream = speechClient.streamingRecognizeCallable().splitCall(responseObserver);
+        
+        RecognitionConfig config = buildConfig(settings);
+        StreamingRecognitionFeatures streamingFeatures = StreamingRecognitionFeatures.newBuilder()
+            .setInterimResults(true)
+
+            // Voice Activity Detection + timeouts automatiques
+            .setEnableVoiceActivityEvents(true) // Active les événements VAD (nécessaire pour les timeouts)
+            .setVoiceActivityTimeout(StreamingRecognitionFeatures.VoiceActivityTimeout.newBuilder()
+                .setSpeechStartTimeout(com.google.protobuf.Duration.newBuilder()
+                    .setSeconds(10)
+                    .build())
+                .setSpeechEndTimeout(com.google.protobuf.Duration.newBuilder()
+                    .setSeconds(30) 
+                    .build())
+                .build())
+
+            .build();
+
+        StreamingRecognitionConfig streamingConfig = StreamingRecognitionConfig.newBuilder()
+            .setConfig(config)
+            .setStreamingFeatures(streamingFeatures)
+            .build();
+
+        StreamingRecognizeRequest initialRequest = StreamingRecognizeRequest.newBuilder()
+            .setRecognizer(recognizer)
+            .setStreamingConfig(streamingConfig)
+            .build();
+
+        clientStream.send(initialRequest);
     }
     
 
@@ -47,7 +116,7 @@ public class TranscriptionService implements TranscriptionUseCase {
         // String fileName = "audio_" + System.currentTimeMillis() + ".flac";
         // System.out.println(gcloud.getBucketName());
         // String audioUri = mediaFileUseCase.convertAndUpload(file, gcloud.getBucketName(), file.getOriginalFilename()); 
-        String recognizer = String.format("projects/%s/locations/%s/recognizers/_", gcloud.getProjectId(), gcloud.getLocation());
+        String recognizer = gcloud.getGlobalRecognizer();
 
         try (SpeechClient speechClient = SpeechClient.create(
             SpeechSettings.newBuilder()
@@ -116,7 +185,7 @@ public class TranscriptionService implements TranscriptionUseCase {
         String audioUri = mediaFileUseCase.uploadToGCS(gcloud.getBucketName(), file.getOriginalFilename(), convertedFile); 
         System.out.println("Link: "+audioUri);
 
-        String recognizer = String.format("projects/%s/locations/%s/recognizers/_", gcloud.getProjectId(), gcloud.getLocation());
+        String recognizer = gcloud.getGlobalRecognizer();
 
         try (SpeechClient speechClient = SpeechClient.create(
             SpeechSettings.newBuilder()
@@ -181,7 +250,7 @@ public class TranscriptionService implements TranscriptionUseCase {
         ByteString convertedFile = mediaFileUseCase.convertAudiotoFLAC(file);
         System.out.println("Conversion/Extraction audio from video done.");
         
-        String recognizer = String.format("projects/%s/locations/%s/recognizers/_", gcloud.getProjectId(), gcloud.getLocation());
+        String recognizer = gcloud.getGlobalRecognizer();
 
         try (SpeechClient speechClient = SpeechClient.create(
             SpeechSettings.newBuilder()
@@ -205,13 +274,11 @@ public class TranscriptionService implements TranscriptionUseCase {
                     System.out.println(alternative.getTranscript());
                 }
             }
-            // return "done, check server"; 
             return formatTranscript(results, settings.withDiarization);
         }
         catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        // return "";
     }
 
 
@@ -234,7 +301,7 @@ public class TranscriptionService implements TranscriptionUseCase {
             config.addAllLanguageCodes(settings.alternativeLanguages);
         }
         
-        if (settings.withDiarization) {
+        if (settings.withDiarization && !settings.isStreaming) {
             features.setDiarizationConfig(SpeakerDiarizationConfig.newBuilder()
                 .setMinSpeakerCount(settings.minPeople)
                 .setMaxSpeakerCount(settings.maxPeople)

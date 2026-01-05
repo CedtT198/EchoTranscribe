@@ -16,6 +16,9 @@ public class TranscribeSettingsDTO {
 
     @JsonProperty("mainLanguage")
     public String mainLanguage;
+
+    @JsonProperty("isStreaming")
+    public Boolean isStreaming;
     
     @JsonProperty("location")
     public String location;

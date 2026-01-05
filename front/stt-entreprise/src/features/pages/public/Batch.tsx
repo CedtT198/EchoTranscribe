@@ -80,14 +80,14 @@ function Transcribe() {
     try {
       // console.log("bouton pressed")
       let response;
-      if () {
-        response = await transcribeShortFile(fd, token);
-      }
-      else {
-        response = await transcribeLongFile(fd, token);
-      }
-      const data = response.data;
-      console.log(data)
+      // if () {
+      //   response = await transcribeShortFile(fd, token);
+      // }
+      // else {
+      //   response = await transcribeLongFile(fd, token);
+      // }
+      // const data = response.data;
+      // console.log(data)
 
     } catch (error) {
       console.error(error);

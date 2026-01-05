@@ -12,5 +12,8 @@ public class GoogleCloud {
     String location;
     String projectId;
     String modelSpeechToText;
-    // String audience;
+
+    public String getGlobalRecognizer() {
+        return String.format("projects/%s/locations/%s/recognizers/_", projectId, location);
+    }
 }

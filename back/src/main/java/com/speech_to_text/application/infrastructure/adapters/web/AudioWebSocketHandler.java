@@ -1,4 +1,4 @@
-package com.speech_to_text.application.domain.service.independant;
+package com.speech_to_text.application.infrastructure.adapters.web;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ public class AudioWebSocketHandler extends BinaryWebSocketHandler {
         byte[] audioChunk = message.getPayload().array();
         // Ici, traitez le chunk audio : envoyez-le à Google Speech-to-Text en streaming
         // Exemple : intégrez avec votre implémentation existante de Google STT streaming
-        System.out.println("Reçu chunk audio de taille : " + audioChunk.length);
+        System.out.println("Audio chunk file received size : " + audioChunk.length);
 
         // Pour Google STT streaming : utilisez SpeechClient et StreamingRecognizeRequest
         // (Ajoutez votre code pour pousser le chunk dans le stream Google)
@@ -20,13 +20,14 @@ public class AudioWebSocketHandler extends BinaryWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("Connexion WebSocket établie");
+        
+        System.out.println("Success WebSocket connection.");
         // Initialisez le stream Google STT ici si besoin
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, org.springframework.web.socket.CloseStatus status) throws Exception {
-        System.out.println("Connexion WebSocket fermée");
+        System.out.println("WebSocket connection closed.");
         // Fermez le stream Google STT
     }
 }
