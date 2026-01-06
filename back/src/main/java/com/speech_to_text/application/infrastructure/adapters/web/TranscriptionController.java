@@ -27,41 +27,10 @@ public class TranscriptionController {
     TranscriptionUseCase transcriptionUseCase;
     MediaFileUseCase mediaFileUseCase;
 
-    @PostMapping(value="/longfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> transcribeLongFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscribeSettings settings)
-    {
-        Map<String, String> res = new HashMap<>();
-
-        if (file.isEmpty()) {
-            res.put("error", "File uploaded null, try again.");
-            return ResponseEntity.status(401).body(res);
-        }
-        
-        try {
-            String taskId = UUID.randomUUID().toString();
-            TaskStatus.init(taskId);
-
-            transcriptionUseCase.transcribeLongFileAsync(file, settings, taskId);
-
-            Map<String, String> response = new HashMap<>();
-            response.put("taskId", taskId);
-            response.put("success", "Transcription started successfuly");
-
-            return ResponseEntity.ok(response);
-
-        //     String transcription  = transcriptionUseCase.transcribeLongFile(file, settings);
-        //     return ResponseEntity.ok(transcription);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            res.put("error", e.getMessage());
-            return ResponseEntity.status(401).body(res);
-        }
-    }
-
-
     @GetMapping("/transcribe/longfile/status/{taskId}")
     public ResponseEntity<?> getStatus(@PathVariable String taskId) {
+        System.out.println("STATUS");
+
         String status = TaskStatus.getStatus(taskId);
         int progress = TaskStatus.getProgress(taskId);
 
@@ -80,11 +49,51 @@ public class TranscriptionController {
         return ResponseEntity.ok(resp);
     }
 
+    
+
+    @PostMapping(value="/longfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> transcribeLongFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscribeSettings settings)
+    {
+        System.out.println("LONG, file: "+file.getOriginalFilename());
+        settings.toString();
+
+        Map<String, String> res = new HashMap<>();
+
+        if (file.isEmpty()) {
+            res.put("error", "File uploaded null, try again.");
+            return ResponseEntity.status(401).body(res);
+        }
+        
+        try {
+            String taskId = UUID.randomUUID().toString();
+            TaskStatus.init(taskId);
+
+            // transcriptionUseCase.transcribeLongFileAsync(file, settings, taskId);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("taskId", taskId);
+            response.put("success", "Transcription started successfuly");
+
+            return ResponseEntity.ok(response);
+
+        //     String transcription  = transcriptionUseCase.transcribeLongFile(file, settings);
+        //     return ResponseEntity.ok(transcription);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            res.put("error", e.getMessage());
+            return ResponseEntity.status(401).body(res);
+        }
+    }
+
 
     
     @PostMapping(value="/shortfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> transcribeShortFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscribeSettings settings)
     {
+        System.out.println("SHORT, file: "+file.getOriginalFilename());
+        settings.toString();
+
         Map<String, String> res = new HashMap<>();
         if (file.isEmpty()) {
             res.put("error", "File uploaded null, try again.");
@@ -92,8 +101,9 @@ public class TranscriptionController {
         }
         
         try {
-            String transcription  = transcriptionUseCase.transcribeShortFile(file, settings);
-            return ResponseEntity.ok(transcription);
+            // String transcription  = transcriptionUseCase.transcribeShortFile(file, settings);
+            // return ResponseEntity.ok(transcription);
+            return ResponseEntity.ok("OK");
         }
         catch (Exception e) {
             e.printStackTrace();

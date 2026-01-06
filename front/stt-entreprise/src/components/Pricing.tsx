@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
-import { findAllSubType } from "../api/subTypeApi";
+import { findAllSubType } from "../api/subType";
 import { useAuth } from "../auth/useAuth";
 
 function Pricing () {

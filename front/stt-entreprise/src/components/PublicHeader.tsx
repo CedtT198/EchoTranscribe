@@ -19,8 +19,8 @@ function PublicHeader() {
     const { isAuthenticated, user } = useAuth0();
 
     const { loginAuth0, signupAuth0, logoutAuth0 } = useAuth();
-    const handleLogin = () => loginAuth0(  )
-    const signup = () => signupAuth0(  )
+    const handleLogin = () => loginAuth0()
+    const signup = () => signupAuth0()
     const logout = () => logoutAuth0()
     
     return(
@@ -61,10 +61,21 @@ function PublicHeader() {
                                 Tools<span className="fe fe-chevron-down fe-16 ml-1"></span>
                             </button>
                             <div className="dropdown-menu" aria-labelledby="actionMenuButton">
-                                <a className="dropdown-item" href="/public/layout/live">Live Speech to text</a>
                                 <a className="dropdown-item" href="/public/layout/batch">Transcribe batch</a>
-                                <a className="dropdown-item" href="/public/layout/resume">Resume text with AI</a>
-                                <a className="dropdown-item" href="#">Translate</a>
+                                {!isAuthenticated ? (
+                                    <>
+                                        <a className="dropdown-item" onClick={handleLogin}>Live Speech to text</a>
+                                        <a className="dropdown-item" onClick={handleLogin}>Resume text with AI</a>
+                                        <a className="dropdown-item" onClick={handleLogin}>Translate</a>
+                                    </>
+                                ) : (
+                                    <>
+                                        <a className="dropdown-item" href="/public/layout/live">Live Speech to text</a>
+                                        <a className="dropdown-item" href="/public/layout/resume">Resume text with AI</a>
+                                        <a className="dropdown-item" href="#">Translate</a>
+                                    </>
+                                    )}
+
                                 {/* <a className="dropdown-item" href="#">Batch</a>
                                 <a className="dropdown-item" href="#">Live</a> */}
                             </div>

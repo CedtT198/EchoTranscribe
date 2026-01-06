@@ -1,6 +1,9 @@
-import TextEditor from "../../../components/TextEditor";
+import TextEditor from "../../../../components/TextEditor";
 
-function Resume() {
+const Summary: React.FC<string> = (transcription_type) => {
+  if (transcription_type === "long") {}
+  if (transcription_type === "short") {}
+
     return (
       <div>
         <div className="col-12">
@@ -15,7 +18,7 @@ function Resume() {
                     <form action="/file-upload">
                       <div className="form-group col-md-12 mb-5">
                           <h5 className="card-title">Editor</h5>
-                          <TextEditor></TextEditor>
+                          <TextEditor minHeight={400} fontSize={28}></TextEditor>
                       </div>
                       <div className="container mb-4">
                           <h5 className="card-title">Choose the type of result</h5>
@@ -84,4 +87,4 @@ function Resume() {
     )
 }
 
-export default Resume;
+export default Summary;

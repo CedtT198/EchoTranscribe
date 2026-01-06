@@ -12075,3 +12075,20 @@ a.uppy-Dashboard-poweredBy {
 .ql-editor {
   min-height: 460px;
 }
+
+.dropzone {
+  background-color: white;
+  border: 1px dashed gray !important;
+  transition: all 0.4s ease;
+}
+
+.dropzone:hover {
+  background-color: rgb(236, 240, 241);
+  border: 1px dashed #1b68ff !important;
+}
+
+.dropzone:hover, .dropzone:hover .upload {
+  background-color: rgb(236, 240, 241);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}

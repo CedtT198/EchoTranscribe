@@ -13,18 +13,15 @@ import lombok.NoArgsConstructor;
 public class TranscribeSettings {
     // @JsonProperty("model")
     // public String model; //  can be chirp, chirp_2, chirp_3
-
-    @JsonProperty("useSavedSettings")
-    public Boolean useSavedSettings;
+    
+    @JsonProperty("type")
+    public String type;
 
     @JsonProperty("mainLanguage")
     public String mainLanguage;
-
-    @JsonProperty("isStreaming")
-    public Boolean isStreaming;
     
-    @JsonProperty("location")
-    public String location;
+    // @JsonProperty("location")
+    // public String location;
 
     @JsonProperty("useAlternativeLanguages")
     public Boolean useAlternativeLanguages;
@@ -47,14 +44,11 @@ public class TranscribeSettings {
     @JsonProperty("filterProfanity")
     public Boolean filterProfanity;
 
-    @JsonProperty("withDiarization")
-    public Boolean withDiarization; // if possible, precise exactly the number of people that may be in the conversation
-
-    @JsonProperty("minPeople")
-    public Integer minPeople;
-
-    @JsonProperty("maxPeople")
-    public Integer maxPeople;
+    @JsonProperty("withInterimResults")
+    public Boolean withInterimResults;
+    
+    @JsonProperty("voiceActivityTimeoutSeconds")
+    public Integer voiceActivityTimeoutSeconds;
 
     @JsonProperty("useSpeechContexts")
     public Boolean useSpeechContexts;
@@ -64,6 +58,15 @@ public class TranscribeSettings {
 
     @JsonProperty("speechContextsPhrases")
     public List<String> speechContextsPhrases;
+    
+    @JsonProperty("withDiarization")
+    public Boolean withDiarization; // if possible, precise exactly the number of people that may be in the conversation
+
+    @JsonProperty("minPeople")
+    public Integer minPeople;
+
+    @JsonProperty("maxPeople")
+    public Integer maxPeople;
 
 
     @Override

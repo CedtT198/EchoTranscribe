@@ -3,6 +3,7 @@ amboarina atao clean:
 - API dans userapi.tsx, api.tsx
 - authbootstrap
 - emplacement dossier
+- settings interface pour envoyer data live/batch 
 
 design:
 - landing

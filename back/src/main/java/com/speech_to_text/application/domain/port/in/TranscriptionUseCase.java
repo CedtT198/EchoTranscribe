@@ -1,5 +1,6 @@
 package com.speech_to_text.application.domain.port.in;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.WebSocketSession;
 import com.speech_to_text.application.domain.model.DTO.TranscribeSettings;

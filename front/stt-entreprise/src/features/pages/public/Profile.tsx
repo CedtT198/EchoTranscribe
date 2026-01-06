@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { FormDataUpdateUser, ValidationErrors} from '../../../components/Global';
 // import { useLocation } from "react-router-dom";
-import { deleteUser, getMyProfile, updateUser } from "../../../api/userApi";
+import { deleteUser, getMyProfile, updateUser } from "../../../api/user";
 import { useAuth0 } from "@auth0/auth0-react";
 import AutoLogout from "../../../components/AutoLogout";
 import { useAuthToken } from "../../../auth/useAuthToken";

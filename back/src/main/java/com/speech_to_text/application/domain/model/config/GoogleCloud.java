@@ -16,4 +16,8 @@ public class GoogleCloud {
     public String getGlobalRecognizer() {
         return String.format("projects/%s/locations/%s/recognizers/_", projectId, location);
     }
+
+    public String getEndpoint() {
+        return (getLocation() + "-speech.googleapis.com:443");
+    }
 }

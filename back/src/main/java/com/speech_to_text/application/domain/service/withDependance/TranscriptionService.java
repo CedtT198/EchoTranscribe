@@ -39,71 +39,77 @@ public class TranscriptionService implements TranscriptionUseCase {
     @Override
     public void initStreamingConfig(WebSocketSession session, TranscribeSettings settings) throws Exception {
         String recognizer = gcloud.getGlobalRecognizer();
-        SpeechClient speechClient = SpeechClient.create();
 
-        ResponseObserver<StreamingRecognizeResponse> responseObserver = new ResponseObserver<>() {
-            @Override
-            public void onStart(StreamController controller) {}
+        try (SpeechClient speechClient = SpeechClient.create(SpeechSettings.newBuilder()
+                .setEndpoint(gcloud.getEndpoint())
+                .build()
+        )) {
+            ResponseObserver<StreamingRecognizeResponse> responseObserver = new ResponseObserver<>() {
+                @Override
+                public void onStart(StreamController controller) {}
 
-            @Override
-            public void onResponse(StreamingRecognizeResponse response) {
-                for (StreamingRecognitionResult result : response.getResultsList()) {
-                    String transcript = result.getAlternativesList().get(0).getTranscript();
-                    boolean isFinal = result.getIsFinal();
-                    try {
-                        session.sendMessage(new org.springframework.web.socket.TextMessage("{\"transcript\": \"" + transcript + "\", \"isFinal\": " + isFinal + "}"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                @Override
+                public void onResponse(StreamingRecognizeResponse response) {
+                    for (StreamingRecognitionResult result : response.getResultsList()) {
+                        String transcript = result.getAlternativesList().get(0).getTranscript();
+                        boolean isFinal = result.getIsFinal();
+                        try {
+                            session.sendMessage(new org.springframework.web.socket.TextMessage("{\"transcript\": \"" + transcript + "\", \"isFinal\": " + isFinal + "}"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onError(Throwable t) {
-                System.err.println("Error streaming : " + t.getMessage());
-                try {
-                    session.close();
-                } catch (IOException ignored) {}
-            }
+                @Override
+                public void onError(Throwable t) {
+                    System.err.println("Error streaming : " + t.getMessage());
+                    try {
+                        session.close();
+                    } catch (IOException ignored) {}
+                }
 
-            @Override
-            public void onComplete() {
-                System.out.println("Streaming finished");
-            }
-        };
+                @Override
+                public void onComplete() {
+                    System.out.println("Streaming finished");
+                }
+            };
 
-        ClientStream<StreamingRecognizeRequest> clientStream = speechClient.streamingRecognizeCallable().splitCall(responseObserver);
-        
-        RecognitionConfig config = buildConfig(settings);
-        StreamingRecognitionFeatures streamingFeatures = StreamingRecognitionFeatures.newBuilder()
-            .setInterimResults(true)
+            ClientStream<StreamingRecognizeRequest> clientStream = speechClient.streamingRecognizeCallable().splitCall(responseObserver);
+            
+            RecognitionConfig config = buildConfig(settings);
+            StreamingRecognitionFeatures streamingFeatures = StreamingRecognitionFeatures.newBuilder()
+                .setInterimResults(settings.withInterimResults)
 
-            // Voice Activity Detection + timeouts automatiques
-            .setEnableVoiceActivityEvents(true) // Active les événements VAD (nécessaire pour les timeouts)
-            .setVoiceActivityTimeout(StreamingRecognitionFeatures.VoiceActivityTimeout.newBuilder()
-                .setSpeechStartTimeout(com.google.protobuf.Duration.newBuilder()
-                    .setSeconds(10)
+                // Voice Activity Detection + timeouts automatiques
+                .setEnableVoiceActivityEvents(true) // Active les événements VAD (nécessaire pour les timeouts)
+                .setVoiceActivityTimeout(StreamingRecognitionFeatures.VoiceActivityTimeout.newBuilder()
+                    .setSpeechStartTimeout(com.google.protobuf.Duration.newBuilder()
+                        .setSeconds(10)
+                        .build())
+                    .setSpeechEndTimeout(com.google.protobuf.Duration.newBuilder()
+                        .setSeconds(30) 
+                        .build())
                     .build())
-                .setSpeechEndTimeout(com.google.protobuf.Duration.newBuilder()
-                    .setSeconds(30) 
-                    .build())
-                .build())
-            .build();
+                .build();
 
-        StreamingRecognitionConfig streamingConfig = StreamingRecognitionConfig.newBuilder()
-            .setConfig(config)
-            .setStreamingFeatures(streamingFeatures)
-            .build();
+            StreamingRecognitionConfig streamingConfig = StreamingRecognitionConfig.newBuilder()
+                .setConfig(config)
+                .setStreamingFeatures(streamingFeatures)
+                .build();
 
-        StreamingRecognizeRequest initialRequest = StreamingRecognizeRequest.newBuilder()
-            .setRecognizer(recognizer)
-            .setStreamingConfig(streamingConfig)
-            .build();
+            StreamingRecognizeRequest initialRequest = StreamingRecognizeRequest.newBuilder()
+                .setRecognizer(recognizer)
+                .setStreamingConfig(streamingConfig)
+                .build();
 
-        clientStream.send(initialRequest);
+            clientStream.send(initialRequest);
 
-        session.getAttributes().put("clientStream", clientStream);
-        session.getAttributes().put("speechClient", speechClient);
+            session.getAttributes().put("clientStream", clientStream);
+            session.getAttributes().put("speechClient", speechClient);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
     
 
@@ -131,7 +137,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
         try (SpeechClient speechClient = SpeechClient.create(
             SpeechSettings.newBuilder()
-                .setEndpoint(gcloud.getLocation() + "-speech.googleapis.com:443")
+                .setEndpoint(gcloud.getEndpoint())
                 .build()
         )) {
             RecognitionConfig config = buildConfig(settings);
@@ -200,7 +206,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
         try (SpeechClient speechClient = SpeechClient.create(
             SpeechSettings.newBuilder()
-                .setEndpoint(gcloud.getLocation() + "-speech.googleapis.com:443")
+                .setEndpoint(gcloud.getEndpoint())
                 .build()
         )) {
             RecognitionConfig config = buildConfig(settings);
@@ -265,7 +271,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
         try (SpeechClient speechClient = SpeechClient.create(
             SpeechSettings.newBuilder()
-                .setEndpoint(gcloud.getLocation() + "-speech.googleapis.com:443")
+                .setEndpoint(gcloud.getEndpoint())
                 .build()
         )) {
             RecognitionConfig config = buildConfig(settings);
@@ -312,7 +318,7 @@ public class TranscriptionService implements TranscriptionUseCase {
             config.addAllLanguageCodes(settings.alternativeLanguages);
         }
         
-        if (settings.withDiarization && !settings.isStreaming) {
+        if (settings.withDiarization && !settings.type.equals("streaming")) {
             features.setDiarizationConfig(SpeakerDiarizationConfig.newBuilder()
                 .setMinSpeakerCount(settings.minPeople)
                 .setMaxSpeakerCount(settings.maxPeople)

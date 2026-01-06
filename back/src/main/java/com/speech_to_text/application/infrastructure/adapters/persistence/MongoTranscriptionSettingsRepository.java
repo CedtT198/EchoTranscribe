@@ -9,7 +9,7 @@ import com.speech_to_text.application.domain.service.independant.GenericMapper;
 import com.speech_to_text.application.infrastructure.adapters.persistence.entity.TranscribeSettingsDocument;
 import lombok.AllArgsConstructor;
 
-interface SpringDataUser extends MongoRepository<TranscribeSettingsDocument, String> {
+interface SpringDataTranscriptionSettings extends MongoRepository<TranscribeSettingsDocument, String> {
     Optional<TranscribeSettingsDocument> findByAuth0Id(String auth0Id);
     Optional<TranscribeSettingsDocument> findByAuth0IdAndType(String auth0Id, String transcribeType);
 }
@@ -18,7 +18,7 @@ interface SpringDataUser extends MongoRepository<TranscribeSettingsDocument, Str
 @AllArgsConstructor
 public class MongoTranscriptionSettingsRepository implements TranscriptionSettingsRepository {
 
-    private SpringDataUser repo;
+    private SpringDataTranscriptionSettings repo;
     private GenericMapper mapper;
 
     @Override

@@ -22,30 +22,30 @@ import lombok.AllArgsConstructor;
 public class AudioWebSocketHandler extends BinaryWebSocketHandler {
 
     private final TranscriptionUseCase transcriptionUseCase;
-    private final ObjectMapper objectMapper;
 
     @Override
     protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws IOException {
-        ByteBuffer payload = message.getPayload();
-        ByteString audioBytes = ByteString.copyFrom(payload);
-        // System.out.println("Audio chunk file received size : " + audioChunk.length);
+        // ByteBuffer payload = message.getPayload();
+        // ByteString audioBytes = ByteString.copyFrom(payload);
+        // // System.out.println("ok");
 
-        ClientStream<StreamingRecognizeRequest> clientStream = (ClientStream<StreamingRecognizeRequest>) session.getAttributes().get("clientStream");
+        // ClientStream<StreamingRecognizeRequest> clientStream = (ClientStream<StreamingRecognizeRequest>) session.getAttributes().get("clientStream");
 
-        if (clientStream != null) {
-            // Envoyer le chunk audio
-            StreamingRecognizeRequest audioRequest = StreamingRecognizeRequest.newBuilder()
-                .setAudio(audioBytes)
-                .build();
+        // if (clientStream != null) {
+        //     // Envoyer le chunk audio
+        //     StreamingRecognizeRequest audioRequest = StreamingRecognizeRequest.newBuilder()
+        //         .setAudio(audioBytes)
+        //         .build();
 
-            clientStream.send(audioRequest);
-        }
+        //     clientStream.send(audioRequest);
+        // }
     }
 
 
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {
+        ObjectMapper objectMapper = new ObjectMapper();
         String payload = message.getPayload();
         try {
             JsonNode json = objectMapper.readTree(payload);
@@ -58,14 +58,22 @@ public class AudioWebSocketHandler extends BinaryWebSocketHandler {
                 String auth0id = objectMapper.treeToValue(auth0idNode, String.class);
                 TranscribeSettings settings = objectMapper.treeToValue(settingsNode, TranscribeSettings.class);
 
-                session.getAttributes().put("auth0id", auth0id);
-                session.getAttributes().put("settings", settings);
+                System.out.println(auth0id);
+                settings.toString();
+
+                // session.getAttributes().put("auth0id", auth0id);
+                // session.getAttributes().put("settings", settings);
+                
+                // if (settings.useSavedSettings) {
+                //     settings = transcriptionUseCase.findSettings(auth0id, "streaming");
+                // }
+                // transcriptionUseCase.initStreamingConfig(session, settings);
         
                 sendJson(session, "{\"type\":\"received\",\"message\":\"Settings received successfuly\"}");
             }
             else if ("endOfStream".equals(type)) {
                 System.out.println("End of streaming " + session.getId());
-                session.close(CloseStatus.NORMAL);
+                session.close(CloseStatus.NORMAL); 
             }
             else {
                 sendError(session, "Type de message inconnu : " + type);
@@ -80,16 +88,7 @@ public class AudioWebSocketHandler extends BinaryWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         System.out.println("Success WebSocket connection.");
-        
-        TranscribeSettings settings = (TranscribeSettings) session.getAttributes().get("settings");
-        String auth0id= (String) session.getAttributes().get("auth0id");
-        
-        if (settings.useSavedSettings) {
-            settings = transcriptionUseCase.findSettings(auth0id, "streaming");
-        }
-        transcriptionUseCase.initStreamingConfig(session, settings);
     }
-
 
 
 

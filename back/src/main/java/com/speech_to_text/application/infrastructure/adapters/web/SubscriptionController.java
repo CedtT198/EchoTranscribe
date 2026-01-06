@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/subscription")
 public class SubscriptionController {
-    private SubscriptionTypeUseCase subTypeUseCase;
+    private final SubscriptionTypeUseCase subTypeUseCase;
     // private UserService userService;
   
     @GetMapping("/type/findAll")
