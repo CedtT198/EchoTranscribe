@@ -47,7 +47,9 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box; }
+  box-sizing: border-box; 
+  font-family: 'Tilt Neon', 'Google Sans', sans-serif;
+}
 
 html {
   font-family: sans-serif;
@@ -208,7 +210,6 @@ select,
 optgroup,
 textarea {
   margin: 0;
-  font-family: inherit;
   font-size: inherit;
   line-height: inherit; }
 
@@ -308,7 +309,6 @@ template {
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-bottom: 0.5rem;
-  font-weight: 500;
   line-height: 1.2;
   color: #001a4e; }
 
@@ -7348,11 +7348,11 @@ a {
 
 .h1, .h2, .h3,
 h1, h2, h3 {
-  font-weight: 700; }
+  font-weight: 500; }
 
 .h4, .h5, .h6,
 h4, h5, h6, strong {
-  font-weight: 600; }
+  font-weight: 500; }
 
 .small, small {
   font-size: 0.825rem;
@@ -9404,7 +9404,6 @@ form.was-validated select:valid ~ .select2-container--bootstrap4 .select2-select
   display: inline;
   empty-cells: show;
   float: none;
-  font-family: inherit;
   font-size: inherit;
   font-style: normal;
   font-variant: normal;
@@ -9966,7 +9965,6 @@ form.was-validated select:valid ~ .select2-container--bootstrap4 .select2-select
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
-  font-family: inherit;
   font-size: 16px;
   line-height: 1;
   font-weight: 500;
@@ -11424,7 +11422,6 @@ svg.UppyIcon.retry {
 .uppy-DashboardContent-back {
   background: none;
   -webkit-appearance: none;
-  font-family: inherit;
   font-size: inherit;
   line-height: 1;
   padding: 0;
@@ -11449,7 +11446,6 @@ svg.UppyIcon.retry {
 .uppy-DashboardContent-addMore {
   background: none;
   -webkit-appearance: none;
-  font-family: inherit;
   font-size: inherit;
   line-height: 1;
   padding: 0;
@@ -11727,7 +11723,6 @@ a.uppy-Dashboard-poweredBy {
 .uppy-FileInput-btn {
   background: none;
   -webkit-appearance: none;
-  font-family: inherit;
   font-size: inherit;
   line-height: 1;
   padding: 0;
@@ -12092,3 +12087,19 @@ a.uppy-Dashboard-poweredBy {
   transition: all 0.4s ease;
   cursor: pointer;
 }
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  animation: blink 1.3s infinite;
+}
+
+@keyframes blink {
+  0%   { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+

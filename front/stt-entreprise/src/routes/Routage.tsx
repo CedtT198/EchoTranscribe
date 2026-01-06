@@ -4,7 +4,7 @@ import NotFound from "../features/pages/NotFound"
 import Landing from "../features/pages/public/Landing"
 import PublicLayout from "../features/pages/layouts/PublicLayout"
 import Batch from "../features/pages/public/transcription/Batch"
-import Resume from "../features/pages/public/transcription/Resume"
+import Summary from "../features/pages/public/transcription/Summary"
 import Subscription from "../features/pages/public/Subscription"
 import Profile from "../features/pages/public/Profile"
 import Settings from "../features/pages/public/Settings"
@@ -35,7 +35,7 @@ function PersoRoutes() {
             <Route path="/public/layout/" element={<PublicLayout />}>
                 <Route index element={<Landing />} />
                 <Route path="batch" element={<Batch />} />
-                <Route path="resume" element={<Resume />} />
+                <Route path="resume" element={<Summary />} />
                 <Route path="subscription" element={<Subscription />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="settings" element={<Settings />} />

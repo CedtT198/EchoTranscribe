@@ -21,9 +21,9 @@ export const Auth0ProviderWithNavigate: React.FC<{ children: React.ReactNode }> 
         audience: "https://echo.transcribe.api.com/",
       }}
       onRedirectCallback={onRedirectCallback}
-      useRefreshTokens={true}           // Important pour éviter le fallback iframe qui peut être bloqué
-      cacheLocation="localstorage"      // Persistance + refresh tokens
-      useRefreshTokensFallback={true}   // Fallback si besoin (mais avec refresh tokens ça devrait éviter l'iframe)
+      useRefreshTokens={true}
+      cacheLocation="localstorage"  
+      useRefreshTokensFallback={true} 
     >
       {children}
     </Auth0Provider>

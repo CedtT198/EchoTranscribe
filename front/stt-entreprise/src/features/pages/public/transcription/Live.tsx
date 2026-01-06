@@ -21,8 +21,10 @@ function Live() {
     return (
         <div className="mb-5">
             <div className="col-12">
-                <h2 className="page-title mb-0">Live transcribing</h2>
-                <p className="text-muted">Supported file: audio (.mp3, .wav) and video (.mp4)</p>
+                <div className="col-12 text-center">
+                    <p className="h1 page-title mb-0">Live transcribing</p>
+                    <p className="text-muted">Supported file: audio (.mp3, .wav) and video (.mp4)</p>
+                </div>
                 <div className="card py-5">
                     {error && 
                     <div className="mb-5 px-5">

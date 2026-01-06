@@ -77,7 +77,7 @@ function History() {
                                     </td>
                                 </tr>
                                 <tr id="collap-1" className="collapse show in p-3 bg-light">
-                                    <td colSpan="5">
+                                    <td colSpan={5}>
                                         <dl className="row mb-0 mt-1">
                                             <dd className="col-sm-8">
                                                 <h3>Summary</h3>
@@ -110,7 +110,7 @@ function History() {
                                     </td>
                                 </tr>
                                 <tr id="collap-2474" className="collapse show in p-3 bg-light">
-                                    <td colSpan="5">
+                                    <td colSpan={5}>
                                         <dl className="row mb-0 mt-1">
                                             <dd className="col-sm-8">
                                                 <h3>Summary</h3>

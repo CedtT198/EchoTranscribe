@@ -130,6 +130,7 @@ db.createCollection("transcribing")
 db.transcribing.insertMany([
    {
       title: "Meeting with the dev team",
+      subtitle: "Subtitle",
       content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
       summary: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
       date: new Date(),

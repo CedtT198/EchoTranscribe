@@ -110,8 +110,22 @@ function Transcribe() {
   return (
       <div>
         <div className="col-12">
-            <h2 className="page-title mb-0">File upload</h2>
-            <p className="text-muted">Many supported audio and video file</p>
+            <div className="col-12 text-center">
+              <p className="h1 page-title mb-0">File upload</p>
+              <p className="text-muted">Many supported audio and video file</p>
+            </div>
+            <div className="col-12 mb-5">
+              <div className="text-center d-flex justify-content-center align-items-center">
+                <div className="bg-dark p-1 rounded-pill">
+                  <button className="btn btn-primary rounded-pill mx-1 text-light" type="button">
+                    <span className="fe fe-info fe-16 mr-1"></span>Upload audio
+                  </button>
+                  <a className="btn btn rounded-pill mx-1 text-light" type="button" href="/public/layout/live">
+                    <span className="dot mr-2"></span>Transcribe live audio
+                  </a>
+                </div>
+              </div>
+            </div>
             <div className="row mb-4">
             <div className="col-md-12">
               <div className="card shadow mb-4">
@@ -125,7 +139,7 @@ function Transcribe() {
                         {!fileName && 
                           <>
                             <div className="dz-message needsclick mb-5 pt-5">
-                              <a className="btn btn-primary rounded-pill py-3 px-4 text-light font-weight-bolder mb-3">
+                              <a className="btn btn-primary rounded-pill py-3 px-4 text-light mb-3">
                                 Upload your File
                                 <i className="fe fe-upload-cloud fe-16 text-white mx-2"></i>
                               </a>

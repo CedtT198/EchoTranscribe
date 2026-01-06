@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 interface TEProps {
     minHeight: number;
     fontSize: number;
+    withToolbar: boolean;
 }
 
 function TextEditor(props: TEProps) {
@@ -12,24 +13,34 @@ function TextEditor(props: TEProps) {
 
     useEffect(() => {
         if (editorRef.current && !quillRef.current) {
-            quillRef.current = new Quill(editorRef.current, {
-                theme: 'snow',
-                modules: {
-                toolbar: [
-                        // [{ font: [] }],
-                        // [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
-                        [{ list: 'ordered' }, { list: 'bullet' }],
-                        // [{ script: 'sub' }, { script: 'super' }],
-                        // [{ indent: '-1' }, { indent: '+1' }],
-                        // [{ direction: 'rtl' }],
-                        // [{ color: [] }, { background: [] }],
-                        // [{ align: [] }],
-                        ['clean'],
-                    ],
-                },
-            });
+            if (props.withToolbar) {
+                quillRef.current = new Quill(editorRef.current, {
+                    theme: 'snow',
+                    modules: {
+                    toolbar: [
+                            [{ font: [] }],
+                            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            ['blockquote', 'code-block'],
+                            [{ list: 'ordered' }, { list: 'bullet' }],
+                            [{ script: 'sub' }, { script: 'super' }],
+                            [{ indent: '-1' }, { indent: '+1' }],
+                            [{ direction: 'rtl' }],
+                            [{ color: [] }, { background: [] }],
+                            [{ align: [] }],
+                            ['clean'],
+                        ],
+                    },
+                });
+            }
+            else {
+                quillRef.current = new Quill(editorRef.current, {
+                    theme: 'snow',
+                    modules: {
+                        toolbar: false
+                    },
+                });
+            }
         }
         
         quillRef.current.root.style.minHeight = `${props.minHeight}px`;
