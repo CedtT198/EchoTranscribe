@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "transcribe_settings")
-public class TranscribeSettingsDocument {
+@Document(collection = "transcription_settings")
+public class TranscriptionSettingsDocument {
     @Id
     String id;
     

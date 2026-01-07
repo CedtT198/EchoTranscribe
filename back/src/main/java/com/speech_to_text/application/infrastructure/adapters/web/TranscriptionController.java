@@ -3,7 +3,6 @@ package com.speech_to_text.application.infrastructure.adapters.web;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import com.speech_to_text.application.domain.model.DTO.TranscribeSettings;
+import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
 import com.speech_to_text.application.domain.port.in.MediaFileUseCase;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
 import com.speech_to_text.application.domain.service.independant.TaskStatus;
@@ -24,8 +23,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TranscriptionController {
 
-    TranscriptionUseCase transcriptionUseCase;
-    MediaFileUseCase mediaFileUseCase;
+    private final TranscriptionUseCase transcriptionUseCase;
+    private final MediaFileUseCase mediaFileUseCase;
+
 
     @GetMapping("/longfile/status/{taskId}")
     public ResponseEntity<?> getStatus(@PathVariable String taskId) {
@@ -52,7 +52,7 @@ public class TranscriptionController {
     
 
     @PostMapping(value="/longfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> transcribeLongFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscribeSettings settings)
+    public ResponseEntity<?> transcribeLongFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscriptionSettings settings)
     {
         System.out.println("LONG, file: "+file.getOriginalFilename());
         settings.toString();
@@ -89,7 +89,7 @@ public class TranscriptionController {
 
     
     @PostMapping(value="/shortfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> transcribeShortFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscribeSettings settings)
+    public ResponseEntity<?> transcribeShortFile(@RequestPart("file") MultipartFile file, @RequestPart("metadata") TranscriptionSettings settings)
     {
         System.out.println("SHORT, file: "+file.getOriginalFilename());
         settings.toString();

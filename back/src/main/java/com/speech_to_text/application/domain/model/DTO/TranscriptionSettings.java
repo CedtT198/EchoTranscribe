@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TranscribeSettings {
+public class TranscriptionSettings {
     // @JsonProperty("model")
     // public String model; //  can be chirp, chirp_2, chirp_3
     

@@ -1,6 +1,7 @@
 package com.speech_to_text.application.domain.service.withDependance;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -18,8 +19,9 @@ import com.google.cloud.speech.v2.*;
 import com.google.cloud.speech.v2.SpeechAdaptation.AdaptationPhraseSet;
 import com.google.protobuf.ByteString;
 // import com.google.cloud.speech.v1.*;
-import com.speech_to_text.application.domain.model.DTO.TranscribeSettings;
+import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
 import com.speech_to_text.application.domain.model.config.GoogleCloud;
+import com.speech_to_text.application.domain.model.transcription.Transcription;
 import com.speech_to_text.application.domain.port.in.MediaFileUseCase;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
 import com.speech_to_text.application.domain.port.out.TranscriptionSettingsRepository;
@@ -36,8 +38,38 @@ public class TranscriptionService implements TranscriptionUseCase {
     private final MediaFileUseCase mediaFileUseCase;
     private final TranscriptionSettingsRepository repo;
 
+
     @Override
-    public void initStreamingConfig(WebSocketSession session, TranscribeSettings settings) throws Exception {
+    public List<Transcription> findAll() { return null;}
+    
+    @Override
+    public List<Transcription> findAllBetween(LocalDate startDate, LocalDate endDate) { return null;}
+    
+    @Override
+    public List<Transcription> findAllBetween(String auth0id, LocalDate startDate, LocalDate endDate) { return null;}
+    
+    @Override
+    public List<Transcription> searchInContent(String phrase) { return null;}
+    
+    @Override
+    public List<Transcription> searchInSummary(String phrase) { return null;}
+    
+    @Override
+    public List<Transcription> findAllByAuth0Id(String auth0id) { return null;}
+    
+    @Override
+    public Transcription save(Transcription Transcription) { return null;}
+    
+    @Override
+    public Transcription update(String auth0id, Transcription Transcription) { return null; }
+
+    @Override
+    public boolean delete(String auth0id) { return false; }
+
+
+
+    @Override
+    public void initStreamingConfig(WebSocketSession session, TranscriptionSettings settings) throws Exception {
         String recognizer = gcloud.getGlobalRecognizer();
 
         try (SpeechClient speechClient = SpeechClient.create(SpeechSettings.newBuilder()
@@ -115,14 +147,14 @@ public class TranscriptionService implements TranscriptionUseCase {
 
     
     @Override
-    public TranscribeSettings findSettings(String auth0Id, String type) {
+    public TranscriptionSettings findSettings(String auth0Id, String type) {
         return repo.findByAuth0IdAndType(auth0Id, type);
     }
 
 
 
     @Override
-    public String transcribeLongFile(MultipartFile file, TranscribeSettings settings) throws Exception {
+    public String transcribeLongFile(MultipartFile file, TranscriptionSettings settings) throws Exception {
         // convert the file into an FLAC for better compatibility with Google stt
         ByteString convertedFile = mediaFileUseCase.convertAudiotoFLAC(file);
 
@@ -194,7 +226,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
     @Async
     @Override
-    public void transcribeLongFileAsync(MultipartFile file, TranscribeSettings settings, String taskId) throws Exception {
+    public void transcribeLongFileAsync(MultipartFile file, TranscriptionSettings settings, String taskId) throws Exception {
         // convert the file into an FLAC for better compatibility with Google stt
         ByteString convertedFile = mediaFileUseCase.convertAudiotoFLAC(file);
 
@@ -263,7 +295,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
 
     @Override
-    public String transcribeShortFile(MultipartFile file, TranscribeSettings settings) throws Exception {
+    public String transcribeShortFile(MultipartFile file, TranscriptionSettings settings) throws Exception {
         ByteString convertedFile = mediaFileUseCase.convertAudiotoFLAC(file);
         System.out.println("Conversion/Extraction audio from video done.");
         
@@ -300,7 +332,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
 
 
-    private RecognitionConfig buildConfig(TranscribeSettings settings) {
+    private RecognitionConfig buildConfig(TranscriptionSettings settings) {
         RecognitionFeatures.Builder features = RecognitionFeatures.newBuilder();
         
         RecognitionConfig.Builder config = RecognitionConfig.newBuilder()

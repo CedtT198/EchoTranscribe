@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.gax.rpc.ClientStream;
 import com.google.cloud.speech.v2.StreamingRecognizeRequest;
 import com.google.protobuf.ByteString;
-import com.speech_to_text.application.domain.model.DTO.TranscribeSettings;
+import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
 import lombok.AllArgsConstructor;
 
@@ -56,7 +56,7 @@ public class AudioWebSocketHandler extends BinaryWebSocketHandler {
                 JsonNode settingsNode = json.get("settings");
                 
                 String auth0id = objectMapper.treeToValue(auth0idNode, String.class);
-                TranscribeSettings settings = objectMapper.treeToValue(settingsNode, TranscribeSettings.class);
+                TranscriptionSettings settings = objectMapper.treeToValue(settingsNode, TranscriptionSettings.class);
 
                 System.out.println(auth0id);
                 settings.toString();
