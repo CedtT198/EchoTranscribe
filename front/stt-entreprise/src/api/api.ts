@@ -1,7 +1,7 @@
 import { SERVER_URL } from "../components/Global";
 
 export const apiGet = async (url: string, token?: any) => {
-    console.log('TOKEN '+token);
+    // console.log('TOKEN '+token);
 
     const headers: HeadersInit = { "Content-Type": "application/json" };
     if (token) {

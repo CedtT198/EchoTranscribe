@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import TextEditor from "../../../components/TextEditor";
-import { streamingDefault } from "../../../../api/transcribe";
-import type { FormDataTranscription } from "../../../../api/transcribe";
+import { streamingDefault } from "../../../../api/transcription";
+import type { FormDataTranscription } from "../../../../api/transcription";
 import { useStream } from "../../../../auth/useStream";
 import StreamingSettings from "../../../../components/transcription/StreamingSettings";
 

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import type { FormDataTranscription } from '../api/transcribe';
+import type { FormDataTranscription } from '../api/transcription';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export const useStream = (streamingSettings: FormDataTranscription) => {

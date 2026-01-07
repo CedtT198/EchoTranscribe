@@ -1,4 +1,4 @@
-import type { FormDataTranscription, SettingsModalProps } from "../../api/transcribe";
+import type { FormDataTranscription, SettingsModalProps } from "../../api/transcription";
 
 
 const StreamingSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) => {

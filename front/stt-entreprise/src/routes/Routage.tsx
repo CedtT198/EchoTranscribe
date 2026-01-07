@@ -9,7 +9,7 @@ import Subscription from "../features/pages/public/Subscription"
 import Profile from "../features/pages/public/Profile"
 import Settings from "../features/pages/public/Settings"
 import History from "../features/pages/public/History"
-import Export from "../features/pages/public/Export"
+import Export from "../features/pages/public/transcription/Export"
 import Live from "../features/pages/public/transcription/Live"
 import ListReview from "../features/pages/public/ListReview"
 import AddReview from "../features/pages/public/AddReview"
@@ -35,7 +35,7 @@ function PersoRoutes() {
             <Route path="/public/layout/" element={<PublicLayout />}>
                 <Route index element={<Landing />} />
                 <Route path="batch" element={<Batch />} />
-                <Route path="resume" element={<Summary />} />
+                <Route path="summary" element={<Summary />} />
                 <Route path="subscription" element={<Subscription />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="settings" element={<Settings />} />

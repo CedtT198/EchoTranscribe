@@ -71,7 +71,7 @@ function PublicHeader() {
                                 ) : (
                                     <>
                                         <a className="dropdown-item" href="/public/layout/live">Live Speech to text</a>
-                                        <a className="dropdown-item" href="/public/layout/resume">Resume text with AI</a>
+                                        <a className="dropdown-item" href="/public/layout/summary">Resume text with AI</a>
                                         <a className="dropdown-item" href="#">Translate</a>
                                     </>
                                     )}

@@ -1,11 +1,26 @@
 import { useState } from "react";
-import type { FormDataTranscription, SettingsModalProps } from "../../api/transcribe";
+import { getTranscriptionSettings, type FormDataTranscription, type SettingsModalProps } from "../../api/transcription";
+import { useAuthToken } from "../../auth/useAuthToken";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) => {
     const updateSetting = <K extends keyof FormDataTranscription>( key: K, value: FormDataTranscription[K]) => {
         setSettings(prev => ({ ...prev, [key]: value }));
     };
+
+    const {user,  isAuthenticated } = useAuth0();
+    // const { token, loading } = useAuthToken();
+
+    const useSavedSettings = (e: any) => {
+        const checked = e.target.checked;
+
+        // if (checked) {
+        //     const res = await getTranscriptionSettings(user.sub, token);
+        //     const data = res.data;
+        // }
+
+    }
 
     return(
         <>
@@ -28,30 +43,31 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                         <p className="h4 mb-0">Batch Transcription Settings</p>
                                         <p>Enable/DIsable some features</p>
                                         <hr className=""/>
-                                        <div className="list-group mb-5 shadow text-left">
+
+                                        {isAuthenticated && <div className="list-group mb-5 shadow text-left">
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Use saved settings</strong>
+                                                        <p className="text-dark mb-0">Use saved settings</p>
                                                         <p className="text-muted mb-0">If you previously saved your settings, use this to load it.</p>
                                                     </div>
                                                     <div className="col-auto">
                                                         <div className="custom-control custom-switch">
-                                                            <input type="checkbox" className="custom-control-input" id="savedSettings" />
+                                                            <input type="checkbox" className="custom-control-input" id="savedSettings" onChange={useSavedSettings}/>
                                                             <label className="custom-control-label" htmlFor="savedSettings"></label>
                                                         </div>
                                                     </div> 
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>}
 
-                                        <strong className="mb-0">Language</strong>
+                                        <p className="text-dark mb-0">Language</p>
                                         <p></p>
                                         <div className="list-group mb-5 shadow text-left">
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Language</strong>
+                                                        <p className="text-dark mb-0">Language</p>
                                                         <p className="text-muted mb-0">Main language used in the audio.</p>
                                                     </div>
                                                     <div className="col-auto">
@@ -77,7 +93,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Use alternative languages</strong>
+                                                        <p className="text-dark mb-0">Use alternative languages</p>
                                                         <p className="text-muted mb-0">Other languages that might be used.</p>
                                                     </div> 
                                                     <div className="col-auto">
@@ -95,7 +111,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Alternative languages</strong>
+                                                        <p className="text-dark mb-0">Alternative languages</p>
                                                         <p className="text-muted mb-0">Main language used in the audio.</p>
                                                     </div>
                                                     <div className="col-auto">
@@ -122,13 +138,13 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                             </div>
                                         </div>
 
-                                        <strong className="mb-0">Others</strong>
+                                        <p className="text-dark mb-0">Others</p>
                                         <p>All streaming features.</p>
                                         <div className="list-group mb-5 shadow text-left">
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Punctuation</strong>
+                                                        <p className="text-dark mb-0">Punctuation</p>
                                                         <p className="text-muted mb-0">Add automaticly punctuation to the result.</p>
                                                     </div> 
                                                     <div className="col-auto">
@@ -146,7 +162,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Profanity filter</strong>
+                                                        <p className="text-dark mb-0">Profanity filter</p>
                                                         <p className="text-muted mb-0">Prevent from using explicit word(s).</p>
                                                     </div> 
                                                     <div className="col-auto">
@@ -164,7 +180,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Enable diarization</strong>
+                                                        <p className="text-dark mb-0">Enable diarization</p>
                                                         <p className="text-muted mb-0">Allow AI to recognize multiple speakers.</p>
                                                     </div> 
                                                     <div className="col-auto">
@@ -182,7 +198,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Speaker(s)</strong>
+                                                        <p className="text-dark mb-0">Speaker(s)</p>
                                                         <p className="text-muted mb-0">Number of maximum speakers in the audio.</p>
                                                     </div> 
                                                     <div className="col-auto">
@@ -200,7 +216,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Use adaptation phrase</strong>
+                                                        <p className="text-dark mb-0">Use adaptation phrase</p>
                                                         <p className="text-muted mb-0">You can </p>
                                                     </div> 
                                                     <div className="col-auto">
@@ -218,7 +234,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
-                                                        <strong className="mb-0">Boost adaptation</strong>
+                                                        <p className="text-dark mb-0">Boost adaptation</p>
                                                         <p className="text-muted mb-0">Set how many seconds after the speaker stops talking to end the stream.</p>
                                                     </div> 
                                                     <div className="col-auto">
@@ -236,7 +252,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col-12">
-                                                        <strong className="mb-0">Phrases</strong>
+                                                        <p className="text-dark mb-0">Phrases</p>
                                                         <p className="text-muted">Add sentences/words separated by comma.</p>
                                                     </div> 
                                                     <div className="col-12">

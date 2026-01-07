@@ -9,28 +9,32 @@ import Loading from "../../../components/Loading";
 
 function Profile() {
     // USER PROFILE
-    const token = useAuthToken()
-    // console.log('TOKEN 1 = '+token)
-
-    const { user } = useAuth0();
-    const [loading, setLoading] = useState(true);
+    const { token, loading: tokenLoading } = useAuthToken();
+    const { user, isAuthenticated, isLoading: auth0Loading } = useAuth0();
+    
+    const [profileLoading, setProfileLoading] = useState(true);
 
     const [userData, setUserData] = useState<any>(null);
     useEffect(() => {
+        if (auth0Loading || tokenLoading || !isAuthenticated || !token) {
+            return;
+        }
+
         const fetchUserData = async () => {
             try {
-                const response = (await getMyProfile(token)).json();
-                setUserData(response);
-                // console.log(userData);
+                setProfileLoading(true);
+                const response = await getMyProfile(token);
+                const data = await response.json();
+                setUserData(data);
             } catch (error) {
                 console.log((error as Error).message);
             } finally {
-                setLoading(false);
+                setProfileLoading(false);
             }
         }
 
-        if (user && token) fetchUserData()
-    }, [user, token]);
+        fetchUserData()
+    }, [auth0Loading, tokenLoading, isAuthenticated, token]);
     
     // const location = useLocation();
     // const state = location.state as { message: string };
@@ -105,9 +109,9 @@ function Profile() {
     // }
     // END DANGER ZONE
 
-    if (loading) return (
-        <Loading></Loading>
-    );
+    if (auth0Loading || tokenLoading || profileLoading) {
+        return <Loading />;
+    }
     return (
         <div className="container">
             <p className="page-title h2 mb-0">Profile</p>

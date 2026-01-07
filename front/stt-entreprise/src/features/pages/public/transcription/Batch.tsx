@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import { transcribeShortFile, transcribeLongFile, type FormDataTranscription, batchDefault } from "../../../../api/transcribe";
-import { useAuthToken } from "../../../../auth/useAuthToken";
+import { type FormDataTranscription, batchDefault } from "../../../../api/transcription";
 import FileSettings from "../../../../components/transcription/FileSettings";
+import { useNavigate } from "react-router-dom";
 
 function Transcribe() {
 
   // const [success, setSuccess] = useState<string>();
   const [error, setError] = useState<string>();
   const [fileName, setFileName] = useState<string | null>(null);
-  const [duration, setDuration] = useState<number | null>(null);
+  const [duration, setDuration] = useState<number>(0);
   const [size, setSize] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [settings, setSettings] = useState<FormDataTranscription>(batchDefault);
+  const navigate = useNavigate();
   useEffect(() => {
     console.log('🔧 Streaming Settings mis à jour :', settings);
   }, [settings]);
@@ -29,7 +30,7 @@ function Transcribe() {
         setError("Audio or Video file only can be uploaded. Try again with the correct file.");
         setFile(null);
         setFileName(null);
-        setDuration(null);
+        setDuration(0);
         setSize(null);
         return;
       }
@@ -43,7 +44,7 @@ function Transcribe() {
         if (!isNaN(mediaElement.duration) && isFinite(mediaElement.duration)) {
           setDuration(Math.round(mediaElement.duration));
         } else {
-          setDuration(null);
+          setDuration(0);
         }
         URL.revokeObjectURL(url);
         mediaElement.removeEventListener("loadedmetadata", onLoadedMetadata);
@@ -77,7 +78,6 @@ function Transcribe() {
     }
   };
 
-  const token = useAuthToken()
   const handleUpload = async (e: React.FormEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -90,16 +90,14 @@ function Transcribe() {
     const fd = new FormData();
     fd.append('file', file);
     fd.append('metadata', new Blob([metadataJson], { type: 'application/json' }));
-    // console.log(metadataJson)
 
     try {
-      let response;
-      if (duration) {
-        if (duration < 59) {
-          response = await transcribeShortFile(fd, token);
-        }
-      }
-      response = await transcribeLongFile(fd, token);
+      navigate("/public/layout/summary", {
+        state: {
+          type: duration < 59 ? "short" : "long",
+          formDataTranscript: fd
+        },
+      });
     } catch (error) {
       console.error(error);
       setError("Error connecting to the server.");
@@ -150,7 +148,7 @@ function Transcribe() {
                           </>}
                           {fileName && 
                           <div className="dz-message needsclick mb-5 pt-5 d-flex flex-column align-items-center">
-                              <p className="btn rounded-pill text-dark d-block w-50" style={{backgroundColor: "#afd5f0ff", fontSize: 16}}>
+                              <div className="btn rounded-pill text-dark d-block w-50 mb-3" style={{backgroundColor: "#afd5f0ff", fontSize: 16}}>
                                 <span className="d-flex justify-content-between align-items-center">
                                   <span className="fe fe-file fe-16 mx-1"></span>
                                   <span className="mx-1 text-truncate">{fileName}</span>
@@ -163,7 +161,7 @@ function Transcribe() {
                                     : (<span className="dropdown-item">Unknown</span>)}
                                   </div>
                                 </span>
-                              </p>
+                              </div>
                             <button className="btn btn-primary rounded-pill py-3 px-4 text-light font-weight-bolder" type="submit">Start</button>
                             <FileSettings
                               settings={settings}

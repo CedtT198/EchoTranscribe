@@ -3,22 +3,27 @@ import { useEffect, useRef } from "react";
 import { useAuthToken } from "./auth/useAuthToken";
 
 export const AuthBootstrap = () => {
-    const token = useAuthToken();
-    const { isAuthenticated, isLoading } = useAuth0();
-    // const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+    const { token, loading: tokenLoading } = useAuthToken()
+    const { isAuthenticated, isLoading: auth0Loading } = useAuth0();
 
     const hasSynced = useRef(false);
 
-    console.log("auth bootstrap");
     useEffect(() => {
-        console.log("use effect auth bootstrap");
-        if (!isLoading && isAuthenticated && !hasSynced.current) {
-            hasSynced.current = true;
-            syncUser();
-        }
-    }, [isAuthenticated, isLoading]);
+        console.log("AuthBootstrap effect", {
+            isAuthenticated,
+            auth0Loading,
+            tokenLoading,
+            hasToken: !!token,
+            hasSynced: hasSynced.current,
+        });
 
-    const syncUser = async () => {
+        if (!auth0Loading && !tokenLoading && token && isAuthenticated && !hasSynced.current) {
+            hasSynced.current = true;
+            syncUser(token);
+        }
+    }, [isAuthenticated, auth0Loading, tokenLoading, token]);
+
+    const syncUser = async (token: string) => {
         try {
             // const token = await getAccessTokenSilently();
             await fetch("http://localhost:8080/user/getOrCreate", {
@@ -26,7 +31,7 @@ export const AuthBootstrap = () => {
                     Authorization: `Bearer ${token}`
                 },
             });
-            console.log("token sync user "+token);
+            console.log("User synchronized successfully");
         } catch (e) {
             console.error("User sync failed.", e);
         }

@@ -64,9 +64,33 @@ export const batchDefault: FormDataTranscription = {
   maxPeople: 1
 };
 
+export const getTranscriptionSettings = async (auth0id: any, token: any) => {
+    try {
+        return await axios.post(`http://localhost:8080/transcription/settings'/${encodeURIComponent(auth0id)}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    } catch (error) {
+        throw new Error((error as Error).message);
+    }
+}
+
 export const transcribeShortFile = async (formData: any, token: any) => {
     try {
         return await axios.post('http://localhost:8080/transcription/shortfile', formData, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    } catch (error) {
+        throw new Error((error as Error).message);
+    }
+}
+
+export const getStatusTranscription = async (taskId: any, token: any) => {
+    try {
+        return await axios.get(`http://localhost:8080/transcription/longfile/status/${encodeURIComponent(taskId)}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }

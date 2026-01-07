@@ -6,15 +6,21 @@ interface Props {
     ml: number;
     class: string;
     ph: string;
+    value: string;
+    name: string;
+    onChange: (value: string) => void;
 }
 
 function Textarea(props: Props) {
   const textareaRef = useRef(null);
 
+  
+
   const handleInput = () => {
     const textarea = textareaRef.current;
     textarea.style.height = "auto"; 
     textarea.style.height = textarea.scrollHeight + "px";
+    props.onChange(textarea.value);
   };
 
   return (
@@ -31,8 +37,10 @@ function Textarea(props: Props) {
         border: "none",
         boxShadow: "none"
       }}
+      name={props.name}
       maxLength={props.ml}
-      onInput={handleInput}
+      onChange={handleInput}
+      value={props.value}
     />
   );
 }

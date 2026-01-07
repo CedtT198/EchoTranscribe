@@ -1,0 +1,83 @@
+import axios from 'axios';
+import { useState } from 'react';
+import { getStatusTranscription, transcribeLongFile } from '../api/transcription';
+
+interface Status {
+  status: string; // 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'ERROR';
+  progress: number;
+  transcript?: string;
+  error?: string;
+}
+
+interface UseLongTranscriptionReturn {
+  startTranscription: (fd: any, token: any) => Promise<void>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  status: Status | null;
+  isLoading: boolean;
+  isPolling: boolean;
+  transError: string | null;
+}
+
+export const useTranscript = (): UseLongTranscriptionReturn => {
+  const [status, setStatus] = useState<Status | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPolling, setIsPolling] = useState(false);
+  const [transError, setError] = useState<string | null>(null);
+  const [taskId, setTaskId] = useState<string | null>(null);
+
+  const startPolling = (id: string, token: any) => {
+    setTaskId(id);
+    setIsPolling(true);
+    setError(null);
+    setIsLoading(false); 
+
+    const interval = setInterval(async () => {
+      try {
+        const response = await getStatusTranscription(id, token);
+        const data: Status = response.data;
+
+        setStatus(data);
+
+        if (data.status === 'COMPLETED' || data.status === 'ERROR') {
+          clearInterval(interval);
+          setIsPolling(false);
+        }
+      } catch (err) {
+        console.error('Error polling:', err);
+        clearInterval(interval);
+        setIsPolling(false);
+        setError('Erreur de connexion lors du suivi');
+      }
+    }, 5000);
+
+    getStatusTranscription(id, token);
+  };
+
+  const startTranscription = async (fd: any, token: any) => {
+    // setIsLoading(true);
+    setStatus(null);
+    setError(null);
+    setIsPolling(false);
+
+    try {
+      const res = await transcribeLongFile(fd, token);
+      console.log(res.data.taskId);
+      const receivedTaskId = res.data.taskId;
+      if (receivedTaskId) {
+        startPolling(receivedTaskId, token);
+      }
+    } catch (err: any) {
+      setIsLoading(false);
+      setError(err.response?.data?.error || 'Error sending file.');
+    }
+  };
+
+  return {
+    startTranscription,
+    setIsLoading,
+    status,
+    isLoading,
+    isPolling,
+    transError,
+  };
+};

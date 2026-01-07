@@ -27,7 +27,7 @@ public class TranscriptionController {
     TranscriptionUseCase transcriptionUseCase;
     MediaFileUseCase mediaFileUseCase;
 
-    @GetMapping("/transcribe/longfile/status/{taskId}")
+    @GetMapping("/longfile/status/{taskId}")
     public ResponseEntity<?> getStatus(@PathVariable String taskId) {
         System.out.println("STATUS");
 
