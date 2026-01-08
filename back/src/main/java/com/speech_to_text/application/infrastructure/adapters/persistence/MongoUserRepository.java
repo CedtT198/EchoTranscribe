@@ -21,7 +21,6 @@ interface SpringDataUser extends MongoRepository<UserDocument, String> {
 public class MongoUserRepository implements UserRepository{
 
     private SpringDataUser repo;
-    // private UserMapper mapper;
     private GenericMapper mapper;
 
     @Override

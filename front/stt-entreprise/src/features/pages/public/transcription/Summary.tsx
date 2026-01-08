@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import Textarea from "../../../../components/Textarea";
 import { sumDefault, type FormDataSummary } from "../../../../api/summary";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthToken } from "../../../../auth/useAuthToken";
 import { transcribeShortFile } from "../../../../api/transcription";
 import { useTranscript } from "../../../../auth/useTranscript";
@@ -10,13 +10,56 @@ import Loading from "../../../../components/Loading";
 function Summary() {
   const hasRun = useRef(false);
 
-  const location = useLocation();
-  const { type, formDataTranscript } = location.state || {};
+  const navigate = useNavigate()
 
-  const [bar, setBar] = useState<number>(5);
+  const location = useLocation();
+  const [formData, setFormData] = useState<FormDataSummary>(sumDefault);
+  const { type, formDataTranscript } = location.state || {};
+  
+  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError } = useTranscript();
+  const { token, loading:tokenLoad } = useAuthToken();
+  useEffect(() =>{
+    if (tokenLoad || !token) return;
+    if (!type) setIsLoading(false);
+
+    // dev seulement
+    if (hasRun.current) return;
+    hasRun.current = true;
+    // 
+
+    if (formDataTranscript) {
+      formData.title = formDataTranscript.get('file').name;
+      formData.file = formDataTranscript.get('file').name;
+      formData.language = formDataTranscript.get('language');
+      formData.transcription_type = "batch";
+    }
+
+    const transcript = async () => {
+      try {
+        if (type === "long") {
+          startTranscription(formDataTranscript, token);
+          // console.log(formDataTranscript);
+          // console.log(type+" hono");
+        }
+        else if (type === "short") {
+          const  res = await transcribeShortFile(formDataTranscript, token);
+          formData.content = res.data.transcription;
+          setIsLoading(false)
+
+          // console.log(formDataTranscript);
+          // console.log(type+" hono");
+        }
+      } catch (err: any) {
+        setError(err.response?.data?.error || 'Error transcribing file. Try again.');
+      }
+    }
+    
+    transcript()
+  }, [type, formDataTranscript, token, tokenLoad]);
+
+
   const [error, setError] = useState<string>("");
 
-  const [formData, setFormData] = useState<FormDataSummary>(sumDefault);
   const updateFormData = <K extends keyof FormDataSummary>(field: K, value: FormDataSummary[K]) => {
     setFormData((prev) => ({
       ...prev,
@@ -29,6 +72,7 @@ function Summary() {
     updateFormData("goal", goal);
   };
 
+  const [bar, setBar] = useState<number>(5);
   const handleLengthChange = (length: string) => {
     let value = 5;
     if (length === "short") value = 25;
@@ -43,46 +87,21 @@ function Summary() {
     updateFormData("additional_instruction", e.target.value);
   };
 
-  const [transcript, setTranscript] = useState<string>("");
-
-  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError } = useTranscript();
-  const { token, loading:tokenLoad } = useAuthToken();
-  useEffect(() =>{
-    if (tokenLoad || !token) return;
-    if (!type) setIsLoading(false);
-
-    // dev seulement
-    if (hasRun.current) return;
-    hasRun.current = true;
-    // 
-
-    const transcript = async () => {
-      try {
-        if (type === "long") {
-          startTranscription(formDataTranscript, token);
-          // console.log(formDataTranscript);
-          // console.log(type+" hono");
-        }
-        else if (type === "short") {
-          const  res = await transcribeShortFile(formDataTranscript, token);
-          setTranscript(res.data.transcription);
-          setIsLoading(false)
-
-          // console.log(formDataTranscript);
-          // console.log(type+" hono");
-        }
-      } catch (err: any) {
-        setError(err.response?.data?.error || 'Error transcribing file. Try again.');
-      }
-    }
-    
-    transcript()
-  }, [type, formDataTranscript, token, tokenLoad]);
-
-  const submit = (e: React.FormEvent) => {
+  const summarize = (e: React.FormEvent) => {
     e.preventDefault();
     console.table(formData);
-  }
+  };
+
+  const handleExport= () => {
+    navigate("/public/layout/export", {
+      state: {
+        formDataSummary: formData
+      },
+    });
+  };
+
+  const saveTranscription = () => {};
+
 
   if (transLoading) {
     return (<Loading></Loading>)
@@ -121,26 +140,26 @@ function Summary() {
           <div className="col-md-12 p-0">
             <div className="card shadow mb-4">
               <div className="card-body">
-                <form onSubmit={submit} className="container row m-0">
+                <form onSubmit={summarize} className="container row m-0">
                   <div className="col-12 mb-4">
                     {/* title */}
                     <Textarea fs={45} mh={10} ml={200} class="text-primary" onChange={(value) => updateFormData("title", value)} value={formData.title} ph="Title" name=""></Textarea> 
                     <Textarea fs={22} mh={10} ml={200} class="text-muted" onChange={(value) => updateFormData("subtitle", value)} value={formData.subtitle} ph="Subtitle" name=""></Textarea>
                   </div>
                   <div className="col-md-12 mb-5">
-                    <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={transcript}></Textarea> 
+                    <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formData.content}></Textarea> 
                   </div>
                   <div className="col-12 mb-5">
                     <div className="text-center d-flex justify-content-center align-items-center">
                       <div className="bg-dark p-1 rounded-pill">
-                        <a className="btn btn rounded-pill mx-1 text-light" type="button" href="/public/layout/export">
+                        <a className="btn btn rounded-pill mx-1 text-light" type="button" onClick={handleExport}>
                           <span className="fe fe-info fe-16 mr-1"></span>
                           <span>Download/Export</span>
                         </a>
                         <button className="btn btn-primary rounded-pill mx-1 text-light" type="button">
                           <span className="fe fe-info fe-16 mr-1"></span>AI Summary
                         </button>
-                        <a className="btn btn rounded-pill mx-1 text-light" type="button" href="">
+                        <a className="btn btn rounded-pill mx-1 text-light" type="button" onClick={saveTranscription}>
                           <span className="fe fe-cloud fe-16 mr-1"></span>
                           <span>Save</span>
                         </a>
@@ -185,6 +204,19 @@ function Summary() {
                           </div>
                         </div>
                       </div>
+                      
+                      {!formData.transcription_type && <div className="offset-md-3 col-md-6 offset-lg-3 col-lg-6 col-xs-12 p-0 mb-5 text-center">
+                        <label htmlFor="language">Language</label>
+                        <select className="form-control" id="language" onChange={(e) => updateFormData("language", e.target.value)}>
+                            <optgroup label="America">
+                                <option value="en" selected>English</option>
+                                <option value="br">Brazil</option>
+                            </optgroup>
+                            <optgroup label="Europe">
+                                <option value="fr">French</option>
+                            </optgroup>
+                        </select>
+                      </div>}
 
                       <div className="col-12 d-flex justify-content-center">
                         <div className="col-md-10 col-lg-10 col-xs-12">

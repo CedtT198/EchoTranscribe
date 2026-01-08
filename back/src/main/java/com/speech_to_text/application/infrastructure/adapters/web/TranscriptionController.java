@@ -1,19 +1,23 @@
 package com.speech_to_text.application.infrastructure.adapters.web;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import com.speech_to_text.application.domain.model.DTO.TranscriptionFilterDto;
 import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
-import com.speech_to_text.application.domain.port.in.MediaFileUseCase;
+import com.speech_to_text.application.domain.model.transcription.Transcription;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
 import com.speech_to_text.application.domain.service.independant.TaskStatus;
 import lombok.AllArgsConstructor;
@@ -24,7 +28,47 @@ import lombok.AllArgsConstructor;
 public class TranscriptionController {
 
     private final TranscriptionUseCase transcriptionUseCase;
-    private final MediaFileUseCase mediaFileUseCase;
+
+    @GetMapping("/findByFilters")
+    public ResponseEntity<?> findByFilters(@RequestBody TranscriptionFilterDto filter) {
+        return ResponseEntity.ok(transcriptionUseCase.findByFilters(filter));
+    }
+
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(transcriptionUseCase.findAll());
+    }
+
+
+    @GetMapping("/findByAuth0Id/{auth0Id}")
+    public ResponseEntity<?> findByAuth0Id(@PathVariable String auth0Id) {
+        return ResponseEntity.ok(transcriptionUseCase.findAllByAuth0Id(auth0Id));
+    }
+    
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        System.err.println("delete vohantso");
+        return ResponseEntity.ok(transcriptionUseCase.delete(auth0Id));
+    }
+
+
+    @PostMapping("/update")
+    public ResponseEntity<?> update(@RequestBody Transcription transcription) {
+        return ResponseEntity.ok(transcriptionUseCase.update(transcription));
+    }
+
+
+    @PostMapping("/save")
+    public ResponseEntity<?> save(@RequestBody Transcription transcription) {
+        Map<String, String> res = new HashMap<>();
+
+        transcriptionUseCase.save(transcription);
+        
+        res.put("success", "Transcription saved.");
+        return ResponseEntity.status(200).body(res);
+    }
 
 
     @GetMapping("/longfile/status/{taskId}")

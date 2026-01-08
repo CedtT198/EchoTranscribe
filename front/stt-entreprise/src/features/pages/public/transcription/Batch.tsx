@@ -89,19 +89,15 @@ function Transcribe() {
     const metadataJson = JSON.stringify(settings);
     const fd = new FormData();
     fd.append('file', file);
+    fd.append('language', settings.mainLanguage);
     fd.append('metadata', new Blob([metadataJson], { type: 'application/json' }));
 
-    try {
-      navigate("/public/layout/summary", {
-        state: {
-          type: duration < 59 ? "short" : "long",
-          formDataTranscript: fd
-        },
-      });
-    } catch (error) {
-      console.error(error);
-      setError("Error connecting to the server.");
-    }
+    navigate("/public/layout/summary", {
+      state: {
+        type: duration < 59 ? "short" : "long",
+        formDataTranscript: fd
+      },
+    });
   }
 
 

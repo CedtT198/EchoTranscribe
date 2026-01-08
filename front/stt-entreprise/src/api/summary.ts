@@ -16,13 +16,13 @@ export interface FormDataSummary {
 
 export const sumDefault: FormDataSummary = {
     file: "",
-    language: "en",
+    language: "",
     content: "",
     title: "",
     subtitle: "",
     summary: "",
-    goal: "paragraph",
-    length: 25,
+    goal: "",
+    length: "",
     additional_instruction: "",
     transcription_type: "",
 };

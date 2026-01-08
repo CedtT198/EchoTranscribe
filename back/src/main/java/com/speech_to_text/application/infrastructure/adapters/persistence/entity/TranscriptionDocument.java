@@ -14,7 +14,7 @@ public class TranscriptionDocument {
     @Id
     String id;
 
-    String auth0id;
+    String auth0Id;
     String file;
     String language;
     String content;
@@ -23,7 +23,7 @@ public class TranscriptionDocument {
     String summary;
     String goal;
     String length;
-    String additional_instruction;
-    String transcription_type;
-    String creation_Date;
+    String additionalInstruction;
+    String transcriptionType;
+    String creationDate;
 }

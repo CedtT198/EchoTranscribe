@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Transcription {
     String id;
-    String auth0id;
+    String auth0Id;
     String file;
     String language;
     String content;
@@ -18,7 +18,7 @@ public class Transcription {
     String summary;
     String goal;
     String length;
-    String additional_instruction;
-    String transcription_type;
-    String creation_Date;
+    String additionalInstruction;
+    String transcriptionType;
+    String creationDate;
 }

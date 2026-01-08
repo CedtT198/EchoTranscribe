@@ -3,14 +3,12 @@ package com.speech_to_text.application.domain.service.withDependance;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.WebSocketSession;
-
 import com.google.api.gax.longrunning.OperationFuture;
 import com.google.api.gax.rpc.ClientStream;
 import com.google.api.gax.rpc.ResponseObserver;
@@ -18,15 +16,15 @@ import com.google.api.gax.rpc.StreamController;
 import com.google.cloud.speech.v2.*;
 import com.google.cloud.speech.v2.SpeechAdaptation.AdaptationPhraseSet;
 import com.google.protobuf.ByteString;
-// import com.google.cloud.speech.v1.*;
+import com.speech_to_text.application.domain.model.DTO.TranscriptionFilterDto;
 import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
 import com.speech_to_text.application.domain.model.config.GoogleCloud;
 import com.speech_to_text.application.domain.model.transcription.Transcription;
 import com.speech_to_text.application.domain.port.in.MediaFileUseCase;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
+import com.speech_to_text.application.domain.port.out.TranscriptionRepository;
 import com.speech_to_text.application.domain.port.out.TranscriptionSettingsRepository;
 import com.speech_to_text.application.domain.service.independant.TaskStatus;
-
 import lombok.AllArgsConstructor;
 
 @Service
@@ -37,37 +35,16 @@ public class TranscriptionService implements TranscriptionUseCase {
     private final GoogleCloud gcloud;
     private final MediaFileUseCase mediaFileUseCase;
     private final TranscriptionSettingsRepository repo;
+    private final TranscriptionRepository transcriptionRepo;
 
 
     @Override
-    public List<Transcription> findAll() { return null;}
+    public List<Transcription> findByFilters(TranscriptionFilterDto dto) {
+        return transcriptionRepo.findByFilters(dto.getAuth0Id(), dto.getStartDate(), dto.getEndDate(), dto.getContentPhrase(), dto.getSummaryPhrase(), dto.getTranscriptionType());
+    }
     
-    @Override
-    public List<Transcription> findAllBetween(LocalDate startDate, LocalDate endDate) { return null;}
     
-    @Override
-    public List<Transcription> findAllBetween(String auth0id, LocalDate startDate, LocalDate endDate) { return null;}
     
-    @Override
-    public List<Transcription> searchInContent(String phrase) { return null;}
-    
-    @Override
-    public List<Transcription> searchInSummary(String phrase) { return null;}
-    
-    @Override
-    public List<Transcription> findAllByAuth0Id(String auth0id) { return null;}
-    
-    @Override
-    public Transcription save(Transcription Transcription) { return null;}
-    
-    @Override
-    public Transcription update(String auth0id, Transcription Transcription) { return null; }
-
-    @Override
-    public boolean delete(String auth0id) { return false; }
-
-
-
     @Override
     public void initStreamingConfig(WebSocketSession session, TranscriptionSettings settings) throws Exception {
         String recognizer = gcloud.getGlobalRecognizer();
@@ -434,5 +411,39 @@ public class TranscriptionService implements TranscriptionUseCase {
         }
         transcript.append("Speaker "+currentSpeaker+": "+currentPhrase.toString().trim()+"\n");
         return transcript.toString();
+    }
+
+
+    
+    @Override
+    public List<Transcription> findAll() {
+        return transcriptionRepo.findAll();
+    }
+
+    
+    @Override
+    public List<Transcription> findAllByAuth0Id(String auth0id) {
+        return transcriptionRepo.findAllByAuth0Id(auth0id);
+    }
+
+
+    
+    @Override
+    public Transcription save(Transcription Transcription) {
+        return transcriptionRepo.save(Transcription);
+    }
+
+
+    
+    @Override
+    public Transcription update(Transcription transcription) {
+        return transcriptionRepo.update(transcription);
+    }
+
+
+
+    @Override
+    public boolean delete(String auth0id) {
+        return transcriptionRepo.delete(auth0id);
     }
 }
