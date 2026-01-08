@@ -126,27 +126,77 @@ db.review.insertMany([
    }
 ])
 
-db.createCollection("transcribing")
-db.transcribing.insertMany([
+db.createCollection("transcription")
+db.transcription.insertMany([
    {
-      title: "Meeting with the dev team",
-      subtitle: "Subtitle",
-      content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
-      summary: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
-      date: new Date(),
-      file: "file.mp4",
-      transcribingType:"batch",
-      summaryType:"Standard",
-      user: "client1@gmail.com"
+      file: "",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Transcription complète du podcast sur l'intelligence artificielle et ses impacts sociétaux...",
+      title: "L'IA et l'avenir du travail",
+      subtitle: "Comment l'intelligence artificielle transforme les emplois",
+      summary: "Ce podcast explore les opportunités et défis posés par l'IA dans le monde professionnel.",
+      goal: "paragraph",
+      length: "short",
+      additionalInstruction: "Mettre l'accent sur les exemples concrets d'entreprises.",
+      transcriptionType: "live",
+      creationDate: new Date("2026-03-15")
    },
    {
-      title: "Live conversation between alice and bob",
-      content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
-      summary: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
-      date: new Date(),
-      transcribingType:"live",
-      summaryType:"decisional",
-      user: "client1@gmail.com"
+      file: "conference_2025.mp4",
+      language: "en",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Full transcript of the keynote speech about climate change and sustainable development...",
+      title: "Climate Action Now",
+      subtitle: "Urgent steps towards a sustainable future",
+      summary: "A compelling call to action on global warming and renewable energies.",
+      goal: "paragraph",
+      length: "short",
+      additionalInstruction: "Inclure les questions-réponses de l'audience.",
+      transcriptionType: "batch",
+      creationDate: new Date("2026-11-22")
+   },
+   {
+      file: "",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Entretien avec le fondateur d'une startup innovante en santé numérique...",
+      title: "Révolutionner la santé avec la tech",
+      subtitle: "Entretien exclusif avec Dr. Marie Dupont",
+      summary: "Discussion sur les applications mobiles pour le suivi médical personnel.",
+      goal: "paragraph",
+      length: "short",
+      additionalInstruction: "Ajouter des notes sur les références scientifiques mentionnées.",
+      transcriptionType: "live",
+      creationDate: new Date("2026-09-08")
+   },
+   {
+      file: "webinar_ia.mp3",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Transcription du webinar sur les bases de l'apprentissage automatique...",
+      title: "Introduction à l'IA",
+      subtitle: "Pour les débutants en machine learning",
+      summary: "Un cours introductif couvrant les concepts fondamentaux de l'IA.",
+      goal: "paragraph",
+      length: "long",
+      additionalInstruction: "Inclure des exemples de code simples.",
+      transcriptionType: "batch",
+      creationDate: new Date("2026-06-30")
+   },
+   {
+      file: "",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Transcription du débat télévisé entre candidats aux élections...",
+      title: "Débat présidentiel 2026",
+      subtitle: "Économie, éducation et environnement",
+      summary: "Échanges vifs sur les priorités nationales.",
+      goal: "paragraph",
+      length: "long",
+      additionalInstruction: "Marquer les interruptions et applaudissements.",
+      transcriptionType: "live",
+      creationDate: new Date("2026-01-05")
    }
 ])
 

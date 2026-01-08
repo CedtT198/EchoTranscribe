@@ -1,6 +1,8 @@
 package com.speech_to_text.application.domain.port.in;
 
 import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.WebSocketSession;
 import com.speech_to_text.application.domain.model.DTO.TranscriptionFilterDto;
@@ -8,9 +10,9 @@ import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
 import com.speech_to_text.application.domain.model.transcription.Transcription;
 
 public interface TranscriptionUseCase {
-    public List<Transcription> findByFilters(TranscriptionFilterDto dto);
+    public Page<Transcription> findByFilters(TranscriptionFilterDto dto, Pageable pageable);
     public List<Transcription> findAll();
-    public List<Transcription> findAllByAuth0Id(String id);
+    public Page<Transcription> findAllByAuth0Id(String id, Pageable pageable);
     public Transcription save(Transcription transcription);
     public Transcription update(Transcription transcription);
     public boolean delete(String id);

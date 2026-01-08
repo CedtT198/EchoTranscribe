@@ -4,15 +4,22 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import com.speech_to_text.application.domain.model.DTO.TranscriptionFilterDto;
@@ -29,9 +36,29 @@ public class TranscriptionController {
 
     private final TranscriptionUseCase transcriptionUseCase;
 
-    @GetMapping("/findByFilters")
-    public ResponseEntity<?> findByFilters(@RequestBody TranscriptionFilterDto filter) {
-        return ResponseEntity.ok(transcriptionUseCase.findByFilters(filter));
+    @PostMapping("/findByFilters")
+    public ResponseEntity<?> findByFilters(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "createdDate,desc") String sort,
+        @RequestBody TranscriptionFilterDto filter)
+    {
+        Sort.Direction direction = Sort.Direction.fromString(sort.split(",")[1]);
+        String sortProperty = sort.split(",")[0];
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortProperty));
+        
+        // if (filter.getContentPhrase() != null) {
+        //     filter.setContentPhrase(filter.getContentPhrase().trim().isEmpty() ? null : filter.getContentPhrase().trim());
+        // }
+        // if (filter.getSummaryPhrase() != null) {
+        //     filter.setSummaryPhrase(filter.getSummaryPhrase().trim().isEmpty() ? null : filter.getSummaryPhrase().trim());
+        // }
+
+        Page<Transcription> transcriptionPage = transcriptionUseCase.findByFilters(filter, pageable);
+
+        // Conversion en DTO si nécessaire
+        // Page<TranscriptionDto> dtoPage = transcriptionPage.map(this::convertToDto);
+        return ResponseEntity.ok(transcriptionPage);
     }
 
 
@@ -41,16 +68,30 @@ public class TranscriptionController {
     }
 
 
-    @GetMapping("/findByAuth0Id/{auth0Id}")
-    public ResponseEntity<?> findByAuth0Id(@PathVariable String auth0Id) {
-        return ResponseEntity.ok(transcriptionUseCase.findAllByAuth0Id(auth0Id));
+    @GetMapping("/findAllById")
+    public ResponseEntity<?> findAllByAuth0Id(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "createdDate,desc") String sort,
+        @RequestParam String auth0Id)
+    {
+        Sort.Direction direction = Sort.Direction.fromString(sort.split(",")[1]);
+        String sortProperty = sort.split(",")[0];
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortProperty));
+
+        // Appel du service
+        Page<Transcription> transcriptionPage = transcriptionUseCase.findAllByAuth0Id(auth0Id, pageable);
+
+        // Conversion en DTO si nécessaire
+        // Page<TranscriptionDto> dtoPage = transcriptionPage.map(this::convertToDto);
+        return ResponseEntity.ok(transcriptionPage);
     }
     
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
         System.err.println("delete vohantso");
-        return ResponseEntity.ok(transcriptionUseCase.delete(auth0Id));
+        return ResponseEntity.ok(transcriptionUseCase.delete(id));
     }
 
 

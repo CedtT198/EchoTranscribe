@@ -8,8 +8,8 @@ function Pricing () {
     useEffect(() => {
         const fetchSubs = async () => {
             try {
-                const data = await (await findAllSubType()).json();
-                setSub(data);
+                const res = await findAllSubType();
+                setSub(res.data);
             } catch (err) {
                 console.log((err as Error).message);
             }

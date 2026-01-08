@@ -1,6 +1,3 @@
-import axios from "axios";
-// import { apiPost } from "./api";
-
 export interface FormDataSummary {
     file: string,
     language: string, 

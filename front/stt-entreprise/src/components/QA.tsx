@@ -15,8 +15,8 @@ function QA ({ about }: QAProps) {
 
         const fetchQAs = async () => {
             try {
-                const data = await (await findAllQA(url)).json();
-                setQA(data);
+                const res = await findAllQA(url);
+                setQA(res.data);
                 // console.log("QAS "+data);
             } catch (err) {
                 console.log((err as Error).message);

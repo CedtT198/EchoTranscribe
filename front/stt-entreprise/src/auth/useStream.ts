@@ -7,7 +7,10 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
     const [error, setError] = useState<string>();
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const wsRef = useRef<WebSocket | null>(null);
+
     const [transcripts, setTranscripts] = useState<string[]>([]);
+    const [currentInterim, setCurrentInterim] = useState<string>('');
+    
     const { user } = useAuth0();
 
     const startRecording = async () => {
@@ -43,12 +46,19 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
 
                     switch (data.type) {
                     case 'received':
-                        console.log('Serveur a bien reçu userInfo');
+                        console.log('Server got the messsage.');
                         break;
 
                     case 'transcript':
-                        console.log('Transcription:', data.transcript, 'final:', data.isFinal);
-                        setTranscripts(prev => [...prev,`[${data.isFinal ? 'FINAL' : 'INTERIM'}] ${data.transcript}`]);
+                        if (data.isFinal) {
+                            console.log('Transcription:', data.transcript, 'final:', data.isFinal);
+                            // setTranscripts(prev => [...prev,`[${data.isFinal ? 'FINAL' : 'INTERIM'}] ${data.transcript}`]);
+                            setTranscripts(prev => [...prev, data.transcript.trim()]);
+                            setCurrentInterim('');
+                        }
+                        else {
+                            setCurrentInterim(data.transcript.trim());
+                        }
                         break;
 
                     case 'error':
@@ -57,8 +67,15 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
                         break;
 
                     default:
-                        console.log('Message received: ', data);
-                        setTranscripts(prev => [...prev,`[${data.isFinal ? 'FINAL' : 'INTERIM'}] ${data.transcript}`]);
+                        if (data.isFinal) {
+                            console.log('Transcription:', data.transcript, 'final:', data.isFinal);
+                            setTranscripts(prev => [...prev, data.transcript.trim()]);
+                            setCurrentInterim('');
+                        }
+                        else {
+                            setCurrentInterim(data.transcript.trim());
+                        }
+                        break;
                     }
                 } catch (e) {
                     console.log('Message received is not JSON:', event.data);
@@ -99,6 +116,7 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
     stopRecording,
     recording,
     transcripts,
+    currentInterim,
     error,
   };
 };

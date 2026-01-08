@@ -3,14 +3,17 @@ import Textarea from "../../../../components/Textarea";
 import {  type FormDataSummary } from "../../../../api/summary";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../../../components/Loading";
+import { download, exportDefault, type FormDataToExport } from "../../../../api/export";
 
 function Export() {
   const location = useLocation();
   const { formDataSummary: fd } = location.state || {};
+  const [error, setError] = useState<string>("");
   
   const navigate = useNavigate();
   const hasRun = useRef(false);
-  const [formData, setFormData] = useState<FormDataSummary | null>(null);
+  const [formDataTranscription, setFormDataTranscription] = useState<FormDataSummary | null>(null);
+  const [formData, setFormData] = useState<FormDataToExport>(exportDefault);
   useEffect(() => {
     // dev seulement
     if (hasRun.current) return;
@@ -19,7 +22,8 @@ function Export() {
 
     console.log(fd);
     if (fd) {
-      setFormData(fd as FormDataSummary);
+      setFormDataTranscription(fd as FormDataSummary);
+      formData.transcription = fd;
     } else {
       navigate('/notfound', { replace: true });
     }
@@ -28,25 +32,31 @@ function Export() {
   // const [error, setError] = useState<string>("");
 
   const updateFormData = <K extends keyof FormDataSummary>(field: K, value: FormDataSummary[K]) => {
-    setFormData((prev) => ({
+    setFormDataTranscription((prev) => ({
       ...prev,
       [field]: value,
     }));
-    console.log(formData);
+    console.log(formDataTranscription);
   };
 
   const handleTypeChange = (type: string) => {
-    updateFormData("type", type);
+    formData.type = type;
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.table(formData);
+    // console.table(formData);
+    
+    try {
+      await download(formData);
+    } catch (err: any) {
+      setError(err);
+    }
   };
 
   const saveSummary = () => {};
 
-  if (!formData) {
+  if (!formDataTranscription) {
     return (<Loading></Loading>)
   }
   return (
@@ -63,19 +73,19 @@ function Export() {
                 <form onSubmit={submit} className="container row m-0">
                   <div className="col-12 mb-4">
                     {/* title */}
-                      <Textarea fs={45} mh={10} ml={200} class="text-primary d-inline" onChange={(value) => updateFormData("title", value)} value={formData.title} ph="Title" name=""></Textarea> 
-                      <Textarea fs={22} mh={10} ml={200} class="text-muted" onChange={(value) => updateFormData("subtitle", value)} value={formData.subtitle} ph="Subtitle" name=""></Textarea>
+                      <Textarea fs={45} mh={10} ml={200} class="text-primary d-inline" onChange={(value) => updateFormData("title", value)} value={formDataTranscription.title} ph="Title" name=""></Textarea> 
+                      <Textarea fs={22} mh={10} ml={200} class="text-muted" onChange={(value) => updateFormData("subtitle", value)} value={formDataTranscription.subtitle} ph="Subtitle" name=""></Textarea>
                   </div>
                   <div className="col-md-12 mb-5">
-                      <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formData.content}></Textarea> 
+                      <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formDataTranscription.content}></Textarea> 
                   </div>
                   <div className="container mb-4">
                     <div className="row">
 
                       <div className="col-12">
                         <div className="radio-group-rounded">
-                          <input type="radio" className="" id="docxs" name="type" required onChange={() => handleTypeChange("docxs")}/>
-                          <label htmlFor="docxs">docxs</label>
+                          <input type="radio" className="" id="docx" name="type" required onChange={() => handleTypeChange("docx")}/>
+                          <label htmlFor="docx">docx</label>
 
                           <input type="radio" className="" id="pdf" name="type" required onChange={() => handleTypeChange("pdf")}/>
                           <label htmlFor="pdf">pdf</label>
@@ -99,6 +109,10 @@ function Export() {
                         </button>
                       </div>
                     </div>
+                    
+                    {error && <div className="alert alert-danger" role="alert">
+                      <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
+                    </div>}
                   </div>
                 </form>
               </div>

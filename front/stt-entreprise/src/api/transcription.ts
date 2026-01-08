@@ -1,5 +1,30 @@
-import axios from "axios";
-// import { apiPost } from "./api";
+import api from "./api";
+
+export const getTranscriptions = async (filter: TranscriptionFilter) => {
+    try {
+        return await api.post(`/transcription/findByFilters?page=0&size=10&sort=createdDate,desc`, filter)
+    } catch (error) {
+        throw new Error((error as Error).message);
+    }
+}
+
+export interface TranscriptionFilter {
+    auth0Id: string
+    startDate: string
+    endDate: string
+    contentPhrase: string
+    summaryPhrase: string
+    transcriptionType: string
+}
+
+export const filterDefault: TranscriptionFilter = {
+    auth0Id: "",
+    startDate: "",
+    endDate: "",
+    contentPhrase: "",
+    summaryPhrase: "",
+    transcriptionType: ""
+}
 
 export interface SettingsModalProps {
     settings: FormDataTranscription;
@@ -64,49 +89,25 @@ export const batchDefault: FormDataTranscription = {
   maxPeople: 1
 };
 
-export const getTranscriptionSettings = async (auth0id: any, token: any) => {
+export const transcribeShortFile = async (formData: any) => {
     try {
-        return await axios.post(`http://localhost:8080/transcription/settings'/${encodeURIComponent(auth0id)}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
+        return await api.post('/transcription/shortfile', formData)
     } catch (error) {
         throw new Error((error as Error).message);
     }
 }
 
-export const transcribeShortFile = async (formData: any, token: any) => {
+export const getStatusTranscription = async (taskId: any) => {
     try {
-        return await axios.post('http://localhost:8080/transcription/shortfile', formData, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
+        return await api.get(`/transcription/longfile/status/${encodeURIComponent(taskId)}`)
     } catch (error) {
         throw new Error((error as Error).message);
     }
 }
 
-export const getStatusTranscription = async (taskId: any, token: any) => {
+export const transcribeLongFile = async (formData: any) => {
     try {
-        return await axios.get(`http://localhost:8080/transcription/longfile/status/${encodeURIComponent(taskId)}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-    } catch (error) {
-        throw new Error((error as Error).message);
-    }
-}
-
-export const transcribeLongFile = async (formData: any, token: any) => {
-    try {
-        return await axios.post('http://localhost:8080/transcription/longfile', formData, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
+        return await api.post('/transcription/longfile', formData)
     } catch (error) {
         throw new Error((error as Error).message);
     }

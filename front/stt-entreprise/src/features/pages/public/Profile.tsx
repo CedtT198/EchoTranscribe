@@ -4,28 +4,24 @@ import type { FormDataUpdateUser, ValidationErrors} from '../../../components/Gl
 import { deleteUser, getMyProfile, updateUser } from "../../../api/user";
 import { useAuth0 } from "@auth0/auth0-react";
 import AutoLogout from "../../../components/AutoLogout";
-import { useAuthToken } from "../../../auth/useAuthToken";
 import Loading from "../../../components/Loading";
+import { useAuth } from "../../../auth/useAuth";
 
 function Profile() {
     // USER PROFILE
-    const { token, loading: tokenLoading } = useAuthToken();
     const { user, isAuthenticated, isLoading: auth0Loading } = useAuth0();
     
     const [profileLoading, setProfileLoading] = useState(true);
 
     const [userData, setUserData] = useState<any>(null);
     useEffect(() => {
-        if (auth0Loading || tokenLoading || !isAuthenticated || !token) {
-            return;
-        }
+        if (auth0Loading || !isAuthenticated) return;
 
         const fetchUserData = async () => {
             try {
                 setProfileLoading(true);
-                const response = await getMyProfile(token);
-                const data = await response.json();
-                setUserData(data);
+                const res = await getMyProfile();
+                setUserData(res.data);
             } catch (error) {
                 console.log((error as Error).message);
             } finally {
@@ -34,7 +30,7 @@ function Profile() {
         }
 
         fetchUserData()
-    }, [auth0Loading, tokenLoading, isAuthenticated, token]);
+    }, [auth0Loading, isAuthenticated]);
     
     // const location = useLocation();
     // const state = location.state as { message: string };
@@ -71,12 +67,11 @@ function Profile() {
         console.log(formData);
         
         try {
-            const response = await updateUser(formData);
-            const data = await response.json();
-
+            const res = await updateUser(formData);
+            const data = res.data;
             console.log(data);
 
-            if (response.ok) {
+            if (data.success) {
                 setSuccess(data.success)
             } else if (data.errors) {
                 setErrors(data.errors);
@@ -93,11 +88,14 @@ function Profile() {
 
     // DANGER ZONE
     // Delete
+    // const { logoutAuth0 } = useAuth();
     const deleteAccount = async () => {
         try {
-            const deleted = await deleteUser(user.sub, token);
-            console.log("deleted: "+deleted); 
-            <AutoLogout shouldLogout={deleted} />
+            const res = await deleteUser(user.sub);
+            const data = res.data;
+            console.log("deleted: "+data); 
+            // logoutAuth0();
+            <AutoLogout shouldLogout={data} />
         } catch (error) {
             console.log((error as Error).message);
         }
@@ -109,7 +107,7 @@ function Profile() {
     // }
     // END DANGER ZONE
 
-    if (auth0Loading || tokenLoading || profileLoading) {
+    if (auth0Loading || profileLoading) {
         return <Loading />;
     }
     return (

@@ -12,7 +12,7 @@ const StreamingSettings: React.FC<SettingsModalProps> = ({ settings, setSettings
                 <span className="fe fe-settings fe-16 text-primary"></span>
             </button>
             
-            <div className="modal fade modal-full" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div className="modal fade modal-full" tabIndex={-1} role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered mt-0 pt-0" role="document">
                     <div className="modal-content">
                         <div className="modal-body text-center m-0 p-0">

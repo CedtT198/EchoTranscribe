@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
@@ -39,8 +41,8 @@ public class TranscriptionService implements TranscriptionUseCase {
 
 
     @Override
-    public List<Transcription> findByFilters(TranscriptionFilterDto dto) {
-        return transcriptionRepo.findByFilters(dto.getAuth0Id(), dto.getStartDate(), dto.getEndDate(), dto.getContentPhrase(), dto.getSummaryPhrase(), dto.getTranscriptionType());
+    public Page<Transcription> findByFilters(TranscriptionFilterDto dto, Pageable pageable) {
+        return transcriptionRepo.findByFilters(dto.getAuth0Id(), dto.getStartDate(), dto.getEndDate(), dto.getContentPhrase(), dto.getSummaryPhrase(), dto.getTranscriptionType(), pageable);
     }
     
     
@@ -422,8 +424,8 @@ public class TranscriptionService implements TranscriptionUseCase {
 
     
     @Override
-    public List<Transcription> findAllByAuth0Id(String auth0id) {
-        return transcriptionRepo.findAllByAuth0Id(auth0id);
+    public Page<Transcription> findAllByAuth0Id(String auth0id, Pageable pageable) {
+        return transcriptionRepo.findAllByAuth0Id(auth0id, pageable);
     }
 
 

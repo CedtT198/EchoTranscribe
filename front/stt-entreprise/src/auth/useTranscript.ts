@@ -10,7 +10,7 @@ interface Status {
 }
 
 interface UseLongTranscriptionReturn {
-  startTranscription: (fd: any, token: any) => Promise<void>;
+  startTranscription: (fd: any) => Promise<void>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   status: Status | null;
   isLoading: boolean;
@@ -25,7 +25,7 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
   const [transError, setError] = useState<string | null>(null);
   const [taskId, setTaskId] = useState<string | null>(null);
 
-  const startPolling = (id: string, token: any) => {
+  const startPolling = (id: string) => {
     setTaskId(id);
     setIsPolling(true);
     setError(null);
@@ -33,7 +33,7 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
 
     const interval = setInterval(async () => {
       try {
-        const response = await getStatusTranscription(id, token);
+        const response = await getStatusTranscription(id);
         const data: Status = response.data;
 
         setStatus(data);
@@ -50,21 +50,21 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
       }
     }, 5000);
 
-    getStatusTranscription(id, token);
+    getStatusTranscription(id);
   };
 
-  const startTranscription = async (fd: any, token: any) => {
+  const startTranscription = async (fd: any) => {
     // setIsLoading(true);
     setStatus(null);
     setError(null);
     setIsPolling(false);
 
     try {
-      const res = await transcribeLongFile(fd, token);
+      const res = await transcribeLongFile(fd);
       console.log(res.data.taskId);
       const receivedTaskId = res.data.taskId;
       if (receivedTaskId) {
-        startPolling(receivedTaskId, token);
+        startPolling(receivedTaskId);
       }
     } catch (err: any) {
       setIsLoading(false);

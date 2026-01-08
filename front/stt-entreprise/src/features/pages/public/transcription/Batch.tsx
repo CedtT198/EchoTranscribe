@@ -13,9 +13,9 @@ function Transcribe() {
   const [file, setFile] = useState<File | null>(null);
   const [settings, setSettings] = useState<FormDataTranscription>(batchDefault);
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log('🔧 Streaming Settings mis à jour :', settings);
-  }, [settings]);
+  // useEffect(() => {
+  //   console.log('🔧 Streaming Settings mis à jour :', settings);
+  // }, [settings]);
 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +95,8 @@ function Transcribe() {
     navigate("/public/layout/summary", {
       state: {
         type: duration < 59 ? "short" : "long",
-        formDataTranscript: fd
+        formDataTranscript: fd,
+        transType: "Batch"
       },
     });
   }

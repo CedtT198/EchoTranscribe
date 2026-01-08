@@ -1,10 +1,16 @@
 package com.speech_to_text.application.infrastructure.adapters.persistence;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.speech_to_text.application.domain.model.transcription.Transcription;
 import com.speech_to_text.application.domain.port.out.TranscriptionRepository;
@@ -13,20 +19,7 @@ import com.speech_to_text.application.infrastructure.adapters.persistence.entity
 import lombok.AllArgsConstructor;
 
 interface SpringDataTranscription extends MongoRepository<TranscriptionDocument, String> {
-    List<TranscriptionDocument> findAllByAuth0Id(String auth0Id);
-
-    @Query("""
-    {
-      ?#{[0] == null ? '{}' : {'auth0Id': [0]} },
-      ?#{[1] == null ? '{}' : {'creationDate': {'$gte': [1]}} },
-      ?#{[2] == null ? '{}' : {'creationDate': {'$lte': [2]}} },
-      ?#{[3] == null || [3].trim().isEmpty() ? '{}' : {'content': {'$regex': [3], '$options': 'i'}} },
-      ?#{[4] == null || [4].trim().isEmpty() ? '{}' : {'summary': {'$regex': [4], '$options': 'i'}} },
-      ?#{[5] == null ? '{}' : {'transcriptionType': [5]} }
-    }
-    """)
-    List<TranscriptionDocument> findByFilters(String auth0Id, LocalDate startDate, LocalDate endDate, String contentPhrase, String summaryPhrase, String transcriptionType);
-
+    Page<TranscriptionDocument> findAllByAuth0Id(String auth0Id, Pageable pageable);
     // Optional<TranscriptionDocument> findByAuth0IdAndType(String auth0Id, String transcribeType);
 }
 
@@ -36,6 +29,7 @@ public class MongoTranscriptionRepository implements TranscriptionRepository {
 
     private SpringDataTranscription repo;
     private GenericMapper mapper;
+    private final MongoTemplate mongoTemplate;
     
     @Override
     public List<Transcription> findAll() {
@@ -43,13 +37,53 @@ public class MongoTranscriptionRepository implements TranscriptionRepository {
     }
 
     @Override
-    public List<Transcription> findByFilters(String auth0Id, LocalDate startDate, LocalDate endDate, String contentPhrase, String summaryPhrase, String transcriptionType) {
-        return mapper.mapList(repo.findByFilters(auth0Id, startDate, endDate, contentPhrase, summaryPhrase, transcriptionType), Transcription.class);
+    public Page<Transcription> findByFilters(String auth0Id, LocalDate startDate, LocalDate endDate, String contentPhrase, String summaryPhrase, String transcriptionType, Pageable pageable) {
+        List<Criteria> criteriaList = new ArrayList<>();
+
+        if (auth0Id != null && !auth0Id.trim().isEmpty()) {
+            criteriaList.add(Criteria.where("auth0Id").is(auth0Id));
+        }
+
+        if (startDate != null) {
+            criteriaList.add(Criteria.where("creationDate").gte(startDate.atStartOfDay()));
+        }
+
+        if (endDate != null) {
+            criteriaList.add(Criteria.where("creationDate").lte(endDate.plusDays(1).atStartOfDay().minusNanos(1)));
+        }
+
+        if (contentPhrase != null && !contentPhrase.trim().isEmpty()) {
+            criteriaList.add(Criteria.where("content").regex(contentPhrase.trim(), "i"));
+        }
+
+        if (summaryPhrase != null && !summaryPhrase.trim().isEmpty()) {
+            criteriaList.add(Criteria.where("summary").regex(summaryPhrase.trim(), "i"));
+        }
+
+        if (transcriptionType != null && !transcriptionType.trim().isEmpty()) {
+            criteriaList.add(Criteria.where("transcriptionType").is(transcriptionType));
+        }
+
+        Query query = new Query();
+        if (!criteriaList.isEmpty()) {
+            query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
+        }
+
+        long total = mongoTemplate.count(query, TranscriptionDocument.class);
+        query.with(pageable);
+
+        List<TranscriptionDocument> content = mongoTemplate.find(query, TranscriptionDocument.class);
+
+        List<Transcription> transcriptionList = mapper.mapList(content, Transcription.class);
+        return new PageImpl<>(transcriptionList, pageable, total);
     }
 
     @Override
-    public List<Transcription> findAllByAuth0Id(String auth0Id) {
-        return mapper.mapList(repo.findAllByAuth0Id(auth0Id), Transcription.class);
+    public Page<Transcription> findAllByAuth0Id(String auth0Id, Pageable pageable) {
+        Page<TranscriptionDocument> documentPage = repo.findAllByAuth0Id(auth0Id, pageable);
+        List<Transcription> transcriptionList = mapper.mapList(documentPage.getContent(), Transcription.class);
+
+        return new PageImpl<>(transcriptionList, pageable, documentPage.getTotalElements());
     }
 
     @Override

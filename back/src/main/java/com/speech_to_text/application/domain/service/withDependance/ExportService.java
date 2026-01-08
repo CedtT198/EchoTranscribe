@@ -5,11 +5,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.openpdf.text.Document;
-import org.openpdf.text.Paragraph;
-import org.openpdf.text.pdf.PdfWriter;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.stereotype.Service;
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
 import com.speech_to_text.application.domain.model.transcription.Transcription;
 import com.speech_to_text.application.domain.port.in.ExportUseCase;
 import lombok.AllArgsConstructor;
@@ -33,13 +36,28 @@ public class ExportService implements ExportUseCase {
 
     @Override
     public ByteArrayOutputStream generateDocx(Transcription transcription) throws Exception {
-        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-        
-        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
-        wordMLPackage.getMainDocumentPart().addParagraphOfText("Contenu dynamique");
-        wordMLPackage.save(byteArray);
+        XWPFDocument document = new XWPFDocument();
 
-        return byteArray;
+        // Titre
+        XWPFParagraph title = document.createParagraph();
+        title.setAlignment(ParagraphAlignment.CENTER);
+
+        XWPFRun titleRun = title.createRun();
+        titleRun.setText("Export DOCX avec Spring Boot");
+        titleRun.setBold(true);
+        titleRun.setFontSize(18);
+
+        // Contenu
+        XWPFParagraph paragraph = document.createParagraph();
+        XWPFRun run = paragraph.createRun();
+        run.setText("Ceci est un exemple de fichier Word généré en Java.");
+        run.setFontSize(12);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        document.write(outputStream);
+        document.close();
+
+        return outputStream;
     }
 
     @Override

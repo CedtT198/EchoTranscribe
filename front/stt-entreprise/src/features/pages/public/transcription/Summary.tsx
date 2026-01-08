@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import Textarea from "../../../../components/Textarea";
 import { sumDefault, type FormDataSummary } from "../../../../api/summary";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuthToken } from "../../../../auth/useAuthToken";
 import { transcribeShortFile } from "../../../../api/transcription";
 import { useTranscript } from "../../../../auth/useTranscript";
 import Loading from "../../../../components/Loading";
@@ -14,13 +13,13 @@ function Summary() {
 
   const location = useLocation();
   const [formData, setFormData] = useState<FormDataSummary>(sumDefault);
-  const { type, formDataTranscript } = location.state || {};
+  const { transType, type:longTransType, formDataTranscript, liveTranscript } = location.state || {};
   
   const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError } = useTranscript();
-  const { token, loading:tokenLoad } = useAuthToken();
+  // const { token, loading:tokenLoad } = useAuthToken();
   useEffect(() =>{
-    if (tokenLoad || !token) return;
-    if (!type) setIsLoading(false);
+    // if (tokenLoad || !token) return;
+    if (!longTransType) setIsLoading(false);
 
     // dev seulement
     if (hasRun.current) return;
@@ -28,26 +27,28 @@ function Summary() {
     // 
 
     if (formDataTranscript) {
-      formData.title = formDataTranscript.get('file').name;
-      formData.file = formDataTranscript.get('file').name;
+      const file = formDataTranscript.get('file');
+      formData.title = (file) ? file.name : "";
+      formData.file = (file) ? file.name : "";
       formData.language = formDataTranscript.get('language');
-      formData.transcription_type = "batch";
+      formData.transcription_type = transType;
+      if (transType === "Live" && liveTranscript) formData.content = liveTranscript;
     }
 
     const transcript = async () => {
       try {
-        if (type === "long") {
-          startTranscription(formDataTranscript, token);
+        if (longTransType === "long") {
+          startTranscription(formDataTranscript);
           // console.log(formDataTranscript);
-          // console.log(type+" hono");
+          // console.log(longTransType+" hono");
         }
-        else if (type === "short") {
-          const  res = await transcribeShortFile(formDataTranscript, token);
+        else if (longTransType === "short") {
+          const  res = await transcribeShortFile(formDataTranscript);
           formData.content = res.data.transcription;
           setIsLoading(false)
 
           // console.log(formDataTranscript);
-          // console.log(type+" hono");
+          // console.log(longTransType+" hono");
         }
       } catch (err: any) {
         setError(err.response?.data?.error || 'Error transcribing file. Try again.');
@@ -55,8 +56,11 @@ function Summary() {
     }
     
     transcript()
-  }, [type, formDataTranscript, token, tokenLoad]);
+  }, [longTransType, formDataTranscript, transType, liveTranscript]);
 
+  useEffect(() => {
+    formData.content = status?.transcript ? status?.transcript : "";
+  }, [status])
 
   const [error, setError] = useState<string>("");
 
