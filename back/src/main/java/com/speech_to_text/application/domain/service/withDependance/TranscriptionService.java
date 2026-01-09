@@ -1,6 +1,8 @@
 package com.speech_to_text.application.domain.service.withDependance;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,6 +13,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.WebSocketSession;
+
+import com.github.kokorin.jaffree.ffmpeg.FFmpeg;
+import com.github.kokorin.jaffree.ffmpeg.UrlInput;
+import com.github.kokorin.jaffree.ffmpeg.UrlOutput;
 import com.google.api.gax.longrunning.OperationFuture;
 import com.google.api.gax.rpc.ClientStream;
 import com.google.api.gax.rpc.ResponseObserver;
@@ -202,19 +208,125 @@ public class TranscriptionService implements TranscriptionUseCase {
         }
     }
 
+    
+    @Async
+    @Override
+    public void transcribeLongFileAsync(Path tempInputFile, String originalFilename, TranscriptionSettings settings, String taskId) throws Exception {
+        // convert the file into an FLAC for better compatibility with Google stt
+        TaskStatus.setProgress(taskId, 0);
+        TaskStatus.setStatus(taskId, "Converting file...");
 
+        Path tempFlacFile = Files.createTempFile("transcribe_", ".flac");
+
+        try {
+            FFmpeg.atPath()
+                .addInput(UrlInput.fromPath(tempInputFile))
+                .addArgument("-vn")
+                .addArguments("-ac", "1")
+                .addArguments("-ar", "16000")
+                .addArguments("-c:a", "flac")
+                .addArguments("-compression_level", "5")
+                .addOutput(UrlOutput.toPath(tempFlacFile))
+                .setOverwriteOutput(true)
+                .execute();
+
+            if (Files.size(tempFlacFile) == 0) {
+                throw new IOException("Generated FLAC file empty.");
+            }
+
+            byte[] flacBytes = Files.readAllBytes(tempFlacFile);
+            ByteString convertedFile = ByteString.copyFrom(flacBytes);
+
+            // uploading the file to Google Storage 
+            TaskStatus.setProgress(taskId, 10);
+            TaskStatus.setStatus(taskId, "Processing...");
+            String audioUri = mediaFileUseCase.uploadToGCS(gcloud.getBucketName(), originalFilename, convertedFile); 
+            System.out.println("Link: "+audioUri);
+
+            String recognizer = gcloud.getGlobalRecognizer();
+
+            try (SpeechClient speechClient = SpeechClient.create(
+                SpeechSettings.newBuilder()
+                    .setEndpoint(gcloud.getEndpoint())
+                    .build()
+            )) {
+                RecognitionConfig config = buildConfig(settings);
+
+                BatchRecognizeFileMetadata metadata = BatchRecognizeFileMetadata.newBuilder()
+                    .setUri(audioUri)
+                    .build();
+
+                RecognitionOutputConfig outputConfig = RecognitionOutputConfig.newBuilder()
+                    .setInlineResponseConfig(InlineOutputConfig.newBuilder().build())
+                    .build();
+
+                BatchRecognizeRequest request = BatchRecognizeRequest.newBuilder()
+                    .setRecognizer(recognizer)
+                    .setConfig(config)
+                    .addFiles(metadata) // up to 15 files
+                    .setRecognitionOutputConfig(outputConfig)
+                    .build();
+
+                TaskStatus.setProgress(taskId, 30);
+                TaskStatus.setStatus(taskId, "Transcription...");
+                System.out.println("Beginning transcription...");
+                OperationFuture<BatchRecognizeResponse, OperationMetadata> future = speechClient.batchRecognizeAsync(request);
+
+                while (!future.isDone()) {
+                    Thread.sleep(1000);
+                    int progress = TaskStatus.getProgress(taskId);
+                    TaskStatus.setProgress(taskId, Math.min(progress + 3, 90));
+                }
+
+                BatchRecognizeResponse response = future.get();
+                    
+                BatchRecognizeFileResult fileResult = response.getResultsMap().get(audioUri);
+                if (fileResult == null) {
+                    throw new RuntimeException("No result found for the URI : " + audioUri);
+                }
+
+                InlineResult inlineResult = fileResult.getInlineResult();
+                if (inlineResult == null) {
+                    throw new RuntimeException("Missing inline results (maybe more than one file or a Google Cloud Storage issue ?)");
+                }
+
+                BatchRecognizeResults batchResults = inlineResult.getTranscript();
+                List<SpeechRecognitionResult> results = batchResults.getResultsList();
+                
+                String transcript = formatTranscript(results, settings.withDiarization);
+
+                TaskStatus.setResult(taskId, transcript);
+                TaskStatus.setProgress(taskId, 100);
+                TaskStatus.setStatus(taskId, "COMPLETED");
+            } catch (Exception e) {
+                TaskStatus.setError(taskId, e.getMessage());
+            }
+        } finally {
+            Files.deleteIfExists(tempInputFile);
+            Files.deleteIfExists(tempFlacFile);
+        }
+    }
+
+
+    // ty tsy miasa alo
     @Async
     @Override
     public void transcribeLongFileAsync(MultipartFile file, TranscriptionSettings settings, String taskId) throws Exception {
         // convert the file into an FLAC for better compatibility with Google stt
+        TaskStatus.setProgress(taskId, 0);
+        TaskStatus.setStatus(taskId, "Converting file...");
         ByteString convertedFile = mediaFileUseCase.convertAudiotoFLAC(file);
 
         // uploading the file to Google Storage 
+        TaskStatus.setProgress(taskId, 10);
+        TaskStatus.setStatus(taskId, "Processing...");
         String audioUri = mediaFileUseCase.uploadToGCS(gcloud.getBucketName(), file.getOriginalFilename(), convertedFile); 
         System.out.println("Link: "+audioUri);
 
+        TaskStatus.setProgress(taskId, 15);
         String recognizer = gcloud.getGlobalRecognizer();
 
+        TaskStatus.setProgress(taskId, 20);
         try (SpeechClient speechClient = SpeechClient.create(
             SpeechSettings.newBuilder()
                 .setEndpoint(gcloud.getEndpoint())
@@ -237,13 +349,15 @@ public class TranscriptionService implements TranscriptionUseCase {
                 .setRecognitionOutputConfig(outputConfig)
                 .build();
 
+            TaskStatus.setProgress(taskId, 30);
+            TaskStatus.setStatus(taskId, "Transcription...");
             System.out.println("Beginning transcription...");
             OperationFuture<BatchRecognizeResponse, OperationMetadata> future = speechClient.batchRecognizeAsync(request);
 
             while (!future.isDone()) {
                 Thread.sleep(1000);
                 int progress = TaskStatus.getProgress(taskId);
-                TaskStatus.setProgress(taskId, Math.min(progress + 3, 95));
+                TaskStatus.setProgress(taskId, Math.min(progress + 3, 90));
             }
 
             BatchRecognizeResponse response = future.get();

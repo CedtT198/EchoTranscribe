@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import Textarea from "../../../../components/others/Textarea";
-import { sumDefault, type Summary } from "../../../../api/summary";
+import { sumDefault, summarize, type Summary } from "../../../../api/summary";
 import { useLocation, useNavigate } from "react-router-dom";
 import { transcribeShortFile } from "../../../../api/transcription";
 import { useTranscript } from "../../../../auth/useTranscript";
 import Loading from "../../../../components/others/Loading";
+import axios from "axios";
 
 function Summary() {
   const hasRun = useRef(false);
@@ -15,7 +16,7 @@ function Summary() {
   const [formData, setFormData] = useState<Summary>(sumDefault);
   const { transType, type:longTransType, formDataTranscript, liveTranscript } = location.state || {};
   
-  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError } = useTranscript();
+  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError, stopPolling } = useTranscript();
   // const { token, loading:tokenLoad } = useAuthToken();
   useEffect(() =>{
     // if (tokenLoad || !token) return;
@@ -43,9 +44,15 @@ function Summary() {
           // console.log(longTransType+" hono");
         }
         else if (longTransType === "short") {
-          const  res = await transcribeShortFile(formDataTranscript);
-          formData.content = res.data.transcription;
-          setIsLoading(false)
+          await transcribeShortFile(formDataTranscript)
+            .then((response)=> {
+              console.log(response);
+              updateFormData("content", response.data)
+              setIsLoading(false)
+            })
+            .catch((error: any) => {
+              setError(error)
+            });
 
           // console.log(formDataTranscript);
           // console.log(longTransType+" hono");
@@ -59,16 +66,17 @@ function Summary() {
   }, [longTransType, formDataTranscript, transType, liveTranscript]);
 
   useEffect(() => {
-    formData.content = status?.transcript ? status?.transcript : "";
+    updateFormData("content", status?.transcript ? status?.transcript : "")
   }, [status])
 
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState("");
 
   const updateFormData = <K extends keyof Summary>(field: K, value: Summary[K]) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
+    setError("");
     console.log(formData);
   };
 
@@ -91,9 +99,24 @@ function Summary() {
     updateFormData("additional_instruction", e.target.value);
   };
 
-  const summarize = (e: React.FormEvent) => {
+  const [summary, setSummary ] = useState<string>("");
+  const handleSummary = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.table(formData);
+    try {
+      const res = await summarize(formData.content, formData.goal, formData.length, formData.additional_instruction);
+      const data = res.data;
+      setSummary(data);
+
+      console.log(data);
+    } catch (error: any) {
+      // setError(error.message);
+      if (axios.isAxiosError(error) && error.response) {
+        setError(error.response.data); 
+      } else {
+        setError("Unknown error. Maybe the API Key has been revoked, please contact the admin just in case.");
+      }
+    }
+    // console.table(formData);
   };
 
   const handleExport= () => {
@@ -103,6 +126,10 @@ function Summary() {
       },
     });
   };
+
+  const cancelTranscription = async () => {
+    stopPolling();
+  }
 
   const saveTranscription = () => {};
 
@@ -125,11 +152,13 @@ function Summary() {
               <p className="h1 mb-0">Transcribing your file...</p>
               <p className="text-muted mb-5">Can take time depending on your file.</p>
 
-              <p className="h1">{status?.progress}%</p>
+              {!status?.progress && <p className="h1">Processing...</p>}
+              {status?.progress && <p className="h1">{status?.progress}%</p>}
               <div className="progress mb-4">
-                <div className="progress-bar" role="progressbar" style={{width: bar+"%"}}  aria-valuenow={bar} aria-valuemin="5" aria-valuemax="100"></div>
+                <div className="progress-bar" role="progressbar" style={{width: status?.progress+"%"}}  aria-valuenow={status?.progress} aria-valuemin="5" aria-valuemax="100"></div>
               </div>
               <p className="h3">Status: {status?.status}</p>
+              <button type="button" className="btn btn-danger rounded-pill" onClick={cancelTranscription}>Cancel</button>
             </div>
 
           </div>
@@ -144,14 +173,20 @@ function Summary() {
           <div className="col-md-12 p-0">
             <div className="card shadow mb-4">
               <div className="card-body">
-                <form onSubmit={summarize} className="container row m-0">
+                <form onSubmit={handleSummary} className="container row m-0">
                   <div className="col-12 mb-4">
                     {/* title */}
                     <Textarea fs={45} mh={10} ml={200} class="text-primary" onChange={(value) => updateFormData("title", value)} value={formData.title} ph="Title" name=""></Textarea> 
                     <Textarea fs={22} mh={10} ml={200} class="text-muted" onChange={(value) => updateFormData("subtitle", value)} value={formData.subtitle} ph="Subtitle" name=""></Textarea>
                   </div>
                   <div className="col-md-12 mb-5">
-                    <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formData.content}></Textarea> 
+                    {summary &&
+                      <>
+                        <p className="text-danger text-center" style={{textDecoration: "underline"}}>Summary result</p>
+                        <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={summary}></Textarea>
+                      </>
+                    }
+                    {!summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formData.content}></Textarea> }
                   </div>
                   <div className="col-12 mb-5">
                     <div className="text-center d-flex justify-content-center align-items-center">
@@ -160,9 +195,9 @@ function Summary() {
                           <span className="fe fe-info fe-16 mr-1"></span>
                           <span>Download/Export</span>
                         </a>
-                        <button className="btn btn-primary rounded-pill mx-1 text-light" type="button">
+                        {!summary && <button className="btn btn-primary rounded-pill mx-1 text-light" type="button">
                           <span className="fe fe-info fe-16 mr-1"></span>AI Summary
-                        </button>
+                        </button>}
                         <a className="btn btn rounded-pill mx-1 text-light" type="button" onClick={saveTranscription}>
                           <span className="fe fe-cloud fe-16 mr-1"></span>
                           <span>Save</span>
@@ -171,7 +206,7 @@ function Summary() {
                     </div>
                   </div>
 
-                  <div className="container mb-4">
+                  {!summary && <div className="container mb-4">
                     <div className="row">
                       <div className="col-12 text-center mb-3">
                         <p className="h5 card-title mb-0">Summary settings</p>
@@ -209,7 +244,7 @@ function Summary() {
                         </div>
                       </div>
                       
-                      {!formData.transcription_type && <div className="offset-md-3 col-md-6 offset-lg-3 col-lg-6 col-xs-12 p-0 mb-5 text-center">
+                      {/* {!formData.transcription_type && <div className="offset-md-3 col-md-6 offset-lg-3 col-lg-6 col-xs-12 p-0 mb-5 text-center">
                         <label htmlFor="language">Language</label>
                         <select className="form-control" id="language" onChange={(e) => updateFormData("language", e.target.value)}>
                             <optgroup label="America">
@@ -220,7 +255,7 @@ function Summary() {
                                 <option value="fr">French</option>
                             </optgroup>
                         </select>
-                      </div>}
+                      </div>} */}
 
                       <div className="col-12 d-flex justify-content-center">
                         <div className="col-md-10 col-lg-10 col-xs-12">
@@ -229,8 +264,8 @@ function Summary() {
                             <textarea name="" id="add_content" className="form-control" style={{minHeight: 200, resize: "none", fontSize: "18px"}} onChange={handleAdditionalInstruction}></textarea>
                           </div>
 
-                          {error && <div className="alert alert-danger" role="alert">
-                            <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
+                          {error && <div className="alert alert-danger text-center" role="alert">
+                            {error}
                           </div>}
                           <div className="container row m-0 text-center">
                             <p className="col-md-9 col-lg-9 col-xs-12">AI can make mistake, the content can be inaccurate.</p>
@@ -242,7 +277,7 @@ function Summary() {
                       </div>
 
                     </div>
-                  </div>
+                  </div>}
                 </form>
               </div>
             </div>

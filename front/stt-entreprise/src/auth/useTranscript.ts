@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { getStatusTranscription, transcribeLongFile } from '../api/transcription';
 
 interface Status {
@@ -11,6 +11,7 @@ interface Status {
 
 interface UseLongTranscriptionReturn {
   startTranscription: (fd: any) => Promise<void>;
+  stopPolling: (message?: string) => Promise<void>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   status: Status | null;
   isLoading: boolean;
@@ -24,6 +25,9 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
   const [isPolling, setIsPolling] = useState(false);
   const [transError, setError] = useState<string | null>(null);
   const [taskId, setTaskId] = useState<string | null>(null);
+
+  const intervalRef = useRef<number  | null>(null);
+  const timeoutRef = useRef<number  | null>(null);
 
   const startPolling = (id: string) => {
     setTaskId(id);
@@ -48,9 +52,22 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
         setIsPolling(false);
         setError('Erreur de connexion lors du suivi');
       }
-    }, 5000);
+    }, 500);
 
     getStatusTranscription(id);
+  };
+
+  const stopPolling = async (message?: string) => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setIsPolling(false);
+    if (message) setError(message);
   };
 
   const startTranscription = async (fd: any) => {
@@ -75,6 +92,7 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
   return {
     startTranscription,
     setIsLoading,
+    stopPolling,
     status,
     isLoading,
     isPolling,

@@ -1,8 +1,13 @@
 package com.speech_to_text.application.infrastructure.adapters.web;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -150,16 +155,16 @@ public class TranscriptionController {
             String taskId = UUID.randomUUID().toString();
             TaskStatus.init(taskId);
 
-            // transcriptionUseCase.transcribeLongFileAsync(file, settings, taskId);
+            Path tempFile = Files.createTempFile("upload_", "." + FilenameUtils.getExtension(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), tempFile, StandardCopyOption.REPLACE_EXISTING);
+
+            transcriptionUseCase.transcribeLongFileAsync(tempFile, file.getOriginalFilename(), settings, taskId);
 
             Map<String, String> response = new HashMap<>();
             response.put("taskId", taskId);
             response.put("success", "Transcription started successfuly");
 
             return ResponseEntity.ok(response);
-
-        //     String transcription  = transcriptionUseCase.transcribeLongFile(file, settings);
-        //     return ResponseEntity.ok(transcription);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -183,9 +188,9 @@ public class TranscriptionController {
         }
         
         try {
-            // String transcription  = transcriptionUseCase.transcribeShortFile(file, settings);
-            // return ResponseEntity.ok(transcription);
-            return ResponseEntity.ok("OK");
+            String transcription  = transcriptionUseCase.transcribeShortFile(file, settings);
+            return ResponseEntity.ok(transcription);
+            // return ResponseEntity.ok("OK");
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.speech_to_text.application.domain.port.in;
 
+import java.nio.file.Path;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ public interface TranscriptionUseCase {
     public String transcribeShortFile(MultipartFile file, TranscriptionSettings settings) throws Exception;
     public String transcribeLongFile(MultipartFile file, TranscriptionSettings settings) throws Exception;
     public void transcribeLongFileAsync(MultipartFile file, TranscriptionSettings settings, String taskId) throws Exception;
+    public void transcribeLongFileAsync(Path tempInputFile, String originalFilename, TranscriptionSettings settings, String taskId) throws Exception;
     public void initStreamingConfig(WebSocketSession session, TranscriptionSettings settings) throws Exception;
     public TranscriptionSettings findSettings(String auth0Id, String type);
 }

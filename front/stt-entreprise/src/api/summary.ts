@@ -1,6 +1,14 @@
 import api from "./api";
 
 
+export const summarize = async (content: string, goal: string, length: string, additionalInsctruction: string) => {
+    try {
+        return await api.post(`/summary/summarize`, {content,goal,length,additionalInsctruction})
+    } catch (error) {
+        throw new Error((error as Error).message);
+    }
+}
+
 export const save = async (summary: Summary) => {
     try {
         return await api.post(`/transcription/save`, summary)
@@ -46,8 +54,8 @@ export const sumDefault: Summary = {
     title: "",
     subtitle: "",
     summary: "",
-    goal: "",
-    length: "",
+    goal: "paragraph",
+    length: "short",
     additional_instruction: "",
     transcription_type: "",
     creation_date: ""

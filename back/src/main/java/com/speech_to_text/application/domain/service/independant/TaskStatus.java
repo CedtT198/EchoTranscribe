@@ -25,6 +25,10 @@ public class TaskStatus {
     }
 
     public static void setProgress(String taskId, int progress) {
+        if (progress > 90 && !getStatus(taskId).equals("COMPLETED")) {
+            progress = 90;
+            setStatus(taskId, "Almost there...");
+        }
         progresses.put(taskId, progress);
     }
 

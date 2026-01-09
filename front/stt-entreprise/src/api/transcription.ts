@@ -98,6 +98,7 @@ export const transcribeShortFile = async (formData: any) => {
 }
 
 export const getStatusTranscription = async (taskId: any) => {
+    // console.log("maka status");
     try {
         return await api.get(`/transcription/longfile/status/${encodeURIComponent(taskId)}`)
     } catch (error) {

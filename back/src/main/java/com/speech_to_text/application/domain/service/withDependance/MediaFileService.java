@@ -198,6 +198,7 @@ public class MediaFileService implements MediaFileUseCase {
             byte[] flacBytes = Files.readAllBytes(tempFlacFile);
             return ByteString.copyFrom(flacBytes);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception(e.getMessage());
         } finally {
             Files.deleteIfExists(tempFlacFile);

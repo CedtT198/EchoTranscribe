@@ -65,7 +65,7 @@ public class ExportService implements ExportUseCase {
         ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(byteArray, StandardCharsets.UTF_8))) {
-            String date = (transcription.getCreationDate() != null) ? transcription.getCreationDate() : LocalDate.now().toString();
+            String date = (transcription.getCreationDate() != null) ? transcription.getCreationDate().toString() : LocalDate.now().toString();
 
             writer.write("Rapport généré le : " + date);
             writer.newLine();
