@@ -1,10 +1,10 @@
 import axios from "axios";
-import { sumDefault, type FormDataSummary } from "./summary";
+import { sumDefault, type Summary } from "./summary";
 import api from "./api";
 
 export interface FormDataToExport {
     type: string,
-    transcription: FormDataSummary
+    transcription: Summary
 }
 
 export const exportDefault:FormDataToExport = {

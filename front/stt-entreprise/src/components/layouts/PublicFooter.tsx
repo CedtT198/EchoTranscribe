@@ -1,4 +1,14 @@
+import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth } from "../../auth/useAuth";
+import { Link } from "react-router-dom";
+
 function PublicFooter() {
+    const { isAuthenticated } = useAuth0();
+
+    const { loginAuth0, logoutAuth0 } = useAuth();
+    const handleLogin = () => loginAuth0()
+    const logout = () => logoutAuth0()
+
     return(
         <footer className="mt-5 text-white" style={{ background: '#222'}}>
             <div className="container">
@@ -23,45 +33,61 @@ function PublicFooter() {
                             <p className="font-weight-bolder">Tools</p><hr />
                             <ul className="list-unstyled">
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-light">Live transcribe</a>
+                                    <Link to="/public/layout/batch" className="text-light">Audio to text</Link>
                                 </li>
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-light">Audio to text</a>
+                                    <Link to="/public/layout/batch" className="text-light">Video to text</Link>
                                 </li>
-                                <li  className="mx-1 my-1">
-                                    <a href="" className="text-light">Video to text</a>
-                                </li>
+                                {!isAuthenticated ? (
+                                    <>
+                                        <li  className="mx-1 my-1">
+                                            <a onClick={handleLogin} className="text-light">Live Transcibre</a>
+                                        </li>
+                                        <li  className="mx-1 my-1">
+                                            <a onClick={handleLogin}className="text-light">AI Summary</a>
+                                        </li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li  className="mx-1 my-1">
+                                            <Link to="/public/layout/live" className="text-light">Live Transcibre</Link>
+                                        </li>
+                                        <li  className="mx-1 my-1">
+                                            <Link to="/public/layout/summary" className="text-light">AI Summary</Link>
+                                        </li>
+                                    </>
+                                    )}
                             </ul>
                         </div>
                         <div className="col-4">
                             <p className="font-weight-bolder">Ressources</p><hr />
-                            <ul className="list-unstyled">
+                            {/* <ul className="list-unstyled">
                                 <li  className="mx-1 my-1">
                                     <a href="" className="text-light">Help</a>
                                 </li>
                                 <li  className="mx-1 my-1">
                                     <a href="" className="text-light">API</a>
                                 </li>
-                            </ul>
+                            </ul> */}
                         </div>
                         <div className="col-4">
                             <p className="font-weight-bolder">Company</p><hr />
                             <ul className="list-unstyled">
                                 <li  className="mx-1 my-1">
-                                    <a href="" className="text-light">Pricing</a>
+                                    <Link to="/public/layout/subscription" className="text-light">Pricing</Link>
                                 </li>
                                 <li  className="mx-1 my-1">
-                                    <a href="/public/layout/listReview" className="text-light">Reviews</a>
+                                    <Link to="/public/layout/listReview" className="text-light">Reviews</Link>
                                 </li>
                                 <li  className="mx-1 my-1">
                                     <a href="" className="text-light">QA</a>
                                 </li>
-                                <li  className="mx-1 my-1">
+                                {/* <li  className="mx-1 my-1">
                                     <a href="" className="text-light">Terms</a>
                                 </li>
                                 <li  className="mx-1 my-1">
                                     <a href="" className="text-light">Privacy</a>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </div>

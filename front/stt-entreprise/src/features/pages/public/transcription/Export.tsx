@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import Textarea from "../../../../components/Textarea";
-import {  type FormDataSummary } from "../../../../api/summary";
+import Textarea from "../../../../components/others/Textarea";
+import {  type Summary } from "../../../../api/summary";
 import { useLocation, useNavigate } from "react-router-dom";
-import Loading from "../../../../components/Loading";
 import { download, exportDefault, type FormDataToExport } from "../../../../api/export";
+import Loading from "../../../../components/others/Loading";
 
 function Export() {
   const location = useLocation();
-  const { formDataSummary: fd } = location.state || {};
+  const { Summary: fd } = location.state || {};
   const [error, setError] = useState<string>("");
   
   const navigate = useNavigate();
   const hasRun = useRef(false);
-  const [formDataTranscription, setFormDataTranscription] = useState<FormDataSummary | null>(null);
+  const [formDataTranscription, setFormDataTranscription] = useState<Summary | null>(null);
   const [formData, setFormData] = useState<FormDataToExport>(exportDefault);
   useEffect(() => {
     // dev seulement
@@ -22,7 +22,7 @@ function Export() {
 
     console.log(fd);
     if (fd) {
-      setFormDataTranscription(fd as FormDataSummary);
+      setFormDataTranscription(fd as Summary);
       formData.transcription = fd;
     } else {
       navigate('/notfound', { replace: true });
@@ -31,7 +31,7 @@ function Export() {
 
   // const [error, setError] = useState<string>("");
 
-  const updateFormData = <K extends keyof FormDataSummary>(field: K, value: FormDataSummary[K]) => {
+  const updateFormData = <K extends keyof Summary>(field: K, value: Summary[K]) => {
     setFormDataTranscription((prev) => ({
       ...prev,
       [field]: value,

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
-import Textarea from "../../../../components/Textarea";
-import { sumDefault, type FormDataSummary } from "../../../../api/summary";
+import Textarea from "../../../../components/others/Textarea";
+import { sumDefault, type Summary } from "../../../../api/summary";
 import { useLocation, useNavigate } from "react-router-dom";
 import { transcribeShortFile } from "../../../../api/transcription";
 import { useTranscript } from "../../../../auth/useTranscript";
-import Loading from "../../../../components/Loading";
+import Loading from "../../../../components/others/Loading";
 
 function Summary() {
   const hasRun = useRef(false);
@@ -12,7 +12,7 @@ function Summary() {
   const navigate = useNavigate()
 
   const location = useLocation();
-  const [formData, setFormData] = useState<FormDataSummary>(sumDefault);
+  const [formData, setFormData] = useState<Summary>(sumDefault);
   const { transType, type:longTransType, formDataTranscript, liveTranscript } = location.state || {};
   
   const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError } = useTranscript();
@@ -64,7 +64,7 @@ function Summary() {
 
   const [error, setError] = useState<string>("");
 
-  const updateFormData = <K extends keyof FormDataSummary>(field: K, value: FormDataSummary[K]) => {
+  const updateFormData = <K extends keyof Summary>(field: K, value: Summary[K]) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -99,7 +99,7 @@ function Summary() {
   const handleExport= () => {
     navigate("/public/layout/export", {
       state: {
-        formDataSummary: formData
+        Summary: formData
       },
     });
   };

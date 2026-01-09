@@ -5,7 +5,6 @@ import type { FormDataTranscription } from "../../../../api/transcription";
 import { useStream } from "../../../../auth/useStream";
 import StreamingSettings from "../../../../components/transcription/StreamingSettings";
 import { useNavigate } from "react-router-dom";
-import Textarea from "../../../../components/Textarea";
 
 function Live() {
     // const [enable, setEnable] = useState(false);

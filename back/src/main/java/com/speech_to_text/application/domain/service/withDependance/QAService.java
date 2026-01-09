@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.speech_to_text.application.domain.model.QA;
+import com.speech_to_text.application.domain.model.others.QA;
 import com.speech_to_text.application.domain.port.in.QAUseCase;
 import com.speech_to_text.application.domain.port.out.QARepository;
 import lombok.AllArgsConstructor;

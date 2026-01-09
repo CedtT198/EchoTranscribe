@@ -1,4 +1,3 @@
-import { type FormDataUpdateUser, type FormDataUser } from "../components/Global";
 import api from "./api";
 
 export const deleteUser = async (auth0Id: any) => {
@@ -41,4 +40,26 @@ export const saveUser = async (formData: FormDataUser) => {
     } catch (error) {
         throw new Error((error as Error).message);
     }
+}
+
+
+export interface FormDataUpdateUser {
+    name: string,
+    first_name: string,
+    old_password: string,
+    new_password: string,
+    confirm_new_password: string
+}
+
+export interface FormDataUser {
+    name: string,
+    first_name: string,
+    country: string,
+    city: string,
+    zip: string,
+    address: string,
+    mail: string,
+    birthday: string,
+    password: string,
+    confirm_password: string
 }

@@ -116,15 +116,30 @@ db.subscription.insertMany([
       master: "client1@gmail.com"
    }
 ])
+
+
 db.createCollection("review")
 db.review.insertMany([
    {
       date: new Date(),
-      comment: "",
-      stars: 4.5,
-      user: "client1@gmail.com"
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      review: "",
+      name: "",
+      firstName: "",
+      stars: 4.5
    }
 ])
+for (let i = 0; i < 1000; i++) {
+  db.review.insertOne({
+    date: new Date(),
+    auth0Id: "auth0|6954292e5b43643b131feeee",
+    review: "Review automatique " + i,
+    name: "name "+i,
+    firstName: "first name "+i,
+    stars: (Math.floor(Math.random() * 5) + 1)
+  });
+}
+
 
 db.createCollection("transcription")
 db.transcription.insertMany([

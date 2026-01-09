@@ -1,7 +1,12 @@
-import Pricing from "../../../components/Pricing";
+import { Link } from "react-router-dom";
+import Pricing from "../../../components/pricing/Pricing";
 import QA from "../../../components/QA";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Landing() {
+
+    const { isAuthenticated } = useAuth0();
+
     return (
         <div>
             <div className="row justify-content-center">
@@ -20,7 +25,8 @@ function Landing() {
                             </span>
                             <h3 className="h4 mt-4 mb-1 text-white">Live</h3>
                             <p className="text-white mb-4">Realtime AI writing notes with your voice.</p>
-                            <a href="#" className="btn btn-lg bg-primary-light text-white">Speech<i className="fe fe-arrow-right fe-16 ml-2"></i></a>
+                            {!isAuthenticated ? (<Link to="/public/layout/live" className="btn btn-lg bg-primary-light text-white">Speech<i className="fe fe-arrow-right fe-16 ml-2"></i></Link>)
+                            :(<Link to="/public/layout/live" className="btn btn-lg bg-primary-light text-white">Speech<i className="fe fe-arrow-right fe-16 ml-2"></i></Link>)}
                             </div> 
                         </div> 
                         </div> 
@@ -32,7 +38,7 @@ function Landing() {
                             </span>
                             <h3 className="h4 mt-4 mb-1 text-white">Batch</h3>
                             <p className="text-white mb-4">Transcribe by uploading audio/video file.</p>
-                            <a href="#" className="btn btn-lg bg-success-light text-white">Upload<i className="fe fe-arrow-right fe-16 ml-2"></i></a>
+                            <Link to="/public/layout/batch" className="btn btn-lg bg-success-light text-white">Upload<i className="fe fe-arrow-right fe-16 ml-2"></i></Link>
                             </div> 
                         </div>
                         </div>

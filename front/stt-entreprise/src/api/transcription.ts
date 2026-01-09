@@ -1,8 +1,8 @@
 import api from "./api";
 
-export const getTranscriptions = async (filter: TranscriptionFilter) => {
+export const getTranscriptions = async (filter: TranscriptionFilter, page: number, size: number) => {
     try {
-        return await api.post(`/transcription/findByFilters?page=0&size=10&sort=createdDate,desc`, filter)
+        return await api.post(`/transcription/findByFilters?page=${page}&size=${size}&sort=createdDate,desc`, filter)
     } catch (error) {
         throw new Error((error as Error).message);
     }

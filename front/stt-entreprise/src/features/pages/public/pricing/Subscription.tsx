@@ -1,5 +1,5 @@
-import Pricing from "../../../components/Pricing";
-import QA from "../../../components/QA";
+import Pricing from "../../../../components/pricing/Pricing";
+import QA from "../../../../components/QA";
 
 function Subscription() {
     return (

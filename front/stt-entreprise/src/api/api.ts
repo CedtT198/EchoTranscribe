@@ -1,10 +1,9 @@
 // import { getToken } from "../auth/token";
 import { getAccessTokenGlobal } from "../Auth0ProviderWithNavigate";
-import { SERVER_URL } from "../components/Global";
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: SERVER_URL
+  baseURL: 'http://localhost:8080'
 });
 
 api.interceptors.request.use(async (config) => {

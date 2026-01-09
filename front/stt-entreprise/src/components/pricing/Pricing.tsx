@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
-import { findAllSubType } from "../api/subType";
-import { useAuth } from "../auth/useAuth";
+import { useAuth } from "../../auth/useAuth";
+import { findAllSubType } from "../../api/subType";
 
 function Pricing () {
     const [sub_types, setSub] = useState([]);
@@ -40,13 +40,13 @@ function Pricing () {
                         </ul>
                         {!isAuthenticated &&
                             <div className="py-2 mt-auto">
-                                <button className="btn btn-primary w-100" style={{ fontSize: 18 }} onClick={signup}>Sign up now</button>
+                                <button className="btn btn-primary w-100 rounded-pill" style={{ fontSize: 18 }} onClick={signup}>Sign up now</button>
                             </div>
                         }
 
                         {isAuthenticated && i !== 0 &&
                             <div className="py-2 mt-auto">
-                                <button className="btn btn-primary w-100" style={{ fontSize: 18 }}>Subscribe</button>
+                                <button className="btn btn-primary w-100 rounded-pill" style={{ fontSize: 18 }}>Subscribe</button>
                             </div>
                         }
                     </div>

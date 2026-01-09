@@ -3,11 +3,11 @@ import { useEffect, useRef } from "react";
 import { getAccessTokenGlobal } from "./Auth0ProviderWithNavigate";
 
 const AuthBootstrap = () => {
-    const { isAuthenticated, isLoading } = useAuth0();
+    const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
    const hasSynced = useRef(false);
 
     useEffect(() => {
-        if (isLoading || !isAuthenticated) return;
+        if (!isAuthenticated) return;
         if (hasSynced.current) return;
 
         
@@ -30,6 +30,13 @@ const AuthBootstrap = () => {
                 hasSynced.current = true;
             } catch (e) {
                 console.error("User sync failed.", e);
+                await loginWithRedirect({
+                    authorizationParams: {
+                        audience: "https://echo.transcribe.api.com/",
+                        prompt: "consent",
+                    },
+                    appState: { returnTo: window.location.pathname },
+                });
             }
         };
     

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import type { FormDataUpdateUser, ValidationErrors} from '../../../components/Global';
+import type { FormDataUpdateUser, ValidationErrors} from '../../../../components/Global';
 // import { useLocation } from "react-router-dom";
-import { deleteUser, getMyProfile, updateUser } from "../../../api/user";
+import { deleteUser, getMyProfile, updateUser } from "../../../../api/user";
 import { useAuth0 } from "@auth0/auth0-react";
-import AutoLogout from "../../../components/AutoLogout";
-import Loading from "../../../components/Loading";
-import { useAuth } from "../../../auth/useAuth";
+import AutoLogout from "../../../../components/AutoLogout";
+import Loading from "../../../../components/others/Loading";
+import { useAuth } from "../../../../auth/useAuth";
 
 function Profile() {
-    // USER PROFILE
+    // profiile
     const { user, isAuthenticated, isLoading: auth0Loading } = useAuth0();
     
     const [profileLoading, setProfileLoading] = useState(true);
@@ -37,7 +37,7 @@ function Profile() {
     // END USER PROFILE
 
 
-    // UPDATE USER 
+    // update user
     const [formData, setFormData] = useState<FormDataUpdateUser>({
         name: "art",
         first_name: "art",
@@ -83,11 +83,8 @@ function Profile() {
             setError("Error connecting to the server.");
         }
     };
-    // END UPDATE USER
 
-
-    // DANGER ZONE
-    // Delete
+    // danger zone
     // const { logoutAuth0 } = useAuth();
     const deleteAccount = async () => {
         try {
@@ -101,7 +98,6 @@ function Profile() {
         }
     }
 
-    // Block
     // const blockAccount = async () => {
     //     await blockUser(user?.sub);
     // }
@@ -210,7 +206,7 @@ function Profile() {
                     </div>
                 </div>
                 {/* sub */}
-                <div className="col-md-12 row">
+                <div className="col-md-12 row mb-5">
                     <div className="col-md-9 col-lg-9 col-xs-12">
                         <p className="h3 mb-0">Your actual subscription</p>
                         <p className="text-muted">Everything about your active subscription(s).</p>
@@ -258,35 +254,28 @@ function Profile() {
                         <span className="fe fe-check fe-16 mr-2"></span>{success}.
                     </div>}
                 </div>
-                <div className="offset-md-3 offset-lg-3 col-md-6 col-lg-6 col-xs-12">
-                    <div className="card-deck my-4">
-                        <div className="card mb-5 shadow">
-                            <div className="card-body text-center mt-3 mb-5">
-                                <a href="#">
-                                    <h3 className="h4 mb-0">
-                                        <span className="dot dot-lg bg-success mr-2"></span>Free plan
-                                    </h3>
-                                </a>
-                                <p className="text-muted">package</p>
-                                <span className="h1 mb-0">$9.9</span>
-                                <p className="text-muted">monthly</p>
-                                <ul className="list-unstyled">
-                                    <li>Lorem ipsum dolor sit amet lore</li>
-                                    <li>Consectetur adipiscing elit</li>
-                                    <li>Integer molestie lorem at massa</li>
-                                    <li>Eget porttitor lorem</li>
-                                    <li className="mt-4">
-                                        <a href="#">
-                                            <span className="fe fe-copy fe-16 mr-2"></span>
-                                            Share 
-                                        </a>
-                                        <span className="fe fe-info fe-16 ml-2 text-secondary" title="Your can share a referral code to let others use the same subscriptio nas you."></span>
-                                    </li>
-                                </ul>
-                            </div>
+                <div className="card mb-4 shadow col-xs-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 p-0">
+                    <div className="card-body text-center p-5 d-flex flex-column accordion-item-hover text-glow-primary" style={{minHeight: "500px"}}>
+                        <div className="border-bottom-1">
+                            <p className="h3 mb-0"><span className="dot dot-lg bg-success mr-2"></span>{"sub.name"}</p>
+                            <p className=" mb-0" style={{ fontSize: 40 }}>${"sub.price"}</p>
+                            <p className="text-muted">{"sub.frequency"}</p><hr/>
+                        </div>
+                        <ul className="mb-5 text-left px-2">
+                            <li>foweufhewiufew</li>
+                            <li>foweufhewiufew</li>
+                            <li>foweufhewiufew</li>
+                            <li>foweufhewiufew</li>
+                            <li>foweufhewiufew</li>
+                            {/* {"sub.description".map((f, j) => (
+                                <li key={j} className="mb-1">{f}</li>
+                            ))} */}
+                        </ul>
+                        <div className="py-2 mt-auto">
+                            {/* <button className="btn btn-primary w-100 rounded-pill" style={{ fontSize: 18 }}>Subscribe</button> */}
                         </div>
                     </div>
-                </div>
+                </div> 
                 {/* sub records */}
                 <div className="col-12 mb-5">
                     <hr />
@@ -408,7 +397,7 @@ function Profile() {
                         {/* delete */}
                         <div className="alert alert-danger container row" role="alert">
                             <div className="col-md-10 col-lg-10 col-xs-12">
-                                <p className="font-weight-bold" style={{fontSize: "17px"}}>Delete your account</p>
+                                <p className="" style={{fontSize: "17px"}}>Delete your account</p>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex ut praesentium magnam repellat harum. Omnis sunt adipisci quasi quod, optio eos amet, rerum perferendis, laboriosam reiciendis consequatur harum distinctio iste.</p>
                             </div>
                             <div className="col-md-2 col-lg-2 col-xs-12 d-flex align-items-center justify-content-center">
@@ -430,7 +419,7 @@ function Profile() {
                                                 </div>
                                             </div>
                                             <div className="modal-footer">
-                                                {/* <button type="button" className="btn mb-2 btn-danger" data-dismiss="modal">Close</button> */}
+                                                <button type="button" className="btn mb-2 btn-dark" data-dismiss="modal">No</button>
                                                 <button type="button" className="btn mb-2 btn-danger" onClick={deleteAccount}>Yes</button>
                                             </div>
                                         </div>

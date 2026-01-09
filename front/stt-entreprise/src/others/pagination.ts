@@ -1,7 +1,18 @@
-import type { FormDataSummary } from "../api/summary";
+import type { Summary } from "../api/summary";
+
+const MAX_VISIBLE_PAGES = 4;
+
+export const endPage = (totalPages: number, page:number) => {
+  return Math.min(totalPages,  startPage(page) + MAX_VISIBLE_PAGES);
+};
+
+export const startPage = (page: number) => {
+  return Math.max(0, page - Math.floor(MAX_VISIBLE_PAGES / 2));
+}
+
 
 export interface PageableResponse {
-  content: FormDataSummary[];
+  content: Summary[];
   pageable: {
     page_number: number;
     page_size: number;

@@ -1,5 +1,6 @@
 package com.speech_to_text.application.domain.model.transcription;
 
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,5 @@ public class Transcription {
     String length;
     String additionalInstruction;
     String transcriptionType;
-    String creationDate;
+    LocalDate creationDate;
 }

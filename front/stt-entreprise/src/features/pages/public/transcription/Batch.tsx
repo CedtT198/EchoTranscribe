@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { type FormDataTranscription, batchDefault } from "../../../../api/transcription";
 import FileSettings from "../../../../components/transcription/FileSettings";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Transcribe() {
 
@@ -115,9 +115,9 @@ function Transcribe() {
                   <button className="btn btn-primary rounded-pill mx-1 text-light" type="button">
                     <span className="fe fe-info fe-16 mr-1"></span>Upload audio
                   </button>
-                  <a className="btn btn rounded-pill mx-1 text-light" type="button" href="/public/layout/live">
+                  <Link className="btn btn rounded-pill mx-1 text-light" type="button" to="/public/layout/live">
                     <span className="dot mr-2"></span>Transcribe live audio
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

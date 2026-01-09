@@ -7,14 +7,16 @@ export function useAuth() {
 
     const loginAuth0 = (returnPath?: string) => {
         login({
-            appState: { returnTo: returnPath ||  location.pathname + location.search },
+            // appState: { returnTo: returnPath ||  location.pathname + location.search },
+            appState: { returnTo: window.location.pathname }
         });
     }
 
     const signupAuth0 = (returnPath?: string) => {
         login({
             authorizationParams: { screen_hint: "signup" },
-            appState: { returnTo: returnPath ||  location.pathname + location.search },
+            // appState: { returnTo: returnPath ||  location.pathname + location.search },
+            appState: { returnTo: window.location.pathname }
         });
     }
 

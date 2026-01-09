@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRef, useState } from "react";
-import { useAuth } from "../auth/useAuth";
+import { useAuth } from "../../auth/useAuth";
+import { Link } from "react-router-dom";
 
 function PublicHeader() {
     // toggle mode sombre / clair
@@ -61,7 +62,7 @@ function PublicHeader() {
                                 Tools<span className="fe fe-chevron-down fe-16 ml-1"></span>
                             </button>
                             <div className="dropdown-menu" aria-labelledby="actionMenuButton">
-                                <a className="dropdown-item" href="/public/layout/batch">Transcribe batch</a>
+                                <Link className="dropdown-item" to="/public/layout/batch">Transcribe batch</Link>
                                 {!isAuthenticated ? (
                                     <>
                                         <a className="dropdown-item" onClick={handleLogin}>Live Speech to text</a>
@@ -70,9 +71,9 @@ function PublicHeader() {
                                     </>
                                 ) : (
                                     <>
-                                        <a className="dropdown-item" href="/public/layout/live">Live Speech to text</a>
-                                        <a className="dropdown-item" href="/public/layout/summary">Resume text with AI</a>
-                                        <a className="dropdown-item" href="#">Translate</a>
+                                        <Link className="dropdown-item" to="/public/layout/live">Live Speech to text</Link>
+                                        <Link className="dropdown-item" to="/public/layout/summary">Resume text with AI</Link>
+                                        <Link className="dropdown-item" to="#">Translate</Link>
                                     </>
                                     )}
 
@@ -96,9 +97,9 @@ function PublicHeader() {
                             </a>
                         </li> */}
                         <li className="nav-item">
-                            <a className="nav-link" href="/public/layout/history">
+                            <Link className="nav-link" to="/public/layout/history">
                                 <span className="ml-lg-2">History</span>
-                            </a>
+                            </Link>
                         </li>
                         {/* <li className="nav-item dropdown more">
                             <a className="dropdown-toggle more-horizontal nav-link" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -141,9 +142,9 @@ function PublicHeader() {
                     
                     {/* rehefa deconnecte */}
                     <li className="nav-item">
-                        <a className="nav-link" href="/public/layout/subscription">
+                        <Link className="nav-link" to="/public/layout/subscription">
                             <span className="ml-lg-2">Pricing</span>
-                        </a>
+                        </Link>
                     </li>
                     {!isAuthenticated ? (
                         <>
@@ -174,14 +175,14 @@ function PublicHeader() {
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                                     <li className="nav-item">
-                                        <a className="nav-link pl-3" href="/public/layout/profile">
+                                        <Link className="nav-link pl-3" to="/public/layout/profile">
                                             <span className="fe fe-user fe-16 mr-2"></span>Profile
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link pl-3" href="/public/layout/settings">
+                                        <Link className="nav-link pl-3" to="/public/layout/settings">
                                             <span className="fe fe-settings fe-16 mr-2"></span>Settings
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link pl-3 text-danger" onClick={logout}>

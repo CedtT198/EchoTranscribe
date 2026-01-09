@@ -10,21 +10,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "transcription")
-public class TranscriptionDocument {
+@Document(collection = "review")
+public class ReviewDocument {
     @Id
     String id;
 
     String auth0Id;
-    String file;
-    String language;
-    String content;
-    String title;
-    String subtitle;
-    String summary;
-    String goal;
-    String length;
-    String additionalInstruction;
-    String transcriptionType;
+    String name;
+    String firstName;
     LocalDate creationDate;
+    String review;
+    Double stars;
 }
+

@@ -35,7 +35,7 @@ function QA ({ about }: QAProps) {
         <div className="mb-5 pb-5 d-flex flex-column justify-content-center align-items-center">
             <div className="accordion w-75">
                 {QAs.map((qa, i) => (
-                    <div className="card shadow mb-3 accordion-item-hover" key={qa.id ?? i}>
+                    <div className="card shadow rounded-pill mb-3 accordion-item-hover" key={qa.id ?? i}>
                         <div className="card-header cursor-pointer text-glow-primary"  onClick={() => toggle(i)} style={{ cursor: "pointer" }}>
                             <div className="row align-items-center">
                                 <p className="col-10 mb-0 text-center" style={{ fontSize: 18 }}>{qa.question}</p>

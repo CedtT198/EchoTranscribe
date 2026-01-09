@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { type FormDataTranscription, type SettingsModalProps } from "../../api/transcription";
 import { useAuth0 } from "@auth0/auth0-react";
 
