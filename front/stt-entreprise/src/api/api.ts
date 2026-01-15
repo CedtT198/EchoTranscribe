@@ -1,44 +1,31 @@
-import { SERVER_URL } from "../components/Global";
+// import { getToken } from "../auth/token";
+import { getAccessTokenGlobal } from "../Auth0ProviderWithNavigate";
+import axios from 'axios';
 
-export const apiGet = async (url: string, token?: any) => {
-    console.log('TOKEN '+token);
+const api = axios.create({
+  baseURL: 'http://localhost:8080'
+});
 
-    const headers: HeadersInit = { "Content-Type": "application/json" };
+api.interceptors.request.use(async (config) => {
+    const token = await getAccessTokenGlobal();
     if (token) {
-        headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
+});
 
-    const response = await fetch(`${SERVER_URL}${url}`, {
-        method: "GET",
-        headers,
-    });
+// Optionnel : gérer les 401 → logout ou refresh
+// api.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     if (error.response?.status === 401) {
+//       // Optionnel : forcer logout ou refresh
+//       // const { logout } = useAuth0(); → impossible ici
+//       // Donc souvent on redirige manuellement :
+//       window.location.href = '/logout'; // ou une route qui logout
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
-    if (!response.ok) {
-        throw new Error(`GET ${url} failed (${response.status})`);
-    }
-    return response.json();
-}
-
-export const apiPost = async (url: string, data: T, token?: string) => {
-    const headers: HeadersInit = { "Content-Type": "application/json" };
-    if (token) {
-        headers.Authorization = `Bearer ${token}`;
-    }
-
-    const response = await fetch(`${SERVER_URL}${url}`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(data)
-    });
-
-    if (!response.ok) {
-        throw new Error(`POST ${url} failed (${response.status})`);
-    }
-
-    // const response = await fetch(`${SERVER_URL}${url}`, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(data),
-    // });
-    return response.json();
-}
+export default api;

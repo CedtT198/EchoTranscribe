@@ -1,7 +1,7 @@
 // src/auth/Auth0ProviderWithNavigate.tsx
-import { Auth0Provider } from "@auth0/auth0-react";
+import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 
 export const Auth0ProviderWithNavigate: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
@@ -17,15 +17,40 @@ export const Auth0ProviderWithNavigate: React.FC<{ children: React.ReactNode }> 
       domain="dev-jdtdmvnllnhe51fm.us.auth0.com"
       clientId="PHjpMBH8DIi5eT4R4R34oq1xA6qPvsYD"
       authorizationParams={{
-        redirect_uri: window.location.origin + "/callback",
+        redirect_uri: window.location.origin,
         audience: "https://echo.transcribe.api.com/",
       }}
       onRedirectCallback={onRedirectCallback}
-      useRefreshTokens={true}           // Important pour éviter le fallback iframe qui peut être bloqué
-      cacheLocation="localstorage"      // Persistance + refresh tokens
-      useRefreshTokensFallback={true}   // Fallback si besoin (mais avec refresh tokens ça devrait éviter l'iframe)
+      useRefreshTokens={true}
+      cacheLocation="localstorage"  
+      useRefreshTokensFallback={true} 
     >
+      <TokenInjector />
       {children}
     </Auth0Provider>
   );
+};
+
+let globalGetToken: (() => Promise<string | undefined>) | null = null;
+export const getAccessTokenGlobal = async (): Promise<string | undefined> => {
+  if (globalGetToken) {
+    return globalGetToken();
+  }
+  return undefined;
+};
+
+const TokenInjector = () => {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      globalGetToken = () => getAccessTokenSilently({
+        authorizationParams: { audience: "https://echo.transcribe.api.com/" }
+      });
+    } else {
+      globalGetToken = null;
+    }
+  }, [getAccessTokenSilently, isAuthenticated]);
+
+  return null;
 };

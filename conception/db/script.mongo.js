@@ -116,39 +116,175 @@ db.subscription.insertMany([
       master: "client1@gmail.com"
    }
 ])
+
+
 db.createCollection("review")
 db.review.insertMany([
    {
       date: new Date(),
-      comment: "",
-      stars: 4.5,
-      user: "client1@gmail.com"
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      review: "",
+      name: "",
+      firstName: "",
+      stars: 4.5
    }
 ])
+for (let i = 0; i < 1000; i++) {
+  db.review.insertOne({
+    date: new Date(),
+    auth0Id: "auth0|6954292e5b43643b131feeee",
+    review: "Review automatique " + i,
+    name: "name "+i,
+    firstName: "first name "+i,
+    stars: (Math.floor(Math.random() * 5) + 1)
+  });
+}
 
-db.createCollection("transcribing")
-db.transcribing.insertMany([
+
+db.createCollection("transcription")
+db.transcription.insertMany([
    {
-      title: "Meeting with the dev team",
-      content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
-      summary: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
-      date: new Date(),
-      file: "file.mp4",
-      transcribingType:"batch",
-      summaryType:"Standard",
-      user: "client1@gmail.com"
+      file: "",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Transcription complète du podcast sur l'intelligence artificielle et ses impacts sociétaux...",
+      title: "L'IA et l'avenir du travail",
+      subtitle: "Comment l'intelligence artificielle transforme les emplois",
+      summary: "Ce podcast explore les opportunités et défis posés par l'IA dans le monde professionnel.",
+      goal: "paragraph",
+      length: "short",
+      additionalInstruction: "Mettre l'accent sur les exemples concrets d'entreprises.",
+      transcriptionType: "live",
+      creationDate: new Date("2025-03-15")
    },
    {
-      title: "Live conversation between alice and bob",
-      content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
-      summary: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo quisquam quam at? Dolorem illum praesentium molestiae sint esse, quasi, aut rerum est ullam sunt, veniam nobis nisi fuga! Accusantium, ex?",
-      date: new Date(),
-      transcribingType:"live",
-      summaryType:"decisional",
-      user: "client1@gmail.com"
+      file: "conference_2025.mp4",
+      language: "en",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Full transcript of the keynote speech about climate change and sustainable development...",
+      title: "Climate Action Now",
+      subtitle: "Urgent steps towards a sustainable future",
+      summary: "A compelling call to action on global warming and renewable energies.",
+      goal: "paragraph",
+      length: "short",
+      additionalInstruction: "Inclure les questions-réponses de l'audience.",
+      transcriptionType: "batch",
+      creationDate: new Date("2025-11-22")
+   },
+   {
+      file: "",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Entretien avec le fondateur d'une startup innovante en santé numérique...",
+      title: "Révolutionner la santé avec la tech",
+      subtitle: "Entretien exclusif avec Dr. Marie Dupont",
+      summary: "Discussion sur les applications mobiles pour le suivi médical personnel.",
+      goal: "paragraph",
+      length: "short",
+      additionalInstruction: "Ajouter des notes sur les références scientifiques mentionnées.",
+      transcriptionType: "live",
+      creationDate: new Date("2025-09-08")
+   },
+   {
+      file: "webinar_ia.mp3",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Transcription du webinar sur les bases de l'apprentissage automatique...",
+      title: "Introduction à l'IA",
+      subtitle: "Pour les débutants en machine learning",
+      summary: "Un cours introductif couvrant les concepts fondamentaux de l'IA.",
+      goal: "paragraph",
+      length: "long",
+      additionalInstruction: "Inclure des exemples de code simples.",
+      transcriptionType: "batch",
+      creationDate: new Date("2025-06-30")
+   },
+   {
+      file: "",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Transcription du débat télévisé entre candidats aux élections...",
+      title: "Débat présidentiel 2025",
+      subtitle: "Économie, éducation et environnement",
+      summary: "Échanges vifs sur les priorités nationales.",
+      goal: "paragraph",
+      length: "long",
+      additionalInstruction: "Marquer les interruptions et applaudissements.",
+      transcriptionType: "live",
+      creationDate: new Date("2025-01-05")
+   },
+   {
+      file: "podcast_cybersecurite.mp3",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Transcription complète du podcast sur les enjeux actuels de la cybersécurité...",
+      title: "Cybersécurité et menaces modernes",
+      subtitle: "Comprendre les attaques et s’en protéger",
+      summary: "Analyse des principales cybermenaces et des bonnes pratiques pour les entreprises.",
+      goal: "paragraph",
+      length: "short",
+      additionalInstruction: "Inclure des exemples récents de cyberattaques médiatisées.",
+      transcriptionType: "batch",
+      creationDate: new Date("2025-02-10")
+   },
+   {
+      file: "",
+      language: "en",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Interview transcript with a product manager about agile methodologies...",
+      title: "Agile in Practice",
+      subtitle: "Lessons from real-world product teams",
+      summary: "Insights on how agile frameworks are applied in fast-growing tech companies.",
+      goal: "paragraph",
+      length: "short",
+      additionalInstruction: "Highlight challenges and common mistakes.",
+      transcriptionType: "live",
+      creationDate: new Date("2025-04-18")
+   },
+   {
+      file: "cours_finance.mp4",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Transcription du cours universitaire sur les marchés financiers...",
+      title: "Fondamentaux de la finance",
+      subtitle: "Marchés, risques et investissements",
+      summary: "Présentation des principes clés de la finance moderne.",
+      goal: "paragraph",
+      length: "long",
+      additionalInstruction: "Ajouter des définitions claires pour les termes techniques.",
+      transcriptionType: "batch",
+      creationDate: new Date("2025-03-03")
+   },
+   {
+      file: "",
+      language: "fr",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Table ronde sur l’éducation numérique et les nouvelles pédagogies...",
+      title: "L’école à l’ère du numérique",
+      subtitle: "Quels changements pour les enseignants et les élèves ?",
+      summary: "Discussion sur l’impact des outils numériques dans l’éducation.",
+      goal: "paragraph",
+      length: "short",
+      additionalInstruction: "Identifier les prises de parole de chaque intervenant.",
+      transcriptionType: "live",
+      creationDate: new Date("2025-05-21")
+   },
+   {
+      file: "startup_pitch_day.mp3",
+      language: "en",
+      auth0Id: "auth0|6954292e5b43643b131feeee",
+      content: "Transcript of startup pitches presented to venture capital investors...",
+      title: "Startup Pitch Day 2025",
+      subtitle: "Innovations shaping tomorrow",
+      summary: "A collection of pitches from early-stage startups across various sectors.",
+      goal: "paragraph",
+      length: "long",
+      additionalInstruction: "Summarize each pitch in a separate subsection.",
+      transcriptionType: "batch",
+      creationDate: new Date("2025-07-14")
    }
 ])
 
 // any amin'ny back daoly no ilaina
-db.createCollection("summary_type")
+db.createCollection("transcription_settings")
 db.createCollection("type_transcription")

@@ -1,7 +1,8 @@
 package com.speech_to_text.application.domain.port.out;
 
 import java.util.List;
-import com.speech_to_text.application.domain.model.QA;
+
+import com.speech_to_text.application.domain.model.others.QA;
 
 public interface QARepository {
     public List<QA> findAll();

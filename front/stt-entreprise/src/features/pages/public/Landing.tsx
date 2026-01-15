@@ -1,7 +1,12 @@
-import Pricing from "../../../components/Pricing";
+import { Link } from "react-router-dom";
+import Pricing from "../../../components/pricing/Pricing";
 import QA from "../../../components/QA";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Landing() {
+
+    const { isAuthenticated } = useAuth0();
+
     return (
         <div>
             <div className="row justify-content-center">
@@ -11,7 +16,48 @@ function Landing() {
                         <p className="lead text-muted mb-4">Take notes with your voice in real-time, or transcribe audio/video batch file.</p>
                         <p className="help-text mt-2 text-muted">No account, no credit card need for free version.</p>
                     </div>
-                    <div className="row my-4">
+                    
+                    <div className="col-12 mb-5">
+                        <div className="text-center d-flex justify-content-center align-items-center">
+                            <div className="bg-dark p-1 rounded-pill">
+                                <button className="btn btn-primary rounded-pill mx-1 text-light" type="button">
+                                    <span className="fe fe-file fe-16 mr-1"></span>Upload audio
+                                </button>
+                                <Link className="btn btn rounded-pill mx-1 text-light" type="button" to="/public/layout/live">
+                                    <span className="dot mr-2"></span>Transcribe live audio
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row mb-4">
+                        <div className="col-md-12">
+                            <div className="card shadow mb-4">
+                                <div className="card-body">
+                                    <Link to="/public/layout/batch">
+                                        <div className="dropzone rounded-lg col-12 p-0 text-center" id="tinydash-dropzone">
+                                            <label htmlFor="upload" className="mx-auto w-100 pt-5 pb-2 upload">
+                                                <input type="" id="upload" accept="audio/*,video/*"  hidden/>
+                                                <p className="h1 text-dark">Audio to text Converter</p>
+                                                <p className="h6 text-muted mb-5">Automatically convert audio to text.</p>
+                                                <div className="dz-message needsclick mb-5 pt-5">
+                                                    <a className="btn btn-primary rounded-pill py-3 px-4 text-light mb-3">
+                                                    Upload your File
+                                                    <i className="fe fe-upload-cloud fe-16 text-white mx-2"></i>
+                                                    </a>
+                                                    <h5 className="text-muted">Click or drag here to upload</h5>
+                                                </div>
+                                                {/* <p className="font-weight-bold text-dark mb-0">No account needed</p> */}
+                                                <p className="text-muted">Supports any audio format but only 3 min of length, during free trial.</p>
+                                            </label>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {/* <div className="row my-4">
                         <div className="col-md-6">
                         <div className="card shadow bg-primary text-center mb-4">
                             <div className="card-body p-5">
@@ -20,7 +66,8 @@ function Landing() {
                             </span>
                             <h3 className="h4 mt-4 mb-1 text-white">Live</h3>
                             <p className="text-white mb-4">Realtime AI writing notes with your voice.</p>
-                            <a href="#" className="btn btn-lg bg-primary-light text-white">Speech<i className="fe fe-arrow-right fe-16 ml-2"></i></a>
+                            {!isAuthenticated ? (<Link to="/public/layout/live" className="btn btn-lg bg-primary-light text-white">Speech<i className="fe fe-arrow-right fe-16 ml-2"></i></Link>)
+                            :(<Link to="/public/layout/live" className="btn btn-lg bg-primary-light text-white">Speech<i className="fe fe-arrow-right fe-16 ml-2"></i></Link>)}
                             </div> 
                         </div> 
                         </div> 
@@ -32,31 +79,35 @@ function Landing() {
                             </span>
                             <h3 className="h4 mt-4 mb-1 text-white">Batch</h3>
                             <p className="text-white mb-4">Transcribe by uploading audio/video file.</p>
-                            <a href="#" className="btn btn-lg bg-success-light text-white">Upload<i className="fe fe-arrow-right fe-16 ml-2"></i></a>
+                            <Link to="/public/layout/batch" className="btn btn-lg bg-success-light text-white">Upload<i className="fe fe-arrow-right fe-16 ml-2"></i></Link>
                             </div> 
                         </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Welcome */}
                     <div className="row my-5 p-5">
                         <div className="col-12 text-center mb-5">
-                            <div className="mb-3">
-                                <img src="h.jpg" alt="Company logo" />
-                            </div>
+                            {/* <div className="mb-3">
+                                <img src="/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "100px"}}/>
+                            </div> */}
                             <p className="h1 mb">Welcome to <span className="text-primary">Echotranscribe</span></p>
                             {/* <p className="lead text-muted mb-5">Those are what our application can be used for.</p> */}
                         </div>
                         <div className="col-12 row mb-3">
-                            <div className="col-3"></div>
-                            <div className="col-8">
+                            <div className="offset-2 col-1">
+                                <img src="/images/free.png" alt="Echotranscribe logo" className="" style={{ width: "50px"}}/>
+                            </div>
+                            <div className="col-9">
                                 <p className="h4 mb-0">Free version</p>
                                 <p>Transcribe a batch file for free with some formats available. No account, no use of credit card.</p>
                             </div>
                         </div>
                         <div className="col-12 row mb-3">
-                            <div className="col-3"></div>
-                            <div className="col-8">
+                            <div className="offset-2 col-1">
+                                <img src="/images/fast.png" alt="Echotranscribe logo" className="" style={{ width: "50px"}}/>
+                            </div>
+                            <div className="col-9">
                                 <p className="h4 mb-0">Very fast</p>
                                 <p>The AI engine provides fast and accurate answer.</p>
                             </div>

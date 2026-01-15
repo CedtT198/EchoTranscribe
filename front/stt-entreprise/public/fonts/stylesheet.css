@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Tilt Neon';
+    src: url('TiltNeon-Regular.woff2') format('woff2'),
+        url('TiltNeon-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Google Sans';
+    src: url('GoogleSans-Regular.woff2') format('woff2'),
+        url('GoogleSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
