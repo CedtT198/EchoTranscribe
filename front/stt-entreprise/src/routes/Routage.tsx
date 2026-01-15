@@ -21,13 +21,14 @@ function PersoRoutes() {
     const { isLoading } = useAuth0();
 
     if (isLoading) return (
-        <Loading></Loading>
+        <Loading />
     );
     return (
         <Routes>
             {/* <Route path="/callback" element={<CallbackPage />} /> */}
 
             <Route path="*" element={<NotFound />}></Route>
+              {/* <Route path="/callback" element={<Callback />} /> */}
             
             <Route path="/" element={<Navigate to="/public/layout/" replace />} />
             <Route path="/public/layout/" element={<PublicLayout />}>

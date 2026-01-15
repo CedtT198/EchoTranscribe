@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="EchoTranscribe" company="" webLink="http://" view-date="2025-09-08" view-index="0" gantt-divider-location="601" resource-divider-location="278" version="3.3.3316" locale="fr_FR">
+<?xml version="1.0" encoding="UTF-8"?><project name="EchoTranscribe" company="" webLink="http://" view-date="2025-09-08" view-index="0" gantt-divider-location="540" resource-divider-location="278" version="3.3.3316" locale="fr_FR">
     <description/>
     <view zooming-state="default:7" id="gantt-chart">
         <field id="tpd15" name="Notes" width="20" order="0"/>
-        <field id="tpd3" name="Nom" width="278" order="0"/>
-        <field id="tpd4" name="Date de début" width="159" order="1"/>
-        <field id="tpd5" name="Date de fin" width="163" order="2"/>
+        <field id="tpd3" name="Nom" width="241" order="0"/>
+        <field id="tpd4" name="Date de début" width="138" order="1"/>
+        <field id="tpd5" name="Date de fin" width="145" order="2"/>
         <option id="taskLabelUp" value=""/>
-        <option id="taskLabelDown" value="advancement"/>
+        <option id="taskLabelDown" value=""/>
         <option id="taskLabelLeft" value="length"/>
-        <option id="taskLabelRight" value="id"/>
+        <option id="taskLabelRight" value=""/>
         <option id="filter.completedTasks" value="false"/>
         <option id="filter.dueTodayTasks" value="false"/>
         <option id="filter.overdueTasks" value="false"/>
         <option id="filter.inProgressTodayTasks" value="false"/>
+        <option id="color.recent"><![CDATA[#ffcccc #ffff99 #99ff99 #009999 #6666ff #ccccff #000000 #cc66ff #006600 #cc6600]]></option>
     </view>
     <view id="resource-table">
         <field id="0" name="Nom" width="200" order="0"/>
@@ -42,39 +43,105 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" uid="c60c9812aaf0451895396c957b769cdf" name="Préparation" meeting="false" start="2025-09-16" duration="15" complete="0" expand="true">
+        <task id="0" uid="c60c9812aaf0451895396c957b769cdf" name="Préparation" color="#00cccc" meeting="false" start="2025-09-22" duration="13" complete="0" expand="true">
             <depend id="1" type="2" difference="0" hardness="Strong"/>
-            <task id="4" uid="c44854e29de041d3ae6304fa68d7a051" name="Prise en main projet et documentation" meeting="false" start="2025-09-16" duration="3" complete="0" expand="true">
+            <task id="4" uid="c44854e29de041d3ae6304fa68d7a051" name="Prise en main et compréhension des besoins" color="#00cccc" meeting="false" start="2025-09-22" duration="4" complete="0" expand="true">
                 <depend id="5" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="5" uid="7b9140528a364889bae38137ec77d47a" name="Installation environnement" meeting="false" start="2025-09-19" duration="1" complete="0" expand="true">
+            <task id="5" uid="7b9140528a364889bae38137ec77d47a" name="Installation environnement" color="#00cccc" meeting="false" start="2025-09-26" duration="1" complete="0" expand="true">
                 <depend id="6" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="6" uid="0aff3e5c6c8f4f25b02c3ed0f446b389" name="Familiarisation avec les outils" meeting="false" start="2025-09-22" duration="3" complete="0" expand="true">
-                <depend id="7" type="2" difference="0" hardness="Strong"/>
+            <task id="6" uid="0aff3e5c6c8f4f25b02c3ed0f446b389" name="Analyse et conception" color="#00cccc" meeting="false" start="2025-09-29" duration="3" complete="0" expand="true">
+                <depend id="13" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="7" uid="d0bf85abd66e4efab71760956e18fd63" name="Planning" meeting="false" start="2025-09-25" duration="7" complete="0" expand="true">
-                <depend id="8" type="2" difference="0" hardness="Strong"/>
-                <task id="9" uid="d21b8421eca7459a9744b952c0f2b20f" name="Gantt project" meeting="false" start="2025-09-25" duration="1" complete="0" expand="true">
-                    <depend id="11" type="2" difference="0" hardness="Strong"/>
-                </task>
-                <task id="11" uid="d2ecac72dbb14587a626527620526b38" name="Conception de la base de données" meeting="false" start="2025-09-26" duration="2" complete="0" expand="true">
-                    <depend id="12" type="2" difference="0" hardness="Strong"/>
-                </task>
-                <task id="12" uid="9c582dfcf89344538084b90ab393f61a" name="Processus de fonctionnement (Swimlane)" meeting="false" start="2025-09-30" duration="3" complete="0" expand="true">
-                    <depend id="10" type="2" difference="0" hardness="Strong"/>
-                </task>
-                <task id="10" uid="519c9351332c432a90100e531181f7aa" name="Todo list" meeting="false" start="2025-10-03" duration="1" complete="0" expand="true"/>
+            <task id="13" uid="19ea0b2c0c72464bbafad9e4078ef311" name="Maquettes" color="#00cccc" meeting="false" start="2025-10-02" duration="3" complete="0" expand="true">
+                <depend id="14" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="8" uid="3ea2c60b1df24d6eb268889328326136" name="Configuration test et déploiement" meeting="false" start="2025-10-06" duration="1" complete="0" expand="true"/>
+            <task id="14" uid="2db5b07fe5364eba88b972d7225e6bf3" name="Initialisation du projet" color="#00cccc" meeting="false" start="2025-10-07" duration="2" complete="0" expand="true"/>
         </task>
-        <task id="1" uid="e53750b525244a7a8ebfb493a023a032" name="Développement" meeting="false" start="2025-10-07" duration="45" complete="0" expand="true">
+        <task id="1" uid="e53750b525244a7a8ebfb493a023a032" name="Réalisation" color="#000000" meeting="false" start="2025-10-09" duration="45" complete="0" expand="true">
             <depend id="2" type="2" difference="0" hardness="Strong"/>
+            <task id="15" uid="4445a4cf1e65418e85a5a0d894bb294d" name="Page vitrine" meeting="false" start="2025-10-09" duration="1" complete="0" expand="true">
+                <depend id="16" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="16" uid="fcd22790d4374e58aada9ecb0bb05276" name="Gestion utilisateur" color="#0066cc" meeting="false" start="2025-10-10" duration="8" complete="0" expand="true">
+                <depend id="21" type="2" difference="0" hardness="Strong"/>
+                <task id="17" uid="5cbac261aa2945f791328a21d5716286" name="Authentification avec Auth0" color="#0066cc" meeting="false" start="2025-10-10" duration="2" complete="0" expand="true">
+                    <depend id="20" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="20" uid="adc7df56810645c9bf8fa713094c26dd" name="Gestion des token" color="#0066cc" meeting="false" start="2025-10-14" duration="2" complete="0" expand="true">
+                    <depend id="19" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="19" uid="766029375bc84e498e710caccb76a302" name="Gestion profil" color="#0066cc" meeting="false" start="2025-10-16" duration="2" complete="0" expand="true">
+                    <depend id="18" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="18" uid="452a8a7cb32546a5b3f132f8124d8f7f" name="CRUD user" color="#0066cc" meeting="false" start="2025-10-20" duration="2" complete="0" expand="true"/>
+            </task>
+            <task id="21" uid="bafdfbe55b6e458ba80a06ef3c61db62" name="Transcription" color="#cc0033" meeting="false" start="2025-10-22" duration="12" complete="0" expand="true">
+                <depend id="27" type="2" difference="0" hardness="Strong"/>
+                <task id="22" uid="4f087efbbe0d4d7fb4c4e63163862303" name="Design transcription fichier et Streaming" color="#cc0033" meeting="false" start="2025-10-22" duration="2" complete="0" expand="true">
+                    <depend id="24" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="24" uid="2c8ba4c1668945ae92ad4eaf4cc9d0df" name="IA Speech-to-text short &amp; long file" color="#cc0033" meeting="false" start="2025-10-24" duration="4" complete="0" expand="true">
+                    <depend id="23" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="23" uid="b449d3e5925648db84451cfef93d32e1" name="IA Streaming Speech-to-text" color="#cc0033" meeting="false" start="2025-10-30" duration="4" complete="0" expand="true">
+                    <depend id="26" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="26" uid="a2b71910ad774c8e9a2915dd835f9b94" name="CRUD transcription" color="#cc0033" meeting="false" start="2025-11-05" duration="2" complete="0" expand="true"/>
+            </task>
+            <task id="27" uid="95ad639820b7488abd33fb3b6690729b" name="Resume" color="#cc6600" meeting="false" start="2025-11-07" duration="2" complete="0" expand="true">
+                <depend id="30" type="2" difference="0" hardness="Strong"/>
+                <task id="28" uid="bbd57a0c7b9e449597dff7a206489652" name="Design" color="#cc6600" meeting="false" start="2025-11-07" duration="1" complete="0" expand="true">
+                    <depend id="29" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="29" uid="a96165f138a04c9997c57fc6e8008522" name="IA OpenAI traitement de texte" color="#cc6600" meeting="false" start="2025-11-10" duration="1" complete="0" expand="true"/>
+            </task>
+            <task id="30" uid="f36ecf39f3ad413e9742bc9c939df8af" name="Export des transcriptions" color="#006600" meeting="false" start="2025-11-11" duration="3" complete="0" expand="true">
+                <depend id="31" type="2" difference="0" hardness="Strong"/>
+                <depend id="32" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="31" uid="5c390739dbde49fe87cb4f7e2df06ccc" name="Système d'abonnement" color="#ccccff" meeting="false" start="2025-11-14" duration="9" complete="0" expand="true">
+                <depend id="36" type="2" difference="0" hardness="Strong"/>
+                <depend id="38" type="2" difference="0" hardness="Strong"/>
+                <task id="32" uid="c259abe57bde49a8b72335be23ad8216" name="Design" color="#ccccff" meeting="false" start="2025-11-14" duration="1" complete="0" expand="true">
+                    <depend id="35" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="35" uid="eb3b05e3b0764e308ffc11b0c39bc62d" name="Gestion des abonnements" color="#ccccff" meeting="false" start="2025-11-17" duration="4" complete="0" expand="true">
+                    <depend id="34" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="34" uid="cbdb65f8940749dcb84c23004790a0e2" name="CRUD abonnement" color="#ccccff" meeting="false" start="2025-11-21" duration="2" complete="0" expand="true">
+                    <depend id="33" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="33" uid="ecfaeb306d5c46a98891d2604bc56438" name="Filtres multi-critères" color="#ccccff" meeting="false" start="2025-11-25" duration="2" complete="0" expand="true"/>
+            </task>
+            <task id="36" uid="3bb1f1e875c04e6aa2808bddef6f2643" name="Suivi des activités" color="#99ff99" meeting="false" start="2025-11-27" duration="4" complete="0" expand="true">
+                <depend id="41" type="2" difference="0" hardness="Strong"/>
+                <depend id="42" type="2" difference="0" hardness="Strong"/>
+                <task id="38" uid="b73306d61dda44e990746d4c8b3da254" name="Design" color="#99ff99" meeting="false" start="2025-11-27" duration="1" complete="0" expand="true">
+                    <depend id="40" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="40" uid="fa9649dd16304828b8018298e72620a6" name="Historique de transcription" color="#99ff99" meeting="false" start="2025-11-28" duration="1" complete="0" expand="true">
+                    <depend id="39" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="39" uid="83a04482593c4024a80b514c108bffe4" name="Filtres multi-critères" color="#99ff99" meeting="false" start="2025-12-01" duration="2" complete="0" expand="true"/>
+            </task>
+            <task id="41" uid="97b9074ac6604f6caf1c4bb91feb4b87" name="Notes" color="#ffff99" meeting="false" start="2025-12-03" duration="3" complete="0" expand="true">
+                <depend id="45" type="2" difference="0" hardness="Strong"/>
+                <task id="42" uid="1c149c6a42eb409daf1e794d9fc13e3f" name="Design" color="#ffff99" meeting="false" start="2025-12-03" duration="1" complete="0" expand="true">
+                    <depend id="43" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="43" uid="ca062e90496d402a97daa39a2d9460de" name="CRUD notes" color="#ffff99" meeting="false" start="2025-12-04" duration="1" complete="0" expand="true">
+                    <depend id="44" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="44" uid="fc08fc38dbb146c685fb2b8da99e4b9a" name="Filtre" color="#ffff99" meeting="false" start="2025-12-05" duration="1" complete="0" expand="true"/>
+            </task>
+            <task id="45" uid="aeb24d1cf8c54fd8b976e06d40f62df5" name="Tableau de bord" color="#ffcccc" meeting="false" start="2025-12-08" duration="3" complete="0" expand="true"/>
         </task>
-        <task id="2" uid="a7918308425842eba73528161837041c" name="Test(s) et correction(s)" meeting="false" start="2025-12-09" duration="3" complete="0" expand="true">
+        <task id="2" uid="a7918308425842eba73528161837041c" name="Test(s) et correction(s)" color="#6666ff" meeting="false" start="2025-12-11" duration="4" complete="0" expand="true">
             <depend id="3" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="3" uid="150fe3fa07114abcaa50b6ed02693be0" name="Déploiement final" meeting="false" start="2025-12-12" duration="3" complete="0" expand="true"/>
+        <task id="3" uid="150fe3fa07114abcaa50b6ed02693be0" name="Déploiement final" color="#009999" meeting="false" start="2025-12-17" duration="3" complete="0" expand="true"/>
     </tasks>
     <resources>
         <resource id="0" name="Cedric" function="1" contacts="" phone=""/>

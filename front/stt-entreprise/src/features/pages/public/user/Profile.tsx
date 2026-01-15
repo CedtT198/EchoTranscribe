@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import type { FormDataUpdateUser, ValidationErrors} from '../../../../components/Global';
 // import { useLocation } from "react-router-dom";
-import { deleteUser, getMyProfile, updateUser } from "../../../../api/user";
+import { deleteUser, getMyProfile, updateUser, userDefault, type FormDataUser } from "../../../../api/user";
 import { useAuth0 } from "@auth0/auth0-react";
 import AutoLogout from "../../../../components/AutoLogout";
 import Loading from "../../../../components/others/Loading";
@@ -29,6 +28,7 @@ function Profile() {
             }
         }
 
+        // formData
         fetchUserData()
     }, [auth0Loading, isAuthenticated]);
     
@@ -38,43 +38,40 @@ function Profile() {
 
 
     // update user
-    const [formData, setFormData] = useState<FormDataUpdateUser>({
-        name: "art",
-        first_name: "art",
-        old_password: "12345678",
-        new_password: "12345678",
-        confirm_new_password: "12345678"
-    });
+    const [formData, setFormData] = useState<FormDataUser>(userDefault);
     
     const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<string>("");
-    const [errors, setErrors] = useState<ValidationErrors>({});
+    // const [errors, setErrors] = useState<ValidationErrors>({});
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        setErrors(prev => ({ ...prev, [name]: "" }));
+        // setErrors(prev => ({ ...prev, [name]: "" }));
         setSuccess("");
         setError("");
+
+        // console.log(formData);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSuccess("");
         setError("");
-        setErrors({});
+        // setErrors({});
 
         console.log(formData);
         
         try {
             const res = await updateUser(formData);
             const data = res.data;
+            console.log(res);
             console.log(data);
 
             if (data.success) {
                 setSuccess(data.success)
             } else if (data.errors) {
-                setErrors(data.errors);
+                // setErrors(data.errors);
             } else {
                 setError(data.error || "Unkown error happened.");
             }
@@ -121,11 +118,11 @@ function Profile() {
                         <div className="row align-items-center">
                             <div className="col-md-3 col-lg-3 col-xs-12 text-center my-4">
                                 <div className="avatar avatar-xl">
-                                    <img src="./assets/avatars/face-1.jpg" alt="User profile picture" className="avatar-img rounded-circle"/>
+                                    <img src={user?.picture} alt="User avatar" className="avatar-img rounded-circle"/>
                                 </div>
-                                <a href="#" className="text-primary">
+                                {/* <a href="#" className="text-primary">
                                     <span className="fe fe-edit-2 fe-16 mr-1"></span>Change
-                                </a>
+                                </a> */}
                             </div>
                             <div className="col-xs-12 col-md-4 col-lg-4 px-4">
                                 <h4 className="mb-1">{userData.firstName ? userData.firstName : "-----"}, {userData.name ? userData.name: "-----"}</h4>
@@ -137,16 +134,20 @@ function Profile() {
                                         <span className="fe fe-calendar fe-16 mr-2"></span>{userData.birthday ? userData.birthday : "--/--/----"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-map fe-16 mr-2"></span>{userData.country ? userData.country : "----"}
+                                        <span className="fe fe-map fe-16 mr-2"></span>{userData.country ? userData.country : "-----"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-map-pin fe-16 mr-2"></span>{userData.country ? userData.country : "----"}, {userData.zip ? userData.zip : "----"}, 
+                                        <span className="fe fe-map-pin fe-16 mr-2"></span>{userData.city ? userData.city : "-----"}, {userData.zip ? userData.zip : "-----"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.creationDate ? userData.creationDate : "----"}
+                                        {/* <span className="fe fe-map-pin fe-16 mr-2"></span> */}
+                                        {userData.address ? userData.address : "-----"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-edit fe-16 mr-2"></span>Last update date
+                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.creationDate ? userData.creationDate : "--/--/----"}
+                                    </p>
+                                    <p className="mb-0 text-muted">
+                                        <span className="fe fe-edit fe-16 mr-2"></span>Last update date: {userData.creationDate ? userData.creationDate : "--/--/----"}
                                     </p>
                                 </div>
                             </div>
@@ -171,24 +172,40 @@ function Profile() {
                                                                 <input type="text" id="name" name="name" className="form-control form-control-lg" onChange={handleChange} value={formData.name} required/>
                                                             </div>
                                                             <div className="form-group col-6">
-                                                                <label htmlFor="first_name">First name *</label>
-                                                                <input type="text" id="first_name" name="first_name" className="form-control form-control-lg" onChange={handleChange} value={formData.first_name} required/>
+                                                                <label htmlFor="firstName">First name *</label>
+                                                                <input type="text" id="firstName" name="firstName" className="form-control form-control-lg" onChange={handleChange} value={formData.firstName} required/>
                                                             </div>
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="password">Old password *</label>
-                                                            <input type="password" id="old_password" name="old_password" className="form-control form-control-lg" onChange={handleChange} value={formData.old_password} required/>
-                                                            {errors.password && <p className='text-danger'>{errors.password}</p>}
+                                                            <label htmlFor="birthday">Birthday *</label>
+                                                            <input type="date" id="birthday" name="birthday" className="form-control form-control-lg" onChange={handleChange} value={formData.birthday} required/>
+                                                            {/* {errors.birthday && <p className='text-danger'>{errors.birthday}</p>} */}
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="password">New password *</label>
-                                                            <input type="password" id="password" name="password" className="form-control form-control-lg" onChange={handleChange} value={formData.new_password} required/>
-                                                            {errors.password && <p className='text-danger'>{errors.password}</p>}
+                                                            <label htmlFor="country">Country *</label>
+                                                            <select name="" id="" className="form-control form-control-lg">
+                                                                <option value="Madagascar">Madagascar</option>
+                                                            </select>
+                                                            {/* <input type="country" id="old_password" name="old_password" className="form-control form-control-lg" onChange={handleChange} value={formData.country} required/> */}
+                                                            {/* {errors.country && <p className='text-danger'>{errors.country}</p>} */}
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="confirm_password">Confirm new password *</label>
-                                                            <input type="password" id="confirm_password" name="confirm_password" className="form-control form-control-lg" onChange={handleChange} value={formData.confirm_new_password} required/>
-                                                            {errors.confirm_password && <p className='text-danger'>{errors.confirm_password}</p>}
+                                                            <label htmlFor="city">City *</label>
+                                                            <select name="" id="" className="form-control form-control-lg">
+                                                                <option value="">Antananarivo</option>
+                                                            </select>
+                                                            {/* <input type="city" id="old_password" name="old_password" className="form-control form-control-lg" onChange={handleChange} value={formData.city} required/> */}
+                                                            {/* {errors.city && <p className='text-danger'>{errors.city}</p>} */}
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label htmlFor="zip">Zip *</label>
+                                                            <input type="zip" id="zip" name="zip" className="form-control form-control-lg" onChange={handleChange} value={formData.zip} required/>
+                                                            {/* {errors.zip && <p className='text-danger'>{errors.zip}</p>} */}
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label htmlFor="address">Address *</label>
+                                                            <input type="text" id="address" name="address" className="form-control form-control-lg" onChange={handleChange} value={formData.address} required/>
+                                                            {/* {errors.address && <p className='text-danger'>{errors.address}</p>} */}
                                                         </div>
                                                         {error &&
                                                         <div className="alert alert-danger text-center" role="alert">
@@ -205,6 +222,7 @@ function Profile() {
                         </div>
                     </div>
                 </div>
+
                 {/* sub */}
                 <div className="col-md-12 row mb-5">
                     <div className="col-md-9 col-lg-9 col-xs-12">
@@ -245,28 +263,28 @@ function Profile() {
                             </div>
                         </div>
                     </div>
-                    {error &&
+                    {/* {error &&
                     <div className="alert alert-danger text-center" role="alert">
                         <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}.
                     </div>}
                     {success &&
                     <div className="alert alert-success text-center" role="alert">
                         <span className="fe fe-check fe-16 mr-2"></span>{success}.
-                    </div>}
+                    </div>} */}
                 </div>
                 <div className="card mb-4 shadow col-xs-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 p-0">
                     <div className="card-body text-center p-5 d-flex flex-column accordion-item-hover text-glow-primary" style={{minHeight: "500px"}}>
                         <div className="border-bottom-1">
-                            <p className="h3 mb-0"><span className="dot dot-lg bg-success mr-2"></span>{"sub.name"}</p>
+                            {/* <p className="h3 mb-0"><span className="dot dot-lg bg-success mr-2"></span>{"sub.name"}</p>
                             <p className=" mb-0" style={{ fontSize: 40 }}>${"sub.price"}</p>
-                            <p className="text-muted">{"sub.frequency"}</p><hr/>
+                            <p className="text-muted">{"sub.frequency"}</p><hr/> */}
+                            <p className="h3 mb-0"><span className="dot dot-lg bg-success mr-2"></span>Free plan</p>
+                            <p className="" style={{ fontSize: 40 }}>$0</p><hr/>
                         </div>
                         <ul className="mb-5 text-left px-2">
-                            <li>foweufhewiufew</li>
-                            <li>foweufhewiufew</li>
-                            <li>foweufhewiufew</li>
-                            <li>foweufhewiufew</li>
-                            <li>foweufhewiufew</li>
+                            <li>Transcribe in 125+ languages</li>
+                            <li>3 min of transcription only</li>
+                            <li>Limited format supported</li>
                             {/* {"sub.description".map((f, j) => (
                                 <li key={j} className="mb-1">{f}</li>
                             ))} */}

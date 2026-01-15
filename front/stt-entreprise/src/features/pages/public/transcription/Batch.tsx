@@ -113,7 +113,7 @@ function Transcribe() {
               <div className="text-center d-flex justify-content-center align-items-center">
                 <div className="bg-dark p-1 rounded-pill">
                   <button className="btn btn-primary rounded-pill mx-1 text-light" type="button">
-                    <span className="fe fe-info fe-16 mr-1"></span>Upload audio
+                    <span className="fe fe-file fe-16 mr-1"></span>Upload audio
                   </button>
                   <Link className="btn btn rounded-pill mx-1 text-light" type="button" to="/public/layout/live">
                     <span className="dot mr-2"></span>Transcribe live audio
@@ -122,12 +122,12 @@ function Transcribe() {
               </div>
             </div>
             <div className="row mb-4">
-            <div className="col-md-12">
-              <div className="card shadow mb-4">
-                <div className="card-body">
-                  <form onSubmit={handleUpload}>
-                    <div className="dropzone rounded-lg col-12 p-0 text-center" id="tinydash-dropzone">
-                      <label htmlFor="upload" className="mx-auto w-100 pt-5 pb-2 upload">
+              <div className="col-md-12">
+                <div className="card shadow mb-4">
+                  <div className="card-body">
+                    <form onSubmit={handleUpload}>
+                      <div className="dropzone rounded-lg col-12 p-0 text-center" id="tinydash-dropzone">
+                        <label htmlFor="upload" className="mx-auto w-100 pt-5 pb-2 upload">
                         <input type="file" id="upload" accept="audio/*,video/*"  onChange={handleFileChange} hidden/>
                         <p className="h1 text-dark">Audio to text Converter</p>
                         <p className="h6 text-muted mb-5">Automatically convert audio to text.</p>
@@ -145,20 +145,20 @@ function Transcribe() {
                           </>}
                           {fileName && 
                           <div className="dz-message needsclick mb-5 pt-5 d-flex flex-column align-items-center">
-                              <div className="btn rounded-pill text-dark d-block w-50 mb-3" style={{backgroundColor: "#afd5f0ff", fontSize: 16}}>
-                                <span className="d-flex justify-content-between align-items-center">
-                                  <span className="fe fe-file fe-16 mx-1"></span>
-                                  <span className="mx-1 text-truncate">{fileName}</span>
-                                  <button className="btn text-dark"  type="button" id="actionMenuButton" data-toggle="dropdown">
-                                    <span className="fe fe-info fe-16"></span>
-                                  </button>
-                                  <div className="dropdown-menu text-center" aria-labelledby="actionMenuButton">
-                                    <span className="dropdown-item">{size}</span>
-                                    {duration ? (<span className="dropdown-item">{Math.floor(duration / 60)}min et {duration % 60}sec</span>)
-                                    : (<span className="dropdown-item">Unknown</span>)}
-                                  </div>
-                                </span>
-                              </div>
+                            <div className="btn rounded-pill text-dark d-block w-50 mb-3" style={{backgroundColor: "#afd5f0ff", fontSize: 16}}>
+                              <span className="d-flex justify-content-between align-items-center">
+                                <span className="fe fe-file fe-16 mx-1"></span>
+                                <span className="mx-1 text-truncate">{fileName}</span>
+                                <button className="btn text-dark"  type="button" id="actionMenuButton" data-toggle="dropdown">
+                                  <span className="fe fe-info fe-16"></span>
+                                </button>
+                                <div className="dropdown-menu text-center" aria-labelledby="actionMenuButton">
+                                  <span className="dropdown-item">{size}</span>
+                                  {duration ? (<span className="dropdown-item">{Math.floor(duration / 60)}min et {duration % 60}sec</span>)
+                                  : (<span className="dropdown-item">Unknown</span>)}
+                                </div>
+                              </span>
+                            </div>
                             <button className="btn btn-primary rounded-pill py-3 px-4 text-light font-weight-bolder" type="submit">Start</button>
                             <FileSettings
                               settings={settings}
@@ -175,13 +175,13 @@ function Transcribe() {
                         <div className="alert alert-danger" role="alert">
                           <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
                         </div>
-                      </div>}
-                  </form>
-                </div>
+                  </div>}
+                </form>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </div>
   )
 }

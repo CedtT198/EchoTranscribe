@@ -17,7 +17,7 @@ export const Auth0ProviderWithNavigate: React.FC<{ children: React.ReactNode }> 
       domain="dev-jdtdmvnllnhe51fm.us.auth0.com"
       clientId="PHjpMBH8DIi5eT4R4R34oq1xA6qPvsYD"
       authorizationParams={{
-        redirect_uri: window.location.origin + "/callback",
+        redirect_uri: window.location.origin,
         audience: "https://echo.transcribe.api.com/",
       }}
       onRedirectCallback={onRedirectCallback}

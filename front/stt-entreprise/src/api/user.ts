@@ -26,7 +26,7 @@ export const getMyProfile = async () => {
     }
 }
 
-export const updateUser = async (formData: FormDataUpdateUser) => {
+export const updateUser = async (formData: FormDataUser) => {
     try {
         return api.post(`/user/update`, formData);
     } catch (error) {
@@ -43,17 +43,27 @@ export const saveUser = async (formData: FormDataUser) => {
 }
 
 
-export interface FormDataUpdateUser {
-    name: string,
-    first_name: string,
-    old_password: string,
-    new_password: string,
-    confirm_new_password: string
+export const userDefault: FormDataUser = {
+    id: "",
+    auth0Id: "",
+    name: "",
+    firstName: "",
+    country: "",
+    city: "",
+    zip: "",
+    address: "",
+    mail: "",
+    birthday: "",
+    password: "",
+    confirmPassword: "",
+    creationDate: ""
 }
 
 export interface FormDataUser {
+    id: string,
+    auth0Id: string,
     name: string,
-    first_name: string,
+    firstName: string,
     country: string,
     city: string,
     zip: string,
@@ -61,5 +71,6 @@ export interface FormDataUser {
     mail: string,
     birthday: string,
     password: string,
-    confirm_password: string
+    confirmPassword: string,
+    creationDate: string
 }

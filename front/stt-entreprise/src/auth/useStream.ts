@@ -14,6 +14,7 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
     const { user } = useAuth0();
 
     const startRecording = async () => {
+        setError("");
         try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
@@ -109,6 +110,7 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
         if (mediaRecorderRef.current) {
             mediaRecorderRef.current.stop();
         }
+        setError("");
     };
 
   return {

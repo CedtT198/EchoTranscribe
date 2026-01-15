@@ -14,7 +14,7 @@ function PublicFooter() {
             <div className="container">
                 <div className="row mt-5">
                     <div className="col-xs-12 col-md-4 col-lg-4 mt-5">
-                        <p className="h2 text-light">EchoTranscribe</p>
+                        <p className="h2 text-light">Echotranscribe</p>
                         <p>With EchoTranscribe you can automatically transcribe your audio/video  files into more than 125 languages.</p>
                         <div>
                             <button className="circle circle-md bg-light border-primary mx-1">

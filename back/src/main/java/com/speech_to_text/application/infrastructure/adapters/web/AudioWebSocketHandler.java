@@ -25,20 +25,20 @@ public class AudioWebSocketHandler extends BinaryWebSocketHandler {
 
     @Override
     protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws IOException {
-        // ByteBuffer payload = message.getPayload();
-        // ByteString audioBytes = ByteString.copyFrom(payload);
-        // // System.out.println("ok");
+        ByteBuffer payload = message.getPayload();
+        ByteString audioBytes = ByteString.copyFrom(payload);
+        // System.out.println("ok");
 
-        // ClientStream<StreamingRecognizeRequest> clientStream = (ClientStream<StreamingRecognizeRequest>) session.getAttributes().get("clientStream");
+        ClientStream<StreamingRecognizeRequest> clientStream = (ClientStream<StreamingRecognizeRequest>) session.getAttributes().get("clientStream");
 
-        // if (clientStream != null) {
-        //     // Envoyer le chunk audio
-        //     StreamingRecognizeRequest audioRequest = StreamingRecognizeRequest.newBuilder()
-        //         .setAudio(audioBytes)
-        //         .build();
+        if (clientStream != null) {
+            // Envoyer le chunk audio
+            StreamingRecognizeRequest audioRequest = StreamingRecognizeRequest.newBuilder()
+                .setAudio(audioBytes)
+                .build();
 
-        //     clientStream.send(audioRequest);
-        // }
+            clientStream.send(audioRequest);
+        }  
     }
 
 
@@ -61,13 +61,13 @@ public class AudioWebSocketHandler extends BinaryWebSocketHandler {
                 System.out.println(auth0id);
                 settings.toString();
 
-                // session.getAttributes().put("auth0id", auth0id);
-                // session.getAttributes().put("settings", settings);
+                session.getAttributes().put("auth0id", auth0id);
+                session.getAttributes().put("settings", settings);
                 
                 // if (settings.useSavedSettings) {
                 //     settings = transcriptionUseCase.findSettings(auth0id, "streaming");
                 // }
-                // transcriptionUseCase.initStreamingConfig(session, settings);
+                transcriptionUseCase.initStreamingConfig(session, settings);
         
                 sendJson(session, "{\"type\":\"received\",\"message\":\"Settings received successfuly\"}");
             }

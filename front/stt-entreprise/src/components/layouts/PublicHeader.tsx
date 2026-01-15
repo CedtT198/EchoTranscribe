@@ -28,14 +28,15 @@ function PublicHeader() {
         <nav className="navbar-expand-lg navbar-light bg-white border-bottom shadow fixed-top" >
             <div className="container-fluid d-flex justify-content-between align-items-center">
                 <a className="navbar-brand mx-lg-1 mr-0" href="./index.html">
-                {/* LOGO */}
-                    {/* <svg version="1.1" id="logo" className="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
-                    <g>
-                        <polygon className="st0" points="78,105 15,105 24,87 87,87 	" />
-                        <polygon className="st0" points="96,69 33,69 42,51 105,51 	" />
-                        <polygon className="st0" points="78,33 15,33 24,15 87,15 	" />
-                    </g>
-                    </svg> */}
+                    {/* <img src="/images/logo_white_resized.png" alt="" className="" style={{width: "100px"}}/> */}
+                    {/* LOGO */}
+                        {/* <svg version="1.1" id="logo" className="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
+                        <g>
+                            <polygon className="st0" points="78,105 15,105 24,87 87,87 	" />
+                            <polygon className="st0" points="96,69 33,69 42,51 105,51 	" />
+                            <polygon className="st0" points="78,33 15,33 24,15 87,15 	" />
+                        </g>
+                        </svg> */}
                 </a>
                 <button className="navbar-toggler mt-2 mr-auto toggle-sidebar text-muted">
                     <i className="fe fe-menu navbar-toggler-icon"></i>
@@ -58,6 +59,11 @@ function PublicHeader() {
                             </div>
                         </li> */}
                         <li className="nav-item">
+                            <Link to="/public/layout">
+                                <img src="/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "100px"}}/>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
                             <button className="btn"  type="button" id="actionMenuButton" data-toggle="dropdown" style={{fontSize: 16}}>
                                 Tools<span className="fe fe-chevron-down fe-16 ml-1"></span>
                             </button>
@@ -73,7 +79,7 @@ function PublicHeader() {
                                     <>
                                         <Link className="dropdown-item" to="/public/layout/live">Live Speech to text</Link>
                                         <a className="dropdown-item" href="/public/layout/summary">Resume text with AI</a>
-                                        <Link className="dropdown-item" to="#">Translate</Link>
+                                        {/* <Link className="dropdown-item" to="#">Translate</Link> */}
                                     </>
                                     )}
 
@@ -96,11 +102,11 @@ function PublicHeader() {
                                 <span className="ml-lg-2">Resume</span>
                             </a>
                         </li> */}
-                        <li className="nav-item">
+                        {isAuthenticated && <li className="nav-item">
                             <Link className="nav-link" to="/public/layout/history">
                                 <span className="ml-lg-2">History</span>
                             </Link>
-                        </li>
+                        </li>}
                         {/* <li className="nav-item dropdown more">
                             <a className="dropdown-toggle more-horizontal nav-link" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span className="ml-2 sr-only">More</span>
@@ -162,15 +168,15 @@ function PublicHeader() {
                     ) : (
                         <>
                             <li className="nav-item">
-                                <a className="nav-link">
-                                    <span className="ml-lg-2">{user?.email}</span>
-                                </a>
+                                <Link className="nav-link" to="/public/layout/profile">
+                                    {user?.email}
+                                </Link>
                             </li>
                             <li className="nav-item dropdown ml-lg-0">
                                 <a className="nav-link dropdown-toggle text-muted" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span className="avatar avatar-sm mt-2">
                                         {/* soloina icon representatif kely */}
-                                        <img src="./assets/avatars/face-1.jpg" alt="..." className="avatar-img rounded-circle"/>
+                                        <img src={user?.picture} alt="User avatar" className="avatar-img rounded-circle"/>
                                     </span>
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">

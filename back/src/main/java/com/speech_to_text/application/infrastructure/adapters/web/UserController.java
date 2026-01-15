@@ -76,6 +76,8 @@ public class UserController {
 
     @PostMapping("/update")
     public ResponseEntity<User> update(@RequestBody User user) {
+        System.out.println("update voahantso");
+        System.out.println(user.getAuth0Id());
         return ResponseEntity.ok(userUseCase.update(user));
     }
 

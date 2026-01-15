@@ -135,7 +135,7 @@ function Summary() {
 
 
   if (transLoading) {
-    return (<Loading></Loading>)
+    return <Loading/>
   }
   return (
     <div className="d-flex justify-content-center">

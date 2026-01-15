@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { type TranscriptionFilter, filterDefault, getTranscriptions } from "../../../../api/transcription";
 import { type Summary } from "../../../../api/summary";
 import { endPage, startPage } from "../../../../others/pagination";
+import { Link } from "react-router-dom";
+import { formatLocalDate } from "../../../../others/utils";
 
 function History() {
     const [error, setError] = useState<string>();
@@ -55,11 +57,13 @@ function History() {
                     </div>
                     <div className="col-2 row p-0 mb-4">
                         <div className="col-6">
-                            <button type="button" className="btn mb-2 btn-primary" data-toggle="modal" data-target=".modal-right">Filter</button>
+                            <button type="button" className="btn mb-2 btn-primary" data-toggle="modal" data-target=".modal-right">
+                                <span className="fe fe-filter fe-16 mr-1"></span>Filter
+                            </button>
                         </div>
                         <div className="col-6">
                             <button className="btn btn-success text-light" type="button" id="actionMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                New
+                                <span className="fe fe-plus fe-16 mr-1"></span>New
                             </button>
                             <div className="dropdown-menu" aria-labelledby="actionMenuButton">
                                 <a className="dropdown-item" href="#">Batch</a>
@@ -183,17 +187,17 @@ function History() {
                                                 <td>
                                                     <p className="h4 mb-0">{t.title}</p>
                                                     <p className="h6 mb-0">{t.subtitle}</p>
-                                                    <p className="text-muted mb-0">{t.creation_date}</p>
+                                                    <p className="text-muted mb-0">{formatLocalDate(t.creation_date)}</p>
                                                 </td>
                                                 <td>{t.transcription_type}</td> 
                                                 <td>{t.file}</td>
-                                                <td className="text-center">
-                                                    <a href="#" className="text-danger mx-1 fe-16 nav-link" title="Delete">
+                                                <td className="row m-0 p-0 justify-content-center align-items-center">
+                                                    <Link to="#" className="text-danger fe-16 nav-link" title="Delete">
                                                         <span className="fe fe-trash-2"></span>
-                                                    </a>
-                                                    <a href="/public/layout/export" className="text-warning mx-1 fe-16 nav-link" title="Export">
+                                                    </Link>
+                                                    <Link to="/public/layout/export" className="text-warning fe-16 nav-link" title="Export">
                                                         <span className="fe fe-download"></span>
-                                                    </a>
+                                                    </Link>
                                                 </td>
                                             </tr>
                                             <tr id={`collap-${page * size + index + 1}`} className="collapse in p-3 bg-light">

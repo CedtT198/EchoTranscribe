@@ -6,7 +6,8 @@ const AuthBootstrap = () => {
     const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
    const hasSynced = useRef(false);
 
-    useEffect(() => {
+    useEffect(() => {    
+        if (isLoading) return;
         if (!isAuthenticated) return;
         if (hasSynced.current) return;
 
