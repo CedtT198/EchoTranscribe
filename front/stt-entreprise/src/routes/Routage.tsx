@@ -15,6 +15,8 @@ import Loading from "../components/others/Loading"
 import Subscription from "../features/pages/public/pricing/Subscription"
 import AddReview from "../features/pages/public/review/AddReview"
 import Summary from "../features/pages/public/transcription/Summary"
+import { PaymentError } from "../features/pages/public/pricing/PaymentError"
+import { PaymentSuccess } from "../features/pages/public/pricing/PaymentSuccess"
 
 
 function PersoRoutes() {
@@ -43,6 +45,8 @@ function PersoRoutes() {
                 <Route path="live" element={<Live />} />
                 <Route path="listReview" element={<ListReview />} />
                 <Route path="addReview" element={<AddReview />} />
+                <Route path="payment/success" element={<PaymentSuccess />} />
+                <Route path="payment/error" element={<PaymentError />} />
             </Route>
         </Routes>
     )

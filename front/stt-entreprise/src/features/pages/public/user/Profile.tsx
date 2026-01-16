@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import AutoLogout from "../../../../components/AutoLogout";
 import Loading from "../../../../components/others/Loading";
 import { useAuth } from "../../../../auth/useAuth";
+import Pricing from "../../../../components/pricing/Pricing";
 
 function Profile() {
     // profiile
@@ -125,26 +126,26 @@ function Profile() {
                                 </a> */}
                             </div>
                             <div className="col-xs-12 col-md-4 col-lg-4 px-4">
-                                <h4 className="mb-1">{userData.firstName ? userData.firstName : "-----"}, {userData.name ? userData.name: "-----"}</h4>
+                                <h4 className="mb-1">{userData.firstName ? userData.firstName : "Rakotoarimisa"}, {userData.name ? userData.name: "Cedric Tiavina"}</h4>
                                 <p className="mb-3"><span className="badge badge-dark">{user?.email}</span></p>
                             </div>
                             <div className="col-xs-12 col-md-3 col-lg-3 px-4">
                                 <div className="col-12">
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.birthday ? userData.birthday : "--/--/----"}
+                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.birthday ? userData.birthday : "02/10/2003"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-map fe-16 mr-2"></span>{userData.country ? userData.country : "-----"}
+                                        <span className="fe fe-map fe-16 mr-2"></span>{userData.country ? userData.country : "Madagascar"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-map-pin fe-16 mr-2"></span>{userData.city ? userData.city : "-----"}, {userData.zip ? userData.zip : "-----"}
+                                        <span className="fe fe-map-pin fe-16 mr-2"></span>{userData.city ? userData.city : "Antananarivo"}, {userData.zip ? userData.zip : "101"}
                                     </p>
                                     <p className="mb-0 text-muted">
                                         {/* <span className="fe fe-map-pin fe-16 mr-2"></span> */}
-                                        {userData.address ? userData.address : "-----"}
+                                        {userData.address ? userData.address : "Lot IIIG 87D Ambatolampy Ambohimanarina"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.creationDate ? userData.creationDate : "--/--/----"}
+                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.creationDate ? userData.creationDate : "02/11/2025"}
                                     </p>
                                     <p className="mb-0 text-muted">
                                         <span className="fe fe-edit fe-16 mr-2"></span>Last update date: {userData.creationDate ? userData.creationDate : "--/--/----"}
@@ -226,7 +227,7 @@ function Profile() {
                 {/* sub */}
                 <div className="col-md-12 row mb-5">
                     <div className="col-md-9 col-lg-9 col-xs-12">
-                        <p className="h3 mb-0">Your actual subscription</p>
+                        <p className="h3 mb-0">Your subscription</p>
                         <p className="text-muted">Everything about your active subscription(s).</p>
                     </div>
                     <div className="col-md-3 col-lg-3 col-xs-12 d-flex align-items-center justify-content-center">
@@ -236,7 +237,7 @@ function Profile() {
                         <div className="modal fade" id="codeModal" role="dialog" aria-labelledby="codeModalLabel" aria-hidden="true">
                             <div className="modal-dialog" role="document">
                                 <div className="modal-content">
-                                    <div className="modal-header row">
+                                    <div className="modal-header row m-0">
                                         <div className="col-10">
                                             <h5 className="modal-title" id="codeModalLabel">Invitation code</h5>
                                             <p className='text-muted'>It allows you to use the same subscription as the one who gives you the code.</p>
@@ -272,28 +273,8 @@ function Profile() {
                         <span className="fe fe-check fe-16 mr-2"></span>{success}.
                     </div>} */}
                 </div>
-                <div className="card mb-4 shadow col-xs-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 p-0">
-                    <div className="card-body text-center p-5 d-flex flex-column accordion-item-hover text-glow-primary" style={{minHeight: "500px"}}>
-                        <div className="border-bottom-1">
-                            {/* <p className="h3 mb-0"><span className="dot dot-lg bg-success mr-2"></span>{"sub.name"}</p>
-                            <p className=" mb-0" style={{ fontSize: 40 }}>${"sub.price"}</p>
-                            <p className="text-muted">{"sub.frequency"}</p><hr/> */}
-                            <p className="h3 mb-0"><span className="dot dot-lg bg-success mr-2"></span>Free plan</p>
-                            <p className="" style={{ fontSize: 40 }}>$0</p><hr/>
-                        </div>
-                        <ul className="mb-5 text-left px-2">
-                            <li>Transcribe in 125+ languages</li>
-                            <li>3 min of transcription only</li>
-                            <li>Limited format supported</li>
-                            {/* {"sub.description".map((f, j) => (
-                                <li key={j} className="mb-1">{f}</li>
-                            ))} */}
-                        </ul>
-                        <div className="py-2 mt-auto">
-                            {/* <button className="btn btn-primary w-100 rounded-pill" style={{ fontSize: 18 }}>Subscribe</button> */}
-                        </div>
-                    </div>
-                </div> 
+                <Pricing></Pricing>
+
                 {/* sub records */}
                 <div className="col-12 mb-5">
                     <hr />
@@ -311,7 +292,7 @@ function Profile() {
                                 <th>Total</th>
                                 <th>Payments</th>
                                 <th>Invitation code</th>
-                                <th>Sub master
+                                <th>Sub. owner
                                     <span className="fe fe-info fe-16 ml-2 text-secondary" title="The person who paid for the subscription."></span>
                                 </th>
                             </tr>
@@ -416,7 +397,7 @@ function Profile() {
                         <div className="alert alert-danger container row" role="alert">
                             <div className="col-md-10 col-lg-10 col-xs-12">
                                 <p className="" style={{fontSize: "17px"}}>Delete your account</p>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex ut praesentium magnam repellat harum. Omnis sunt adipisci quasi quod, optio eos amet, rerum perferendis, laboriosam reiciendis consequatur harum distinctio iste.</p>
+                                <p><span style={{textDecoration: "underline", fontWeight: 800}}>Warning:</span> Deleting your account is permanent. All your data, settings, and history will be permanently removed and cannot be recovered. This action cannot be undone.</p>
                             </div>
                             <div className="col-md-2 col-lg-2 col-xs-12 d-flex align-items-center justify-content-center">
                                 <div className="text-center">

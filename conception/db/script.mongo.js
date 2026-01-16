@@ -96,7 +96,7 @@ db.subscription_type.insertMany([
    },
    {
       name: "Company",
-      description: ["Transcribe in 125+ languages", "Everything in Pro, plus:", "3 additional team member", "API access", "Priority support"],
+      description: ["Transcribe in 125+ languages", "Everything in Pro, plus:", "3 additional team member", "Acces to plugins", "Priority support"],
       frequency: "Monthly",
       price: 49.99
    }
