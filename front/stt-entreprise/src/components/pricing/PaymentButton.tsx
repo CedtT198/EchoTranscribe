@@ -6,6 +6,8 @@ type PaymentButtonProps = {
 
 export function PaymentButton({ plan }: PaymentButtonProps) {
   const handlePay = async () => {
+    console.log("ok payment button");
+
     const res = await pay(plan);
     const data = res.data;
     window.location.href = data.url;

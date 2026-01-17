@@ -17,12 +17,18 @@ const StreamingSettings: React.FC<SettingsModalProps> = ({ settings, setSettings
                     <div className="modal-content">
                         <div className="modal-body text-center m-0 p-0">
                             <div className="row justify-content-center">
+                                
+                                <div className="d-flex align-items-center justify-content-center mt-5">
+                                    <button type="button" className="close mb-4" data-dismiss="modal" aria-hidden="true">
+                                        <span className="fe fe-x-circle fe-32 text-danger"></span>
+                                    </button>
+                                </div>
                                 <div className="col-12">
                                     <div className="">
-                                        <p className="h4 mb-0 mt-5">Streaming Settings</p>
+                                        <p className="h4 mb-0">Streaming Settings</p>
                                         <p>Enable/DIsable some features</p>
                                         <hr className=""/>
-                                        <div className="list-group mb-5 shadow text-left">
+                                        {/* <div className="list-group mb-5 shadow text-left">
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
@@ -37,7 +43,7 @@ const StreamingSettings: React.FC<SettingsModalProps> = ({ settings, setSettings
                                                     </div> 
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
 
                                         <strong className="mb-0">Language</strong>
                                         <p></p>
@@ -94,7 +100,7 @@ const StreamingSettings: React.FC<SettingsModalProps> = ({ settings, setSettings
                                                     </div>
                                                     <div className="col-auto">
                                                         <div className="custom-control custom-switch">
-                                                            <select className="form-control" id="alternativeLanguages" multiple
+                                                            <select className="form-control" id="alternativeLanguages"
                                                             disabled={!settings.useAlternativeLanguages}
                                                             value={settings.alternativeLanguages}
                                                             onChange={(e) => {
@@ -123,7 +129,7 @@ const StreamingSettings: React.FC<SettingsModalProps> = ({ settings, setSettings
                                                 <div className="row align-items-center">
                                                     <div className="col">
                                                         <strong className="mb-0">Punctuation</strong>
-                                                        <p className="text-muted mb-0">Add automaticly punctuation to the result.</p>
+                                                        <p className="text-muted mb-0">Add punctuation to the result.</p>
                                                     </div> 
                                                     <div className="col-auto">
                                                         <div className="custom-control custom-switch">
@@ -233,11 +239,6 @@ const StreamingSettings: React.FC<SettingsModalProps> = ({ settings, setSettings
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="d-flex align-items-center justify-content-center">
-                                        <button aria-label="" type="button" className="close mb-4" data-dismiss="modal" aria-hidden="true">
-                                            <span className="fe fe-x-circle fe-32 text-danger"></span>
-                                        </button>
                                     </div>
                                 </div> 
                             </div>

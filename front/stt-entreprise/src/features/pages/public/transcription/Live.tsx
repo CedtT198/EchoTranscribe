@@ -108,7 +108,7 @@ function Live() {
                             {recording &&
                                 <div className="d-flex justify-content-center align-items-center">
                                     <VoiceWave></VoiceWave>
-                                    <button className="circle circle-md  bg-danger border-danger mx-2 my-5" style={{ width: 75, height: 75}} type='button'>
+                                    <button className="circle circle-md  bg-danger border-danger mx-2 my-5" style={{ width: 75, height: 75}} type='button' onClick={stopRecording}>
                                         <span className="fe fe-square fe-32 text-white"></span>
                                     </button>
                                     

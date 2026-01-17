@@ -12,7 +12,7 @@ public class StripeConfig {
 
     @PostConstruct
     public void init() {
-        System.out.println(stripeSecretKey);
+        // System.out.println(stripeSecretKey);
         Stripe.apiKey = stripeSecretKey;
     }
 }

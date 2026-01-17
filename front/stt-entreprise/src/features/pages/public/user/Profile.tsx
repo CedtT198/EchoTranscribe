@@ -132,7 +132,7 @@ function Profile() {
                             <div className="col-xs-12 col-md-3 col-lg-3 px-4">
                                 <div className="col-12">
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.birthday ? userData.birthday : "02/10/2003"}
+                                        <span className="fe fe-calendar fe-16 mr-2"></span>Birthday: {userData.birthday ? userData.birthday : "02/10/2003"}
                                     </p>
                                     <p className="mb-0 text-muted">
                                         <span className="fe fe-map fe-16 mr-2"></span>{userData.country ? userData.country : "Madagascar"}
@@ -145,7 +145,7 @@ function Profile() {
                                         {userData.address ? userData.address : "Lot IIIG 87D Ambatolampy Ambohimanarina"}
                                     </p>
                                     <p className="mb-0 text-muted">
-                                        <span className="fe fe-calendar fe-16 mr-2"></span>{userData.creationDate ? userData.creationDate : "02/11/2025"}
+                                        <span className="fe fe-calendar fe-16 mr-2"></span>Joined date: {userData.creationDate ? userData.creationDate : "02/11/2025"}
                                     </p>
                                     <p className="mb-0 text-muted">
                                         <span className="fe fe-edit fe-16 mr-2"></span>Last update date: {userData.creationDate ? userData.creationDate : "--/--/----"}
@@ -232,7 +232,10 @@ function Profile() {
                     </div>
                     <div className="col-md-3 col-lg-3 col-xs-12 d-flex align-items-center justify-content-center">
                         <div className="text-center">
-                            <button type="button" className="btn btn-info" data-toggle="modal" data-target="#codeModal" data-whatever="@mdo">Enter invitation code</button>
+                            <p className="h2"><span className="dot dot-lg bg-success mr-2"></span>Company</p>
+                            <p className="text-muted" style={{cursor: "pointer"}}><span className="fe fe-copy fe-16 mr-2"></span>q2w34e5rft6ghjud7wqe5f</p>
+                            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#codeModal" data-whatever="@mdo">Cancel plan</button>
+                            {/* <button type="button" className="btn btn-info" data-toggle="modal" data-target="#codeModal" data-whatever="@mdo">Enter invitation code</button> */}
                         </div>
                         <div className="modal fade" id="codeModal" role="dialog" aria-labelledby="codeModalLabel" aria-hidden="true">
                             <div className="modal-dialog" role="document">
@@ -273,7 +276,7 @@ function Profile() {
                         <span className="fe fe-check fe-16 mr-2"></span>{success}.
                     </div>} */}
                 </div>
-                <Pricing></Pricing>
+                {/* <Pricing></Pricing> */}
 
                 {/* sub records */}
                 <div className="col-12 mb-5">
@@ -287,7 +290,6 @@ function Profile() {
                             <tr role="row">
                                 <th>ID</th>
                                 <th>Purchase Date</th>
-                                <th>Date end</th>
                                 <th>Sub. type</th>
                                 <th>Total</th>
                                 <th>Payments</th>
@@ -299,17 +301,14 @@ function Profile() {
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="col">1332</th>
-                                <td>2020-12-26 01:32:21</td>
-                                <td></td>
+                                <th scope="col">1</th>
+                                <td>02/11/2025</td>
                                 <td>Free plan</td>
                                 <td>-</td>
                                 <td>-</td>
                                 <td>-</td>
                                 <td>
-                                    <div className="avatar avatar-sm">
-                                        <img src="./assets/avatars/face-3.jpg" alt="User profile picture." className="avatar-img rounded-circle"/> You
-                                    </div>
+                                    <div className="avatar avatar-sm">You</div>
                                 </td>
                                 {/* <td>
                                     <a href="" className="btn text-danger" title="Delete">
@@ -318,8 +317,7 @@ function Profile() {
                                 </td> */}
                             </tr>
                             <tr>
-                                <th scope="col">1333</th>
-                                <td>2020-12-26 01:32:21</td>
+                                {/* <th scope="col">1333</th>
                                 <td>2020-12-26 01:32:21</td>
                                 <td>Independant</td>
                                 <td>$9.99</td>
@@ -329,7 +327,7 @@ function Profile() {
                                     <div className="avatar avatar-sm">
                                         <img src="./assets/avatars/face-3.jpg" alt="User profile picture." className="avatar-img rounded-circle"/> You
                                     </div>
-                                </td>
+                                </td> */}
                                 {/* <td>
                                     <a href="" className="btn text-danger" title="Delete">
                                         <span className="fe fe-trash-2 fe-16 mr-2"></span>
@@ -337,21 +335,19 @@ function Profile() {
                                 </td> */}
                             </tr>
                             <tr>
-                                <th scope="col">1334</th>
-                                <td>2020-12-26 01:32:21</td>
-                                <td>2020-12-26 01:32:21</td>
+                                <th scope="col">2</th>
+                                <td>02/11/2025</td>
                                 <td>Company</td>
-                                <td>$19.99</td>
-                                <td>Mastercard VISA</td>
-                                <td>
+                                <td>$49.99</td>
+                                <td>card</td>
+                                <td>-</td>
+                                {/* <td>
                                     <a href="#" className="text-secondary">
                                         <span className="fe fe-copy fe-16 mr-2"></span>q2w34e5rft6ghjud7wqe5f
                                     </a>
-                                </td>
+                                </td> */}
                                 <td>
-                                    <div className="avatar avatar-sm">
-                                        <img src="./assets/avatars/face-3.jpg" alt="User profile picture." className="avatar-img rounded-circle"/> You
-                                    </div>
+                                    <div className="avatar avatar-sm">You</div>
                                 </td>
                                 {/* <td>
                                     <a href="" className="btn text-danger" title="Delete">
@@ -360,8 +356,7 @@ function Profile() {
                                 </td> */}
                             </tr>
                             <tr>
-                                <th scope="col">1335</th>
-                                <td>2020-12-26 01:32:21</td>
+                                {/* <th scope="col">1335</th>
                                 <td>2020-12-26 01:32:21</td>
                                 <td>Company</td>
                                 <td>-</td>
@@ -375,7 +370,7 @@ function Profile() {
                                     <div className="avatar avatar-sm">
                                         <img src="./assets/avatars/face-3.jpg" alt="User profile picture." className="avatar-img rounded-circle mr-1"/>Master
                                     </div>
-                                </td>
+                                </td> */}
                                 {/* <td>
                                     <a href="" className="btn text-danger" title="Delete">
                                         <span className="fe fe-trash-2 fe-16 mr-2"></span>

@@ -90,7 +90,7 @@ db.subscription_type.insertMany([
    },
    {
       name: "Pro",
-      description: ["Transcribe in 125+ languages", "AI summary", "Many formats supported: FLAC, MULAW, AMR, AMR_WB, MP3, MP4, MOV, M4A, AAC, WAV, OGG, OPUS, MPEG", "Stored and centralized data history", "Sharable results"],
+      description: ["Transcribe in 125+ languages", "AI summary", "Up to 8 hours of file length", "Many formats supported: FLAC, MULAW, AMR, AMR_WB, MP3, MP4, MOV, M4A, AAC, WAV, OGG, OPUS, MPEG", "Stored and centralized data history", "Sharable results"],
       frequency: "Monthly",
       price: 19.99
    },

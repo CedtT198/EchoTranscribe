@@ -38,11 +38,11 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                 </div>
                                 <div className="col-12">
                                     <div className="">
-                                        <p className="h4 mb-0">Batch Transcription Settings</p>
+                                        <p className="h4 mb-0">Transcription Settings</p>
                                         <p>Enable/DIsable some features</p>
                                         <hr className=""/>
 
-                                        {isAuthenticated && <div className="list-group mb-5 shadow text-left">
+                                        {/* {isAuthenticated && <div className="list-group mb-5 shadow text-left">
                                             <div className="list-group-item">
                                                 <div className="row align-items-center">
                                                     <div className="col">
@@ -57,7 +57,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                                     </div> 
                                                 </div>
                                             </div>
-                                        </div>}
+                                        </div>} */}
 
                                         <p className="text-dark mb-0">Language</p>
                                         <p></p>
@@ -114,7 +114,7 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
                                                     </div>
                                                     <div className="col-auto">
                                                         <div className="custom-control custom-switch">
-                                                            <select className="form-control" id="alternativeLanguages" multiple
+                                                            <select className="form-control" id="alternativeLanguages" 
                                                             disabled={!settings.useAlternativeLanguages}
                                                             value={settings.alternativeLanguages}
                                                             onChange={(e) => {

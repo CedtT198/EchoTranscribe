@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class PaymentService implements PaymentUseCase {
+    
     @Override
     public Map<String, String> createCheckout(String plan) throws Exception {
         String priceId = "price_1SqB2MPsskg94PLM4IH4S8AW";
@@ -21,8 +22,9 @@ public class PaymentService implements PaymentUseCase {
         SessionCreateParams params =
         SessionCreateParams.builder()
             .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-            .setSuccessUrl("http://localhost:4173/public/layout/payment/success")
-            .setCancelUrl("http://localhost:4173/public/layout/payment/cancel")
+            // .setSuccessUrl("http://localhost:5173/public/layout/payment/success")
+            .setSuccessUrl("http://localhost:5173/public/layout/profile")
+            .setCancelUrl("http://localhost:5173/public/layout/payment/cancel")
             .addLineItem(
                 SessionCreateParams.LineItem.builder()
                     .setPrice(priceId)
@@ -36,7 +38,7 @@ public class PaymentService implements PaymentUseCase {
     }
 
     @Override
-    public void cancelSUbscription(String subscriptionId) throws Exception {
+    public void cancelSubscription(String subscriptionId) throws Exception {
         Subscription subscription = Subscription.retrieve(subscriptionId);
         subscription.cancel();
     }

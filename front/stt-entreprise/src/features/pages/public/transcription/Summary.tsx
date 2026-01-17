@@ -87,8 +87,8 @@ function Summary() {
   const [bar, setBar] = useState<number>(5);
   const handleLengthChange = (length: string) => {
     let value = 5;
-    if (length === "short") value = 25;
-    else if (length === "medium") value = 50;
+    if (length === "short") value = 33;
+    else if (length === "medium") value = 66;
     else if (length === "long") value = 100;
 
     updateFormData("length", length);
@@ -234,8 +234,8 @@ function Summary() {
                           <input type="radio" className="" id="medium" name="length" required onChange={() => handleLengthChange("medium")}/>
                           <label htmlFor="medium">Medium</label>
                           
-                          <input type="radio" className="" id="Long" name="length" required onChange={() => handleLengthChange("long")}/>
-                          <label htmlFor="Long">Long</label>
+                          {/* <input type="radio" className="" id="Long" name="length" required onChange={() => handleLengthChange("long")}/>
+                          <label htmlFor="Long">Long</label> */}
                         </div>
                         <div className="offset-md-3 col-md-6 offset-lg-3 col-lg-6 col-xs-12 p-0">
                           <div className="progress">

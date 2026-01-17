@@ -24,10 +24,6 @@ function Pricing () {
     const { signupAuth0 } = useAuth();
     const signup = () => signupAuth0()
 
-    const pay = () => {
-        checkout();
-    }
-
     return (
         <div className="card-deck my-4 px-4">
             {sub_types.map((sub, i) => (

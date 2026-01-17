@@ -40,10 +40,10 @@ function Landing() {
                                                 <p className="h1 text-dark">Audio to text Converter</p>
                                                 <p className="h6 text-muted mb-5">Automatically convert audio to text.</p>
                                                 <div className="dz-message needsclick mb-5 pt-5">
-                                                    <a className="btn btn-primary rounded-pill py-3 px-4 text-light mb-3">
-                                                    Upload your File
-                                                    <i className="fe fe-upload-cloud fe-16 text-white mx-2"></i>
-                                                    </a>
+                                                    <button className="btn btn-primary rounded-pill py-3 px-4 text-light mb-3">
+                                                        Upload your File
+                                                        <i className="fe fe-upload-cloud fe-16 text-white mx-2"></i>
+                                                    </button>
                                                     <h5 className="text-muted">Click or drag here to upload</h5>
                                                 </div>
                                                 {/* <p className="font-weight-bold text-dark mb-0">No account needed</p> */}
