@@ -5,7 +5,7 @@ import { endPage, startPage } from "../../../../others/pagination";
 import { Link } from "react-router-dom";
 import { formatLocalDate } from "../../../../others/utils";
 
-function History() {
+export default function History() {
     const [error, setError] = useState<string>();
     const [filter, setFilter] = useState<TranscriptionFilter>(filterDefault);
     
@@ -115,51 +115,51 @@ function History() {
                                     
                                     <div className="modal fade modal-right modal-slide" tabIndex={-1} role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
                                         <div className="modal-dialog modal-sm" role="document">
-                                        <div className="modal-content">
-                                            <div className="modal-header">
-                                                <h5 className="modal-title" id="defaultModalLabel">Filter(s)</h5>
-                                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div className="modal-body">
-                                                <div>
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title" id="defaultModalLabel">Filter(s)</h5>
+                                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    <div>
 
-                                                    <div className="form-group">
-                                                        <label htmlFor="startDate">Start date</label>
-                                                        <input type="date" id="startDate" className="form-control" onChange={(e) => updateFilter("startDate", e.target.value)}/>
-                                                    </div>
-                                                    
-                                                    <div className="form-group">
-                                                        <label htmlFor="endDate">End date</label>
-                                                        <input type="date" id="endDate" className="form-control" onChange={(e) => updateFilter("endDate", e.target.value)}/>
-                                                    </div>
-                                                    
-                                                    <div className="form-group">
-                                                        <label htmlFor="content">Search in content</label>
-                                                        <textarea id="content" className="form-control" style={{resize: "none"}} onChange={(e) => updateFilter("contentPhrase", e.target.value)}/>
-                                                    </div>
-                                                    
-                                                    <div className="form-group">
-                                                        <label htmlFor="summary">Search in summary</label>
-                                                        <textarea id="summary" className="form-control" style={{resize: "none"}} onChange={(e) => updateFilter("summaryPhrase", e.target.value)}/>
-                                                    </div>
-                                                    
-                                                    <div className="form-group">
-                                                        <label htmlFor="transcriptionType">Transcription type</label>
-                                                        <select name="" id="transcriptionType" className="form-control" onChange={(e) => updateFilter("transcriptionType", e.target.value)}>
-                                                            <option value="batch">Batch</option>
-                                                            <option value="live">Live</option>
-                                                        </select>
-                                                    </div>
+                                                        <div className="form-group">
+                                                            <label htmlFor="startDate">Start date</label>
+                                                            <input type="date" id="startDate" className="form-control" onChange={(e) => updateFilter("startDate", e.target.value)}/>
+                                                        </div>
+                                                        
+                                                        <div className="form-group">
+                                                            <label htmlFor="endDate">End date</label>
+                                                            <input type="date" id="endDate" className="form-control" onChange={(e) => updateFilter("endDate", e.target.value)}/>
+                                                        </div>
+                                                        
+                                                        <div className="form-group">
+                                                            <label htmlFor="content">Search in content</label>
+                                                            <textarea id="content" className="form-control" style={{resize: "none"}} onChange={(e) => updateFilter("contentPhrase", e.target.value)}/>
+                                                        </div>
+                                                        
+                                                        <div className="form-group">
+                                                            <label htmlFor="summary">Search in summary</label>
+                                                            <textarea id="summary" className="form-control" style={{resize: "none"}} onChange={(e) => updateFilter("summaryPhrase", e.target.value)}/>
+                                                        </div>
+                                                        
+                                                        <div className="form-group">
+                                                            <label htmlFor="transcriptionType">Transcription type</label>
+                                                            <select name="" id="transcriptionType" className="form-control" onChange={(e) => updateFilter("transcriptionType", e.target.value)}>
+                                                                <option value="batch">Batch</option>
+                                                                <option value="live">Live</option>
+                                                            </select>
+                                                        </div>
 
+                                                    </div>
+                                                </div>
+                                                <div className="modal-footer">
+                                                    <button type="button" className="btn mb-2 btn-dark" data-dismiss="modal">Close</button>
+                                                    {/* <button type="submit" className="btn mb-2 btn-primary">Save changes</button> */}
                                                 </div>
                                             </div>
-                                            <div className="modal-footer">
-                                                <button type="button" className="btn mb-2 btn-dark" data-dismiss="modal">Close</button>
-                                                {/* <button type="submit" className="btn mb-2 btn-primary">Save changes</button> */}
-                                            </div>
-                                        </div>
                                         </div>
                                     </div>
 
@@ -214,11 +214,11 @@ function History() {
                                                         <dt className="col-1 d-flex align-items-center justify-content-center">{t.goal}</dt>
                                                         <dt className="col-1 d-flex align-items-center justify-content-center">{t.length}</dt>
                                                         <dt className="col-1 d-flex align-items-center justify-content-center">{t.length}</dt>
-                                                        <dt className="col-1 d-flex align-items-center justify-content-center">
+                                                        {/* <dt className="col-1 d-flex align-items-center justify-content-center">
                                                             <a href="" className="text-secondary">
                                                                 <span className="fe fe-edit-2" title="Re-resume"></span>
                                                             </a>
-                                                        </dt>
+                                                        </dt> */}
                                                     </dl>
                                                 </td>
                                             </tr>
@@ -259,5 +259,3 @@ function History() {
             </div>
         )
 }
-
-export default History;

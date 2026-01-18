@@ -15,4 +15,7 @@ public class ExportDTO {
 
     @JsonProperty("transcription")
     Transcription transcription;
+    
+    @JsonProperty("mail")
+    String mail;
 }

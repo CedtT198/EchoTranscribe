@@ -4,7 +4,7 @@ import { useAuth } from "../../auth/useAuth";
 import { findAllSubType } from "../../api/subType";
 import { PaymentButton } from "./PaymentButton";
 
-function Pricing () {
+export default function Pricing () {
     const [sub_types, setSub] = useState([]);
     useEffect(() => {
         const fetchSubs = async () => {
@@ -56,5 +56,3 @@ function Pricing () {
         </div>
     )
 }
-
-export default Pricing;

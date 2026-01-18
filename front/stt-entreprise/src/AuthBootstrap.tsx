@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useRef } from "react";
 import { getAccessTokenGlobal } from "./Auth0ProviderWithNavigate";
 
-const AuthBootstrap = () => {
+export default function AuthBootstrap() {
     const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
    const hasSynced = useRef(false);
 
@@ -46,5 +46,3 @@ const AuthBootstrap = () => {
 
     return null;
 };
-
-export default AuthBootstrap;

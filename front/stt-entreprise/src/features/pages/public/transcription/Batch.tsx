@@ -3,7 +3,7 @@ import { type FormDataTranscription, batchDefault } from "../../../../api/transc
 import FileSettings from "../../../../components/transcription/FileSettings";
 import { Link, useNavigate } from "react-router-dom";
 
-function Transcribe() {
+export default function Transcribe() {
 
   // const [success, setSuccess] = useState<string>();
   const [error, setError] = useState<string>();
@@ -185,5 +185,3 @@ function Transcribe() {
     </div>
   )
 }
-
-export default Transcribe;

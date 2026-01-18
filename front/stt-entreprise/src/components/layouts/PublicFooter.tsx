@@ -10,15 +10,15 @@ function PublicFooter() {
     const logout = () => logoutAuth0()
 
     return(
-        <footer className="mt-5 text-white" style={{ background: '#222'}}>
+        <footer className="mt-5 text-white" style={{ background: '#333', borderRadius: "25px"}}>
             <div className="container">
                 <div className="row mt-5">
                     <div className="col-xs-12 col-md-4 col-lg-4 mt-5">
                         <p className="h2 text-light">Echotranscribe</p>
                         <p>With EchoTranscribe you can automatically transcribe your audio/video  files into more than 125 languages.</p>
                         <div>
-                            <button className="circle circle-md bg-light border-primary mx-1">
-                                <span className="fe fe-24 fe-facebook text-primary"></span>
+                            <button className="circle circle-md bg-primary border-primary mx-1">
+                                <span className="fe fe-24 fe-facebook text-white"></span>
                             </button>
                             <button className="circle circle-md bg-info border-light mx-1">
                                 <span className="fe fe-24 fe-linkedin text-light"></span>
@@ -29,7 +29,7 @@ function PublicFooter() {
                         </div>
                     </div>
                     <div className="col-xs-12 col-md-8 col-lg-8 row mt-5">
-                        <div className="col-4">
+                        <div className="col-6">
                             <p className="font-weight-bolder">Tools</p><hr />
                             <ul className="list-unstyled">
                                 <li  className="mx-1 my-1">
@@ -59,18 +59,18 @@ function PublicFooter() {
                                     )}
                             </ul>
                         </div>
-                        <div className="col-4">
+                        {/* <div className="col-4">
                             <p className="font-weight-bolder">Ressources</p><hr />
-                            {/* <ul className="list-unstyled">
+                            <ul className="list-unstyled">
                                 <li  className="mx-1 my-1">
                                     <a href="" className="text-light">Help</a>
                                 </li>
                                 <li  className="mx-1 my-1">
                                     <a href="" className="text-light">API</a>
                                 </li>
-                            </ul> */}
-                        </div>
-                        <div className="col-4">
+                            </ul>
+                        </div> */}
+                        <div className="col-6">
                             <p className="font-weight-bolder">Company</p><hr />
                             <ul className="list-unstyled">
                                 <li  className="mx-1 my-1">

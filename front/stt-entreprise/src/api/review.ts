@@ -68,8 +68,8 @@ export interface Review {
     id: string;
     auth0id: string;
     name: string;
-    firstName: string;
-    createdDate: string;
+    first_name: string;
+    creation_date: string;
     review: string;
     stars: number;
 }
@@ -78,8 +78,8 @@ export const revDefault: Review = {
     id: "",
     auth0id: "",
     name: "",
-    firstName: "",
-    createdDate: new Date().toISOString(),
+    first_name: "",
+    creation_date: new Date().toISOString(),
     review: "",
     stars: 1
 }

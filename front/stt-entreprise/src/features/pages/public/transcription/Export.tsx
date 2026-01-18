@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { download, exportDefault, type FormDataToExport } from "../../../../api/export";
 import Loading from "../../../../components/others/Loading";
 
-function Export() {
+export default function Export() {
   const location = useLocation();
   const { Summary: fd } = location.state || {};
   const [error, setError] = useState<string>("");
@@ -50,7 +50,7 @@ function Export() {
     try {
       await download(formData);
     } catch (err: any) {
-      setError(err);
+      setError(err.message);
     }
   };
 
@@ -77,9 +77,15 @@ function Export() {
                       <Textarea fs={22} mh={10} ml={200} class="text-muted" onChange={(value) => updateFormData("subtitle", value)} value={formDataTranscription.subtitle} ph="Subtitle" name=""></Textarea>
                   </div>
                   <div className="col-md-12 mb-5">
-                      <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formDataTranscription.content}></Textarea> 
+                      {formDataTranscription.summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("summary", value)} value={formDataTranscription.summary}></Textarea>}
+                      {!formDataTranscription.summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formDataTranscription.content}></Textarea> }
                   </div>
                   <div className="container mb-4">
+                    
+                    {error && <div className="alert alert-danger text-center" role="alert">
+                      <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
+                    </div>}
+
                     <div className="row">
 
                       <div className="col-12">
@@ -109,10 +115,6 @@ function Export() {
                         </button>
                       </div>
                     </div>
-                    
-                    {error && <div className="alert alert-danger" role="alert">
-                      <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
-                    </div>}
                   </div>
                 </form>
               </div>
@@ -123,5 +125,3 @@ function Export() {
     </div>
   )
 }
-
-export default Export;

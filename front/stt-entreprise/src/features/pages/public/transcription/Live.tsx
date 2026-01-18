@@ -7,7 +7,7 @@ import StreamingSettings from "../../../../components/transcription/StreamingSet
 import { Link, useNavigate } from "react-router-dom";
 import VoiceWave from "../../../../components/VoiceWave";
 
-function Live() {
+export default function Live() {
     // const [enable, setEnable] = useState(false);
     // const toggle = () =>{
     //     setEnable(prev => !prev);
@@ -131,5 +131,3 @@ function Live() {
         </div>
     )
 }
-
-export default Live

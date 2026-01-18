@@ -14,9 +14,13 @@
     "@stripe/react-stripe-js": "^5.4.1",
     "@stripe/stripe-js": "^8.6.1",
     "antd": "^6.1.4",
+    "apexcharts": "^3.45.0",
     "axios": "^1.13.2",
+    "chart.js": "^4.5.1",
+    "chartjs-plugin-zoom": "^2.2.0",
     "quill": "^2.0.3",
     "react": "^19.1.1",
+    "react-apexcharts": "^1.4.0",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.5",
     "sass": "^1.93.3"

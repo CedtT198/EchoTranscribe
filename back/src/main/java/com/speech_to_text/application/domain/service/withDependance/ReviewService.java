@@ -1,5 +1,7 @@
 package com.speech_to_text.application.domain.service.withDependance;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,10 @@ public class ReviewService implements ReviewUseCase {
             Number totalReviewsNum = (Number) global.get("totalReviews");
             Number averageStarNum = (Number) global.get("averageStar");
             if (totalReviewsNum != null) totalReviews = totalReviewsNum.longValue();
-            if (averageStarNum != null) averageStar = averageStarNum.doubleValue();
+            if (averageStarNum != null) {
+                double avg = averageStarNum.doubleValue();
+                averageStar = Math.round(avg * 10.0) / 10.0;
+            }
         }
 
         return new ReviewStatsDTO(totalReviews, averageStar, starCounts);

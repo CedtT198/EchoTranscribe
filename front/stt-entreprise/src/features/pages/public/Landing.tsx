@@ -3,7 +3,7 @@ import Pricing from "../../../components/pricing/Pricing";
 import QA from "../../../components/QA";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function Landing() {
+export default function Landing() {
 
     const { isAuthenticated } = useAuth0();
 
@@ -11,7 +11,7 @@ function Landing() {
         <div>
             <div className="row justify-content-center">
                 <div className="col-12 mb-5">
-                    <div className="w-50 mx-auto text-center justify-content-center">
+                    <div className="mx-auto text-center justify-content-center">
                         <p className="h1 page-title mb-0 font-weight-bold">Transcribe for free</p>
                         <p className="lead text-muted mb-4">Take notes with your voice in real-time, or transcribe audio/video batch file.</p>
                         <p className="help-text mt-2 text-muted">No account, no credit card need for free version.</p>
@@ -198,5 +198,3 @@ function Landing() {
 
     )
 }
-
-export default Landing;

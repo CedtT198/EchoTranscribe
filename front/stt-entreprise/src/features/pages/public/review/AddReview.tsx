@@ -2,7 +2,7 @@ import { useState } from "react"
 import { revDefault, save, type Review } from "../../../../api/review";
 import { useNavigate } from "react-router-dom";
 
-function AddReview () {
+export default function AddReview () {
     // updating review to save
     const [ review, setReview ] = useState<Review>(revDefault);
     
@@ -87,5 +87,3 @@ function AddReview () {
         </div>
     )
 };
-
-export default AddReview

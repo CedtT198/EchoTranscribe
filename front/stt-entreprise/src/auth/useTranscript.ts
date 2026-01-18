@@ -13,9 +13,12 @@ interface UseLongTranscriptionReturn {
   startTranscription: (fd: any) => Promise<void>;
   stopPolling: (message?: string) => Promise<void>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsPolling: React.Dispatch<React.SetStateAction<boolean>>;
+  setHideLoadingPanel: React.Dispatch<React.SetStateAction<boolean>>;
   status: Status | null;
   isLoading: boolean;
   isPolling: boolean;
+  hideLoadingPanel: boolean;
   transError: string | null;
 }
 
@@ -23,6 +26,7 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
   const [status, setStatus] = useState<Status | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isPolling, setIsPolling] = useState(false);
+  const [hideLoadingPanel, setHideLoadingPanel] = useState(false);
   const [transError, setError] = useState<string | null>(null);
   const [taskId, setTaskId] = useState<string | null>(null);
 
@@ -93,6 +97,9 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
     startTranscription,
     setIsLoading,
     stopPolling,
+    setHideLoadingPanel,
+    setIsPolling,
+    hideLoadingPanel,
     status,
     isLoading,
     isPolling,

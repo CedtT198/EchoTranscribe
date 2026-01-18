@@ -7,7 +7,7 @@ import Loading from "../../../../components/others/Loading";
 import { useAuth } from "../../../../auth/useAuth";
 import Pricing from "../../../../components/pricing/Pricing";
 
-function Profile() {
+export default function Profile() {
     // profiile
     const { user, isAuthenticated, isLoading: auth0Loading } = useAuth0();
     
@@ -226,16 +226,16 @@ function Profile() {
 
                 {/* sub */}
                 <div className="col-md-12 row mb-5">
-                    <div className="col-md-9 col-lg-9 col-xs-12">
+                    <div className="col-md-9 col-lg-9 col-xs-12 d-flex flex-column justify-content-center">
                         <p className="h3 mb-0">Your subscription</p>
                         <p className="text-muted">Everything about your active subscription(s).</p>
                     </div>
                     <div className="col-md-3 col-lg-3 col-xs-12 d-flex align-items-center justify-content-center">
                         <div className="text-center">
-                            <p className="h2"><span className="dot dot-lg bg-success mr-2"></span>Company</p>
-                            <p className="text-muted" style={{cursor: "pointer"}}><span className="fe fe-copy fe-16 mr-2"></span>q2w34e5rft6ghjud7wqe5f</p>
-                            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#codeModal" data-whatever="@mdo">Cancel plan</button>
-                            {/* <button type="button" className="btn btn-info" data-toggle="modal" data-target="#codeModal" data-whatever="@mdo">Enter invitation code</button> */}
+                            {/* <p className="h2"><span className="dot dot-lg bg-success mr-2"></span>Company</p> */}
+                            {/* <p className="text-muted" style={{cursor: "pointer"}}><span className="fe fe-copy fe-16 mr-2"></span>q2w34e5rft6ghjud7wqe5f</p>
+                            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#codeModal" data-whatever="@mdo">Cancel plan</button> */}
+                            <button type="button" className="btn btn-info" data-toggle="modal" data-target="#codeModal" data-whatever="@mdo">Enter invitation code</button>
                         </div>
                         <div className="modal fade" id="codeModal" role="dialog" aria-labelledby="codeModalLabel" aria-hidden="true">
                             <div className="modal-dialog" role="document">
@@ -335,20 +335,15 @@ function Profile() {
                                 </td> */}
                             </tr>
                             <tr>
-                                <th scope="col">2</th>
+                                {/* <th scope="col">2</th>
                                 <td>02/11/2025</td>
                                 <td>Company</td>
                                 <td>$49.99</td>
                                 <td>card</td>
                                 <td>-</td>
-                                {/* <td>
-                                    <a href="#" className="text-secondary">
-                                        <span className="fe fe-copy fe-16 mr-2"></span>q2w34e5rft6ghjud7wqe5f
-                                    </a>
-                                </td> */}
                                 <td>
                                     <div className="avatar avatar-sm">You</div>
-                                </td>
+                                </td> */}
                                 {/* <td>
                                     <a href="" className="btn text-danger" title="Delete">
                                         <span className="fe fe-trash-2 fe-16 mr-2"></span>
@@ -461,5 +456,3 @@ function Profile() {
         </div>
     )
 }
-
-export default Profile;

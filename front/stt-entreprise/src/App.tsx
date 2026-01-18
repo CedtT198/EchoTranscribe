@@ -1,7 +1,7 @@
 import AuthBootstrap from "./AuthBootstrap"
 import Routage from "./routes/Routage"
 
-function App() {  
+export default function App() {  
   return (
     <>
       <AuthBootstrap></AuthBootstrap>
@@ -9,5 +9,3 @@ function App() {
     </>
   )
 };
-
-export default App

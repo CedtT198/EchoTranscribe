@@ -1,7 +1,7 @@
 import Pricing from "../../../../components/pricing/Pricing";
 import QA from "../../../../components/QA";
 
-function Subscription() {
+export default function Subscription() {
     return (
         <div>
             <div className="text-center">
@@ -20,5 +20,3 @@ function Subscription() {
         </div>
     )
 }
-
-export default Subscription;

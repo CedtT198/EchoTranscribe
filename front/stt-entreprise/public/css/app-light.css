@@ -12192,3 +12192,18 @@ a.uppy-Dashboard-poweredBy {
   border-right: 8px solid transparent;
   border-top: 8px solid #e6f0ff;
 }
+
+@media (max-width: 576px) {
+  .truncate {
+    max-width: 8ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.blur-border {
+  box-shadow: 
+    0 0 12px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.2);
+}

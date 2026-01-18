@@ -24,6 +24,7 @@ public class ExportController {
     public ResponseEntity<?> export(@RequestBody ExportDTO exportDto) {
         String type = exportDto.getType();
         Transcription transcription = exportDto.getTranscription();
+        String mail = exportDto.getMail();
 
         ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 
@@ -33,28 +34,29 @@ public class ExportController {
 
         try {
             if ("pdf".equalsIgnoreCase(type)) {
-                byteArray = exportUseCase.generatePdf(transcription);
+                byteArray = exportUseCase.generatePdf(transcription, mail);
                 return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+exportDto.getTranscription().getFile()+".pdf")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+transcription.getTitle()+".pdf")
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(byteArray.toByteArray());
             }
             else if ("docx".equalsIgnoreCase(type)) {
-                byteArray = exportUseCase.generateDocx(transcription);
+                byteArray = exportUseCase.generateDocx(transcription, mail);
                 return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+exportDto.getTranscription().getFile()+".docx")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+transcription.getTitle()+".docx")
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(byteArray.toByteArray());
             }
             else if ("txt".equalsIgnoreCase(type)) {
-                byteArray = exportUseCase.generateTxt(transcription);
+                byteArray = exportUseCase.generateTxt(transcription, mail);
                 return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+exportDto.getTranscription().getFile()+".txt")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+transcription.getTitle()+".txt")
                     .contentType(MediaType.TEXT_PLAIN)
                     .body(byteArray.toByteArray());
             }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();   
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(e.getMessage());
         }
         
         return ResponseEntity.badRequest().build();   

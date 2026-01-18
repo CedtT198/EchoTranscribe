@@ -7,7 +7,7 @@ import { useTranscript } from "../../../../auth/useTranscript";
 import Loading from "../../../../components/others/Loading";
 import axios from "axios";
 
-function Summary() {
+export default function Summary() {
   const hasRun = useRef(false);
 
   const navigate = useNavigate()
@@ -16,7 +16,7 @@ function Summary() {
   const [formData, setFormData] = useState<Summary>(sumDefault);
   const { transType, type:longTransType, formDataTranscript, liveTranscript } = location.state || {};
   
-  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError, stopPolling } = useTranscript();
+  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError, setIsPolling, setHideLoadingPanel, hideLoadingPanel } = useTranscript();
   // const { token, loading:tokenLoad } = useAuthToken();
   useEffect(() =>{
     // if (tokenLoad || !token) return;
@@ -106,8 +106,10 @@ function Summary() {
       const res = await summarize(formData.content, formData.goal, formData.length, formData.additional_instruction);
       const data = res.data;
       setSummary(data);
+      updateFormData("content", formData.content);
+      updateFormData("summary", data);
 
-      console.log(data);
+      // console.log(data);
     } catch (error: any) {
       // setError(error.message);
       if (axios.isAxiosError(error) && error.response) {
@@ -127,10 +129,6 @@ function Summary() {
     });
   };
 
-  const cancelTranscription = async () => {
-    stopPolling();
-  }
-
   const saveTranscription = () => {};
 
 
@@ -139,7 +137,7 @@ function Summary() {
   }
   return (
     <div className="d-flex justify-content-center">
-      {isPolling &&<>
+      {isPolling && hideLoadingPanel==false && <>
         <div className="col-xs-12 col-md-9 col-lg-9">
           <div className="row text-center vh-100">
             {status?.status === 'ERROR' && status.error && <div className="alert alert-danger" role="alert">
@@ -158,12 +156,14 @@ function Summary() {
                 <div className="progress-bar" role="progressbar" style={{width: status?.progress+"%"}}  aria-valuenow={status?.progress} aria-valuemin="5" aria-valuemax="100"></div>
               </div>
               <p className="h3">Status: {status?.status}</p>
-              <button type="button" className="btn btn-danger rounded-pill" onClick={cancelTranscription}>Cancel</button>
+              <button type="button" className="btn btn-danger rounded-pill mx-1" onClick={() => setIsPolling(false)}>Cancel</button>
+              {/* <button type="button" className="btn btn-warning rounded-pill mx-1 text-white" onClick={() => setHideLoadingPanel(true)}>Hide panel</button> */}
             </div>
 
           </div>
         </div>
       </>}
+
       {!isPolling && <div className="col-xs-12 col-md-9 col-lg-9">
         <div className="col-12 text-center">
           <p className="h1 mb-0">Summary section</p>
@@ -183,7 +183,7 @@ function Summary() {
                     {summary &&
                       <>
                         <p className="text-danger text-center" style={{textDecoration: "underline"}}>Summary result</p>
-                        <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={summary}></Textarea>
+                        <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("summary", value)} value={summary}></Textarea>
                       </>
                     }
                     {!summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formData.content}></Textarea> }
@@ -287,5 +287,3 @@ function Summary() {
     </div>
   )
 }
-
-export default Summary;
