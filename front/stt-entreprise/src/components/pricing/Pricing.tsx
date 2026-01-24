@@ -3,8 +3,13 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../auth/useAuth";
 import { findAllSubType } from "../../api/subType";
 import { PaymentButton } from "./PaymentButton";
+import { useUserSession } from "../../api/subscription";
 
 export default function Pricing () {
+    
+    const {user} = useAuth0()
+    const { subscription } = useUserSession();
+
     const [sub_types, setSub] = useState([]);
     useEffect(() => {
         const fetchSubs = async () => {
@@ -45,9 +50,9 @@ export default function Pricing () {
                             </div>
                         }
 
-                        {isAuthenticated && i !== 0 &&
+                        {isAuthenticated && i !== 0 && subscription?.subscription_type == "Free plan" &&
                             <div className="py-2 mt-auto">
-                                <PaymentButton plan={sub.name}/>
+                                <PaymentButton plan={sub.name} auth0id={user?.sub} email={user?.email}/>
                             </div>
                         }
                     </div>

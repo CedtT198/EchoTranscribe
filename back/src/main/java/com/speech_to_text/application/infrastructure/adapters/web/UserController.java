@@ -3,8 +3,11 @@ package com.speech_to_text.application.infrastructure.adapters.web;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.speech_to_text.application.domain.model.DTO.UserFilterDto;
 import com.speech_to_text.application.domain.model.user.User;
 import com.speech_to_text.application.domain.port.in.UserUseCase;
 import lombok.AllArgsConstructor;
@@ -28,6 +33,21 @@ public class UserController {
     // private PasswordEncoder passwordEncoder;
     private UserUseCase userUseCase;
   
+    @PostMapping("/findByFilters")
+    public ResponseEntity<?> findByFilters(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "creationDate,desc") String sort,
+        @RequestBody UserFilterDto filter)
+    {
+        Sort.Direction direction = Sort.Direction.fromString(sort.split(",")[1]);
+        String sortProperty = sort.split(",")[0];
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortProperty));
+        
+        Page<User> userPage = userUseCase.findByFilters(filter, pageable);
+        return ResponseEntity.ok(userPage);
+    }
+
     @GetMapping("/getOrCreate")
     public ResponseEntity<?> getOrCreateUser(JwtAuthenticationToken auth) {
         Map<String, Object> res = new HashMap<>();
@@ -42,7 +62,7 @@ public class UserController {
         
         User user = userUseCase.getOrCreate(auth0Id, email);
         
-        System.out.println("\nVOHANTSO\n");
+        // System.out.println("\nVOHANTSO\n");
         res.put("user", user);
         return ResponseEntity.status(200).body(res);
     }
@@ -75,10 +95,17 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<User> update(@RequestBody User user) {
-        System.out.println("update voahantso");
-        System.out.println(user.getAuth0Id());
-        return ResponseEntity.ok(userUseCase.update(user));
+    public ResponseEntity<?> update(@RequestBody User user) {
+        Map<String, String> res = new HashMap<>();
+        try {
+            userUseCase.update(user);
+
+            res.put("success", "Your account has been updated successfuly.");
+            return ResponseEntity.status(200).body(res);
+        } catch (Exception e) {
+            res.put("error", e.getMessage());
+            return ResponseEntity.status(401).body(res);
+        }
     }
 
     @PostMapping("/save")

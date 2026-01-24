@@ -21,7 +21,8 @@ public class User {
     String country;
     String city;    
     String zip;
-    String creationDate;
+    LocalDate creationDate;
+    LocalDate lastUpdate;
     Set<String> roles = new HashSet<>();
 }
  

@@ -3,10 +3,19 @@ package com.speech_to_text.application.domain.service.withDependance;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.speech_to_text.application.domain.model.DTO.SalesStatDTO;
+import com.speech_to_text.application.domain.model.DTO.SubscriptionFilterDto;
+import com.speech_to_text.application.domain.model.DTO.UserFilterDto;
+import com.speech_to_text.application.domain.model.DTO.UsersStatDTO;
 import com.speech_to_text.application.domain.model.auth.TokenResponse;
 import com.speech_to_text.application.domain.model.config.Auth0Properties;
+import com.speech_to_text.application.domain.model.subscription.Subscription;
 import com.speech_to_text.application.domain.model.user.User;
 import com.speech_to_text.application.domain.port.in.UserUseCase;
 import com.speech_to_text.application.domain.port.out.UserRepository;
@@ -35,6 +44,17 @@ public class UserService implements UserUseCase {
 
     
     @Override
+    public UsersStatDTO getUsersDashboardStat(LocalDate startDate, LocalDate endDate) throws Exception {
+        return userRepo.getUsersDashboardStat(startDate, endDate);
+    }
+    
+    @Override
+    public Page<User> findByFilters(UserFilterDto filter, Pageable pageable) {
+        return userRepo.findByFilters(filter, pageable);
+    }
+    
+    
+    @Override
     public boolean block(String auth0Id) {
         String token = getManagementApiToken();
 
@@ -48,7 +68,6 @@ public class UserService implements UserUseCase {
             
         return userRepo.delete(auth0Id);
     }
-
 
     @Override
     public boolean delete(String auth0Id) {
@@ -64,8 +83,6 @@ public class UserService implements UserUseCase {
         return userRepo.delete(auth0Id);
     }
 
-
-
     @Override
     public User getOrCreate(String auth0Id, String email) {
         User user = userRepo.findByAuth0Id(auth0Id);
@@ -76,6 +93,7 @@ public class UserService implements UserUseCase {
         user = new User();
         user.setAuth0Id(auth0Id);
         user.setMail(email);
+        user.setCreationDate(LocalDate.now());
         user.getRoles().add("USER");
         return userRepo.save(user);
     }
@@ -107,7 +125,11 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public User update(User user) {
+    public User update(User user) throws Exception {
+        if (user.getName() == null || user.getFirstName() == null || user.getBirthday() == null || 
+        user.getZip() == null || user.getAddress() == null || user.getCity().trim().isEmpty()) {
+            throw new Exception("Every field must be filled.");
+        }
         return userRepo.update(user);
     }
 }

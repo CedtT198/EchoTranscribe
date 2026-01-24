@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.WebSocketSession;
-
 import com.github.kokorin.jaffree.ffmpeg.FFmpeg;
 import com.github.kokorin.jaffree.ffmpeg.UrlInput;
 import com.github.kokorin.jaffree.ffmpeg.UrlOutput;
@@ -24,6 +23,7 @@ import com.google.api.gax.rpc.StreamController;
 import com.google.cloud.speech.v2.*;
 import com.google.cloud.speech.v2.SpeechAdaptation.AdaptationPhraseSet;
 import com.google.protobuf.ByteString;
+import com.speech_to_text.application.domain.model.DTO.PerformanceStatDTO;
 import com.speech_to_text.application.domain.model.DTO.TranscriptionFilterDto;
 import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
 import com.speech_to_text.application.domain.model.config.GoogleCloud;
@@ -51,7 +51,12 @@ public class TranscriptionService implements TranscriptionUseCase {
         return transcriptionRepo.findByFilters(dto.getAuth0Id(), dto.getStartDate(), dto.getEndDate(), dto.getContentPhrase(), dto.getSummaryPhrase(), dto.getTranscriptionType(), pageable);
     }
     
-    
+    @Override
+    public PerformanceStatDTO getPerfDashboardStat(LocalDate startDate, LocalDate endDate) throws Exception {
+        return transcriptionRepo.getPerfDashboardStat(startDate, endDate);
+    }
+
+
     
     @Override
     public void initStreamingConfig(WebSocketSession session, TranscriptionSettings settings) throws Exception {
@@ -545,8 +550,14 @@ public class TranscriptionService implements TranscriptionUseCase {
 
     
     @Override
-    public Transcription save(Transcription Transcription) {
-        return transcriptionRepo.save(Transcription);
+    public Transcription save(Transcription tr) throws Exception {
+        if (tr.getTitle().isEmpty() || tr.getContent().isEmpty() && tr.getSummary().isEmpty()) {
+            throw new Exception("Title and content must be set.");
+        }
+        if (tr.getCreationDate() == null) {
+            tr.setCreationDate(LocalDate.now());
+        }
+        return transcriptionRepo.save(tr);
     }
 
 
@@ -559,7 +570,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
 
     @Override
-    public boolean delete(String auth0id) {
-        return transcriptionRepo.delete(auth0id);
+    public boolean delete(String id) {
+        return transcriptionRepo.delete(id);
     }
 }

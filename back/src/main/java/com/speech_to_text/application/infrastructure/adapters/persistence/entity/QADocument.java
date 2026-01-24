@@ -14,7 +14,6 @@ public class QADocument {
     @Id
     String id;
     
-    String auth0Id;
     String about;
     String question;
     String answer;

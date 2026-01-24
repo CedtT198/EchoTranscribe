@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { getStatusTranscription, transcribeLongFile } from '../api/transcription';
+import { useToast } from './ToastProvider';
 
 interface Status {
   status: string; // 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'ERROR';
@@ -19,7 +20,6 @@ interface UseLongTranscriptionReturn {
   isLoading: boolean;
   isPolling: boolean;
   hideLoadingPanel: boolean;
-  transError: string | null;
 }
 
 export const useTranscript = (): UseLongTranscriptionReturn => {
@@ -27,7 +27,7 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
   const [isLoading, setIsLoading] = useState(true);
   const [isPolling, setIsPolling] = useState(false);
   const [hideLoadingPanel, setHideLoadingPanel] = useState(false);
-  const [transError, setError] = useState<string | null>(null);
+  const {setError} = useToast();
   const [taskId, setTaskId] = useState<string | null>(null);
 
   const intervalRef = useRef<number  | null>(null);
@@ -36,7 +36,6 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
   const startPolling = (id: string) => {
     setTaskId(id);
     setIsPolling(true);
-    setError(null);
     setIsLoading(false); 
 
     const interval = setInterval(async () => {
@@ -50,11 +49,10 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
           clearInterval(interval);
           setIsPolling(false);
         }
-      } catch (err) {
-        console.error('Error polling:', err);
+      } catch (err: any) {
         clearInterval(interval);
         setIsPolling(false);
-        setError('Erreur de connexion lors du suivi');
+        setError('Error polling:'+ err);
       }
     }, 500);
 
@@ -102,7 +100,6 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
     hideLoadingPanel,
     status,
     isLoading,
-    isPolling,
-    transError,
+    isPolling
   };
 };

@@ -25,6 +25,7 @@ export const Auth0ProviderWithNavigate: React.FC<{ children: React.ReactNode }> 
       }}
       onRedirectCallback={onRedirectCallback}
       useRefreshTokens={true}
+      // cacheLocation="memory"  
       cacheLocation="localstorage"  
       useRefreshTokensFallback={true} 
     >

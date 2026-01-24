@@ -93,7 +93,7 @@ export default function AdminHeader() {
                                 <ul className="collapse list-unstyled pl-4 w-100" id="dashboard">
                                     <li className="nav-item">
                                         <Link className="nav-link" to="/admin/layout/dashboard">
-                                                <i className="fe fe-activity fe-16"></i>
+                                                <i className="fe fe-monitor fe-16"></i>
                                                 <span className="ml-3 item-text">General</span>
                                         </Link>
                                     </li>
@@ -111,7 +111,7 @@ export default function AdminHeader() {
                                     </li>
                                     <li className="nav-item">
                                         <Link className="nav-link" to="/admin/layout/dashboard/performance">
-                                            <i className="fe fe-monitor fe-16"></i>
+                                            <i className="fe fe-activity fe-16"></i>
                                             <span className=" ml-3 item-text">Performance</span>
                                         </Link>
                                     </li>

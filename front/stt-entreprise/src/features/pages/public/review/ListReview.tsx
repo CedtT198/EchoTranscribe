@@ -5,10 +5,11 @@ import { endPage, startPage } from "../../../../others/pagination";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { formatLocalDate } from "../../../../others/utils";
+import { useToast } from "../../../../auth/ToastProvider";
 
 export default function ListReview() {
     // fetch review global stat
-    const [error, setError] = useState<string>();
+    const { setError } = useToast();
     const [reviewStats, setReviewStats] = useState<ReviewStats>();
     const fetchReviewStats = async () => {
         try {

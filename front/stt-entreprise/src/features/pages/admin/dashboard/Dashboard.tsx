@@ -1,4 +1,5 @@
 import LineChart from "./chart/LineChart";
+import DashboardFilter from "./DashboardFilter";
 
 export default function Dashboard() {
     return (
@@ -8,27 +9,8 @@ export default function Dashboard() {
                 <p className="text-muted">Global view of the application's performance</p>
             </div>
 
-            {/* Filter by date */}
-            <div className="col-12 row p-0 mb-4">
-                <div className="col-12">
-                    <form className="offset-lg-4 offset-md-4 col-md-8 col-lg-8 col-xs-12 row p-0 m-0">
-                        <div className="form-group col-md-4 col-lg-4 col-xs-12">
-                            {/* <label htmlFor="startDate">Start date</label> */}
-                            {/* <input type="date" id="startDate" className="form-control" onChange={(e) => updateFilter("startDate", e.target.value)}/> */}
-                            <input type="date" id="startDate" className="form-control"/>
-                        </div>
-                        <div className="form-group col-md-4 col-lg-4 col-xs-12">
-                            {/* <label htmlFor="endDate">Start date</label> */}
-                            <input type="date" id="endDate" className="form-control"/>
-                        </div>
-                        <div className="form-group col-md-2 col-lg-2 col-xs-12">
-                            <button className="btn btn-primary form-control">
-                                <span className="fe fe-filter mr-1"></span>Filter
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            {/* Filter date */}
+            <DashboardFilter onFilter={(filter) => {}} />
 
             {/* General number */}
             <div className="col-12 row p-0 m-0 mb-4">

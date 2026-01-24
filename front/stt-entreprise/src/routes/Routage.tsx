@@ -12,11 +12,11 @@ import ListReview from "../features/pages/public/review/ListReview"
 // import { CallbackPage } from "../CallbackPage"
 import { useAuth0 } from "@auth0/auth0-react"
 import Loading from "../components/others/Loading"
-import Subscription from "../features/pages/public/pricing/Subscription"
+import Subscription from "../features/pages/public/subscription/Subscription"
 import AddReview from "../features/pages/public/review/AddReview"
 import Summary from "../features/pages/public/transcription/Summary"
-import { PaymentError } from "../features/pages/public/pricing/PaymentError"
-import { PaymentSuccess } from "../features/pages/public/pricing/PaymentSuccess"
+import { PaymentError } from "../features/pages/public/subscription/PaymentError"
+import { PaymentSuccess } from "../features/pages/public/subscription/PaymentSuccess"
 import AdminLayout from "../features/pages/layouts/AdminLayout"
 import Dashboard from "../features/pages/admin/dashboard/Dashboard"
 import RootRedirect from "./RootRedirect"
@@ -62,6 +62,7 @@ export default function PersoRoutes() {
 
             <Route path="/admin/*" element={<Navigate to="/admin/layout/" replace />}></Route>
             <Route path="/admin/layout/" element={<ProtectedRoute role={"ADMIN"}><AdminLayout/></ProtectedRoute>}>
+                <Route index element={<Dashboard />} />
                 <Route path="dashboard/" element={<Dashboard />}/>
                 <Route path="dashboard/users" element={<UsersDashboard />} />
                 <Route path="dashboard/subscription" element={<SubscriptionDashboard />} />

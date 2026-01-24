@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { type FormDataTranscription, batchDefault } from "../../../../api/transcription";
 import FileSettings from "../../../../components/transcription/FileSettings";
 import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "../../../../auth/ToastProvider";
 
 export default function Transcribe() {
 
   // const [success, setSuccess] = useState<string>();
-  const [error, setError] = useState<string>();
+  const { setError } = useToast();;
   const [fileName, setFileName] = useState<string | null>(null);
   const [duration, setDuration] = useState<number>(0);
   const [size, setSize] = useState<string | null>(null);
@@ -74,7 +75,6 @@ export default function Transcribe() {
       setSize(formattedSize);
       setFile(selectedFile);
       setFileName(selectedFile.name);
-      setError("");
     }
   };
 
@@ -96,6 +96,7 @@ export default function Transcribe() {
       state: {
         type: duration < 59 ? "short" : "long",
         formDataTranscript: fd,
+        fileDuration: duration,
         transType: "Batch"
       },
     });
@@ -170,12 +171,6 @@ export default function Transcribe() {
                           </div>}
                       </label>
                     </div>
-                      {error &&
-                      <div className="form-group col-md-12 mt-5 p-0">
-                        <div className="alert alert-danger" role="alert">
-                          <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
-                        </div>
-                  </div>}
                 </form>
               </div>
             </div>

@@ -1,6 +1,50 @@
+import { useMemo, useState } from "react";
 import LineChart from "./chart/LineChart";
+import DashboardFilter, { type Filter } from "./DashboardFilter";
+import { useToast } from "../../../../auth/ToastProvider";
+import { getPerformanceDashboardStat } from "../../../../api/transcription";
+import axios from "axios";
+import type { MonthlyCount } from "../../../../api/dashboard";
+
+interface PerformanceStat {
+    most_used_language?: string,
+    total_hours_transcribed?: number,
+    total_transcriptions?: number,
+    transcriptions?: MonthlyCount[],
+}
 
 export default function PerformanceDashboard() {
+    const {setError} = useToast();
+
+    const [perf, setPerf] = useState<PerformanceStat>({});
+    const fecthPerformance = async (f: Filter) => {
+        try {
+            const res = await getPerformanceDashboardStat(f?.startDate, f?.endDate);
+            const data = res.data;
+            console.log(res);
+            console.log(data);
+
+            if (data) {
+                setPerf(data);
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setError("Message: "+ error.response?.data?.error); 
+            } else {
+                console.log(error);
+                setError("Unknown error: "+error);
+            }
+        }
+    }
+
+    const labelsChart = useMemo(() => {
+        return perf.transcriptions ? perf.transcriptions.map(t => t.month_year) : [];
+    }, [perf.transcriptions]);
+
+    const dataChart = useMemo(() => {
+        return perf.transcriptions ? perf.transcriptions.map(t => t.count) : [];
+    }, [perf.transcriptions]);
+
     return (
         <div className="col-12 container row p-0 m-0 m-0 p-0">
             <div className="col-12">
@@ -8,31 +52,13 @@ export default function PerformanceDashboard() {
                 <p className="text-muted">Global view of the application's performance</p>
             </div>
 
-            {/* Multicriteria filter */}
-            <div className="col-12 row p-0 mb-4">
-                <div className="col-12">
-                    <form className="offset-lg-4 offset-md-4 col-md-8 col-lg-8 col-xs-12 row p-0 m-0">
-                        <div className="form-group col-md-4 col-lg-4 col-xs-12">
-                            {/* <label htmlFor="startDate">Start date</label> */}
-                            {/* <input type="date" id="startDate" className="form-control" onChange={(e) => updateFilter("startDate", e.target.value)}/> */}
-                            <input type="date" id="startDate" className="form-control"/>
-                        </div>
-                        <div className="form-group col-md-4 col-lg-4 col-xs-12">
-                            {/* <label htmlFor="endDate">Start date</label> */}
-                            <input type="date" id="endDate" className="form-control"/>
-                        </div>
-                        <div className="form-group col-md-2 col-lg-2 col-xs-12">
-                            <button className="btn btn-primary form-control">
-                                <span className="fe fe-filter mr-1"></span>Filter
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            {/* Filter date */}
+            <DashboardFilter onFilter={(filter) => {fecthPerformance(filter)}} />
 
             {/* Stats number */}
             <div className="col-12 row p-0 m-0 mb-4">
                 <div className="col-12 text-center row p-0 m-0">
+
                     <div className="col-md-4 col-xl-4 col-xs-12 mb-4">
                         <div className="card shadow border-0">
                             <div className="card-body">
@@ -44,12 +70,13 @@ export default function PerformanceDashboard() {
                                     </div>
                                     <div className="col pr-0">
                                         <p className="small text-muted mb-0">Most used language</p>
-                                        <span className="h3 mb-0">English</span>
+                                        <span className="h3 mb-0">{perf.most_used_language ? perf.most_used_language : "-"}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div className="col-md-4 col-xl-4 col-xs-12 mb-4">
                         <div className="card shadow border-0">
                             <div className="card-body">
@@ -61,29 +88,31 @@ export default function PerformanceDashboard() {
                                     </div>
                                     <div className="col pr-0">
                                         <p className="small text-muted mb-0">Total of transcription</p>
-                                        <span className="h3 mb-0">186 hours</span>
+                                        <span className="h3 mb-0">{perf.total_hours_transcribed ? perf.total_hours_transcribed+" hours" : "-"}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div className="col-md-4 col-xl-4 col-xs-12 mb-4">
                         <div className="card shadow border-0">
                             <div className="card-body">
                                 <div className="row align-items-center">
                                     <div className="col-3 text-center">
                                         <span className="circle circle-sm bg-primary">
-                                            <i className="fe fe-16 fe-zap text-white mb-0"></i>
+                                            <i className="fe fe-16 fe-plus text-white mb-0"></i>
                                         </span>
                                     </div>
                                     <div className="col">
-                                        <p className="small text-muted mb-0">Avg transcription speed</p>
-                                        <span className="h3 mb-0">5 min</span>
+                                        <p className="small text-muted mb-0">Total transcriptions</p>
+                                        <span className="h3 mb-0">{perf.total_transcriptions ? perf.total_transcriptions : "-"}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -98,11 +127,11 @@ export default function PerformanceDashboard() {
                         <div className="col-12">
                             <LineChart
                                 data={{
-                                    labels: ["Jan", "Feb", "Mar", "Apr"],
+                                    labels: labelsChart,
                                     datasets: [
                                         {
                                             label: "Transcriptions",
-                                            data: [10, 20, 15, 30],
+                                            data: dataChart,
                                             borderColor: "#000000",
                                             tension: 0.3,
                                         },

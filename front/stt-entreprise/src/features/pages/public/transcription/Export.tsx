@@ -4,11 +4,12 @@ import {  type Summary } from "../../../../api/summary";
 import { useLocation, useNavigate } from "react-router-dom";
 import { download, exportDefault, type FormDataToExport } from "../../../../api/export";
 import Loading from "../../../../components/others/Loading";
+import { useToast } from "../../../../auth/ToastProvider";
 
 export default function Export() {
   const location = useLocation();
   const { Summary: fd } = location.state || {};
-  const [error, setError] = useState<string>("");
+  const {setError} = useToast();
   
   const navigate = useNavigate();
   const hasRun = useRef(false);
@@ -28,8 +29,6 @@ export default function Export() {
       navigate('/notfound', { replace: true });
     }
   }, [fd, navigate])
-
-  // const [error, setError] = useState<string>("");
 
   const updateFormData = <K extends keyof Summary>(field: K, value: Summary[K]) => {
     setFormDataTranscription((prev) => ({
@@ -81,10 +80,6 @@ export default function Export() {
                       {!formDataTranscription.summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formDataTranscription.content}></Textarea> }
                   </div>
                   <div className="container mb-4">
-                    
-                    {error && <div className="alert alert-danger text-center" role="alert">
-                      <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
-                    </div>}
 
                     <div className="row">
 

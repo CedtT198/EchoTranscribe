@@ -34,7 +34,10 @@ export const deleteTranscription = async (id: string) => {
 }
 
 export interface Summary {
+    id: string,
+    auth0_id: string,
     file: string,
+    file_duration: string,
     language: string, 
     content: string, 
     title: string, 
@@ -48,7 +51,10 @@ export interface Summary {
 }
 
 export const sumDefault: Summary = {
+    id: "",
+    auth0_id: "",
     file: "",
+    file_duration: "",
     language: "",
     content: "",
     title: "",

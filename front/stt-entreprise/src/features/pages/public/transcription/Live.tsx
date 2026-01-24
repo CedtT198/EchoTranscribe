@@ -20,7 +20,7 @@ export default function Live() {
         console.log('🔧 Streaming Settings mis à jour :', settings);
     }, [settings]);
 
-    const { startRecording, stopRecording, recording, transcripts, currentInterim, error } = useStream(settings);
+    const { startRecording, stopRecording, recording, transcripts, currentInterim } = useStream(settings);
 
     const summary = () => {
         const metadataJson = JSON.stringify(settings);
@@ -120,12 +120,6 @@ export default function Live() {
                             }
                         </div>
                     </div>
-                    {error && 
-                    <div className="mb-5 px-5">
-                        <div className="alert alert-danger" role="alert">
-                            <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
-                        </div>
-                    </div>}
                 </div>
             </div>
         </div>

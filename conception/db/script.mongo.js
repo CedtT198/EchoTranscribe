@@ -174,6 +174,31 @@ db.user.insertMany([
     roles: ["USER"]
   }
 ])
+const docs = [];
+for (let i = 1; i <= 50; i++) {
+  docs.push({
+    auth0Id: `auth0|user${i}`,
+    name: `Doe${i}`,
+    firstName: `John${i}`,
+    birthday: randomDate(
+      new Date("1980-01-01"),
+      new Date("2005-12-31")
+    ),
+    mail: `john.doe${i}@example.com`,
+    address: `${i} rue de Paris`,
+    country: "France",
+    city: "Paris",
+    zip: "75000",
+    creationDate: randomDate(
+      new Date("2022-01-01"),
+      new Date("2026-12-31")
+    ),
+    lastUpdate: new Date(),
+    roles: "USER"
+  });
+}
+db.user.insertMany(docs);
+
 
 // vita redis tampoka (vita AUTH0)
 // db.createCollection("otp")
@@ -227,18 +252,169 @@ db.subscription_type.insertMany([
 
 // na ko hoe sub record
 // juste ijerevana anle table alo atreto
+db.subscription
+   .find({ auth0Id: "google-oauth2|109805505081631767458", status: "Cancel" })
+   .sort({ purchaseDate: -1 })
+   .limit(1);
+
 db.createCollection("subscription")
 db.subscription.insertMany([
-   {
-      startDate: new Date(),
-      endDate: new Date(),
-      subscriptionName: "Company",
-      total: 9.99,
-      paymentMethod: "Paypal",
-      invitationCode: "q2w34e5rft6ghujd7wqe5f",
-      master: "client1@gmail.com"
-   }
-])
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 9.99,
+    status: "Paid",
+    purchaseDate: ISODate("2023-01-10"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 9.99,
+    status: "Paid",
+    purchaseDate: ISODate("2023-02-10"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 9.99,
+    status: "Paid",
+    purchaseDate: ISODate("2023-03-10"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 9.99,
+    status: "Cancelled",
+    purchaseDate: ISODate("2023-04-10"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "YEARLY",
+    price: 99.99,
+    status: "Paid",
+    purchaseDate: ISODate("2023-05-01"),
+    invitationCode: "INVITE-2023",
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "YEARLY",
+    price: 99.99,
+    status: "Expired",
+    purchaseDate: ISODate("2024-05-01"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+
+  // 2024
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 12.99,
+    status: "Paid",
+    purchaseDate: ISODate("2024-01-15"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 12.99,
+    status: "Paid",
+    purchaseDate: ISODate("2024-02-15"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 12.99,
+    status: "Failed",
+    purchaseDate: ISODate("2024-03-15"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 12.99,
+    status: "Paid",
+    purchaseDate: ISODate("2024-04-15"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+
+  // 2025
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "YEARLY",
+    price: 119.99,
+    status: "Paid",
+    purchaseDate: ISODate("2025-01-01"),
+    invitationCode: "NEWYEAR2025",
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 14.99,
+    status: "Paid",
+    purchaseDate: ISODate("2025-02-01"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 14.99,
+    status: "Paid",
+    purchaseDate: ISODate("2025-03-01"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  }
+]);
+db.subscription.insertOne({
+   auth0Id: "google-oauth2|109805505081631767458",
+   mail: "user@gmail.com",
+   subscriptionType: "Pro",
+   price: 19.99,
+   status: "Cancel",
+   purchaseDate: ISODate("2026-01-11"),
+   subscriptionOwner: "google-oauth2|109805505081631767458"
+})
+// default sub
+db.subscription.insertOne({
+   auth0Id: "dewofwejofiejwfoiewjfoewijfowejfioewjfioewjfiowejf8",
+   mail: "cedrictiavina426@gmail.com",
+   subscriptionType: "Company",
+   status: "ACTIVE",
+   invitationCode: "asxcvbeuwnufwuvftuirbtyrenoiewjtifwjftoi",
+   purchaseDate: ISODate("2025-01-21"),
+   price: 49.99,
+   subscriptionOwner: "dewofwejofiejwfoiewjfoewijfowejfioewjfioewjfiowejf8"
+})
+
 
 
 db.createCollection("review")
@@ -450,6 +626,89 @@ db.transcription.insertMany([
       creationDate: new Date("2025-07-14")
    }
 ])
+const docs = [];
+
+// date aléatoire entre 2022 et 2026
+function randomDate(start, end) {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  );
+}
+
+// durée aléatoire en SECONDES (entre 30s et 2h)
+function randomFileDuration() {
+  return Math.floor(Math.random() * (2 * 60 * 60 - 30)) + 30;
+}
+
+for (let i = 1; i <= 50; i++) {
+  docs.push({
+    file: "",
+    language: "fr",
+    auth0Id: "auth0|6954292e5b43643b131feeee",
+    content: `Transcription complète du podcast numéro ${i} sur l'intelligence artificielle et ses impacts sociétaux...`,
+    title: `L'IA et l'avenir du travail ${i}`,
+    subtitle: "Comment l'intelligence artificielle transforme les emplois",
+    summary: "Ce podcast explore les opportunités et défis posés par l'IA dans le monde professionnel.",
+    goal: "paragraph",
+    length: "short",
+    fileDuration: randomFileDuration(),
+    additionalInstruction: "Mettre l'accent sur les exemples concrets d'entreprises.",
+    transcriptionType: "live",
+    creationDate: randomDate(
+      new Date("2022-01-01"),
+      new Date("2026-12-31")
+    )
+  });
+}
+db.transcription.insertMany(docs);
+db.transcription.aggregate([
+  {
+    $match: {
+      creationDate: {
+        $gte: ISODate("2000-01-01"),
+        $lte: ISODate("2050-12-31")
+      }
+    }
+  },
+  {
+    $facet: {
+
+      /* 1️⃣ Langage le plus utilisé */
+      mostUsedLanguage: [
+        { $group: { _id: "$language", count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+        { $limit: 1 }
+      ],
+
+      /* 2️⃣ Total secondes transcrites */
+      totalDuration: [
+        { $group: { _id: null, totalSeconds: { $sum: "$fileDuration" } } }
+      ],
+
+      /* 3️⃣ Nombre total de transcriptions */
+      totalTranscriptions: [
+        { $count: "count" }
+      ],
+
+      /* 4️⃣ Nombre de transcriptions par mois */
+      transcriptionsPerMonth: [
+        {
+          $group: {
+            _id: {
+              year: { $year: "$creationDate" },
+              month: { $month: "$creationDate" }
+            },
+            count: { $sum: 1 }
+          }
+        },
+        { $sort: { "_id.year": 1, "_id.month": 1 } }
+      ]
+    }
+  }
+])
+
+
+
 
 // any amin'ny back daoly no ilaina
 db.createCollection("transcription_settings")

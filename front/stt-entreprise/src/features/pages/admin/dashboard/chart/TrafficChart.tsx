@@ -1,41 +1,44 @@
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
 
+export interface TrafficChartProps {
+  series: number[];
+  labels: string[];
+  options?: ApexOptions;
+  height?: number;
+}
 
-export default function TrafficChart() {
-    const series = [23, 67, 10];
+export default function TrafficChart({
+  series,
+  labels,
+  options,
+  height = 180,
+}: TrafficChartProps) {
 
-    const options: ApexOptions = {
-        chart: {
-        type: "radialBar",
-        height: 180
-        },
-        plotOptions: {
-        radialBar: {
-            startAngle: -120,
-            endAngle: 120,
-            hollow: {
-                size: "45%"
-            },
-            track: {
-                background: "#f1f3f5"
-            },
-            dataLabels: {
-                show: false
-            }
-        }
-        },
-        colors: ["#1260f0", "#ff0707", "#000000"],
-        labels: ["Free Plan", "Pro", "Company"]
-    };
+  const defaultOptions: ApexOptions = {
+    chart: {
+      type: "radialBar",
+      height,
+    },
+    plotOptions: {
+      radialBar: {
+        startAngle: -120,
+        endAngle: 120,
+        hollow: { size: "45%" },
+        track: { background: "#f1f3f5" },
+        dataLabels: { show: false },
+      },
+    },
+    labels,
+    colors: ["#1260f0", "#ff0707", "#000000"],
+  };
 
-    return (
-        <Chart
-        options={options}
-        series={series}
-        type="radialBar"
-        height={180}
-        />
-    );
-};
-
+  return (
+    <Chart
+      type="radialBar"
+      series={series}
+      options={{ ...defaultOptions, ...options }}
+      height={height}
+    />
+  );
+}

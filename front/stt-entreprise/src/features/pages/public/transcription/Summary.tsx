@@ -6,17 +6,23 @@ import { transcribeShortFile } from "../../../../api/transcription";
 import { useTranscript } from "../../../../auth/useTranscript";
 import Loading from "../../../../components/others/Loading";
 import axios from "axios";
+import { useToast } from "../../../../auth/ToastProvider";
+import SaveButton from "./SaveButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Summary() {
+  const { setError } = useToast();
+
+  const { user } = useAuth0();
   const hasRun = useRef(false);
 
   const navigate = useNavigate()
 
   const location = useLocation();
-  const [formData, setFormData] = useState<Summary>(sumDefault);
-  const { transType, type:longTransType, formDataTranscript, liveTranscript } = location.state || {};
+  const [formData, setFormData] = useState<Summary>();
+  const { fileDuration, transType, type:longTransType, formDataTranscript, liveTranscript } = location.state || {};
   
-  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError, setIsPolling, setHideLoadingPanel, hideLoadingPanel } = useTranscript();
+  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, setIsPolling, hideLoadingPanel } = useTranscript();
   // const { token, loading:tokenLoad } = useAuthToken();
   useEffect(() =>{
     // if (tokenLoad || !token) return;
@@ -27,13 +33,20 @@ export default function Summary() {
     hasRun.current = true;
     // 
 
+    if (user?.sub) {
+      updateFormData("auth0_id", user.sub);
+    }
+
     if (formDataTranscript) {
       const file = formDataTranscript.get('file');
-      formData.title = (file) ? file.name : "";
-      formData.file = (file) ? file.name : "";
-      formData.language = formDataTranscript.get('language');
-      formData.transcription_type = transType;
-      if (transType === "Live" && liveTranscript) formData.content = liveTranscript;
+      updateFormData("title", (file) ? file.name : "");
+      updateFormData("file", (file) ? file.name : "");
+      updateFormData("language", formDataTranscript.get('language'));
+      updateFormData("transcription_type", transType);
+      updateFormData("file_duration", fileDuration);
+      if (transType === "Live" && liveTranscript) {
+        updateFormData("content", liveTranscript);
+      }
     }
 
     const transcript = async () => {
@@ -69,14 +82,11 @@ export default function Summary() {
     updateFormData("content", status?.transcript ? status?.transcript : "")
   }, [status])
 
-  const [error, setError] = useState("");
-
   const updateFormData = <K extends keyof Summary>(field: K, value: Summary[K]) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
-    setError("");
     console.log(formData);
   };
 
@@ -129,8 +139,6 @@ export default function Summary() {
     });
   };
 
-  const saveTranscription = () => {};
-
 
   if (transLoading) {
     return <Loading/>
@@ -142,9 +150,6 @@ export default function Summary() {
           <div className="row text-center vh-100">
             {status?.status === 'ERROR' && status.error && <div className="alert alert-danger" role="alert">
               <span className="fe fe-minus-circle fe-16 mr-2"></span>{status.error}
-            </div>}
-            {transError && <div className="alert alert-danger" role="alert">
-              <span className="fe fe-minus-circle fe-16 mr-2"></span>{transError}
             </div>}
             <div className="col-xs-12 offset-md-2 col-md-8 offset-lg-2 col-lg-8 p-0">
               <p className="h1 mb-0">Transcribing your file...</p>
@@ -198,10 +203,7 @@ export default function Summary() {
                         {!summary && <button className="btn btn-primary rounded-pill mx-1 text-light" type="button">
                           <span className="fe fe-info fe-16 mr-1"></span>AI Summary
                         </button>}
-                        <a className="btn btn rounded-pill mx-1 text-light" type="button" onClick={saveTranscription}>
-                          <span className="fe fe-cloud fe-16 mr-1"></span>
-                          <span>Save</span>
-                        </a>
+                        <SaveButton transcription={formData}/>
                       </div>
                     </div>
                   </div>
@@ -264,9 +266,6 @@ export default function Summary() {
                             <textarea name="" id="add_content" className="form-control" style={{minHeight: 200, resize: "none", fontSize: "18px"}} onChange={handleAdditionalInstruction}></textarea>
                           </div>
 
-                          {error && <div className="alert alert-danger text-center" role="alert">
-                            {error}
-                          </div>}
                           <div className="container row m-0 text-center">
                             <p className="col-md-9 col-lg-9 col-xs-12">AI can make mistake, the content can be inaccurate.</p>
                             <button type="submit" className="btn btn-primary rounded-pill btn-md col-md-3 col-lg-3 col-xs-12">

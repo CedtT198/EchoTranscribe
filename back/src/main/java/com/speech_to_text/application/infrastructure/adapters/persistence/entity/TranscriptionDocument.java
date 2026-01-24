@@ -24,7 +24,7 @@ public class TranscriptionDocument {
     String summary;
     String goal;
     String length; // option of the summarized content
-    String fileDuration;
+    Double fileDuration;
     String additionalInstruction;
     String transcriptionType;
     LocalDate creationDate;
