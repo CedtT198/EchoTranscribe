@@ -7,7 +7,7 @@ export default function CancelButton(subId: any) {
 
     const cancel = async (subId: any) => {
         try {
-            const res = await cancelSubscription(subId);
+            const res = await cancelSubscription(subId.subId);
             const data = res.data;
             // console.log(subId);
             // console.log(res);

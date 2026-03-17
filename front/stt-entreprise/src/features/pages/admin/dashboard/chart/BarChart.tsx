@@ -1,7 +1,7 @@
 import type { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
 
-export interface LineChartProps {
+export interface BarChartProps {
   series: {
     name: string;
     data: number[];
@@ -13,17 +13,17 @@ export interface LineChartProps {
   className?: string;
 }
 
-export default function LineChart({
+export default function BarChart({
   series,
   categories,
   options,
   height = 300,
   width = "100%",
   className,
-}: LineChartProps) {
+}: BarChartProps) {
   const defaultOptions: ApexOptions = {
     chart: {
-      type: "line",
+      type: "bar",
       height,
       toolbar: { show: true },
       zoom: { enabled: true },
@@ -46,7 +46,7 @@ export default function LineChart({
   return (
     <div className={className} style={{ width, height }}>
       <Chart
-        type="line"
+        type="bar"
         series={series}
         options={{ ...defaultOptions, ...options }}
         height={height}

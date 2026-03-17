@@ -124,17 +124,10 @@ export default function UsersDashboard() {
                         </div>
                         <div className="col-12">
                             <LineChart
-                                data={{
-                                    labels: labelsChart,
-                                    datasets: [
-                                        {
-                                            label: "Users",
-                                            data: dataChart,
-                                            borderColor: "#1591f7",
-                                            tension: 0.3,
-                                        }
-                                    ],
-                                }}
+                                series={[
+                                    { name: "Users", data: dataChart },
+                                ]}
+                                categories={labelsChart}
                             />
                         </div>
                     </div>

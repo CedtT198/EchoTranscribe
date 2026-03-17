@@ -33,6 +33,8 @@ import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
 import com.speech_to_text.application.domain.port.out.TranscriptionRepository;
 import com.speech_to_text.application.domain.port.out.TranscriptionSettingsRepository;
 import com.speech_to_text.application.domain.service.independant.TaskStatus;
+import com.speech_to_text.application.infrastructure.adapters.web.AudioWebSocketHandler;
+
 import lombok.AllArgsConstructor;
 
 @Service
@@ -45,6 +47,11 @@ public class TranscriptionService implements TranscriptionUseCase {
     private final TranscriptionSettingsRepository repo;
     private final TranscriptionRepository transcriptionRepo;
 
+    
+    @Override
+    public double getTotalHoursTranscribed(LocalDate startDate, LocalDate endDate) {
+        return transcriptionRepo.getTotalHoursTranscribed(startDate, endDate);
+    }
 
     @Override
     public Page<Transcription> findByFilters(TranscriptionFilterDto dto, Pageable pageable) {
@@ -62,76 +69,75 @@ public class TranscriptionService implements TranscriptionUseCase {
     public void initStreamingConfig(WebSocketSession session, TranscriptionSettings settings) throws Exception {
         String recognizer = gcloud.getGlobalRecognizer();
 
-        try (SpeechClient speechClient = SpeechClient.create(SpeechSettings.newBuilder()
-                .setEndpoint(gcloud.getEndpoint())
-                .build()
-        )) {
-            ResponseObserver<StreamingRecognizeResponse> responseObserver = new ResponseObserver<>() {
-                @Override
-                public void onStart(StreamController controller) {}
+        SpeechClient speechClient = SpeechClient.create(SpeechSettings.newBuilder()
+            .setEndpoint(gcloud.getEndpoint())
+            .build()
+        );
 
-                @Override
-                public void onResponse(StreamingRecognizeResponse response) {
-                    for (StreamingRecognitionResult result : response.getResultsList()) {
-                        String transcript = result.getAlternativesList().get(0).getTranscript();
-                        boolean isFinal = result.getIsFinal();
-                        try {
-                            session.sendMessage(new org.springframework.web.socket.TextMessage("{\"transcript\": \"" + transcript + "\", \"isFinal\": " + isFinal + "}"));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        ResponseObserver<StreamingRecognizeResponse> responseObserver = new ResponseObserver<>() {
+            @Override
+            public void onStart(StreamController controller) {}
+
+            @Override
+            public void onResponse(StreamingRecognizeResponse response) {
+                for (StreamingRecognitionResult result : response.getResultsList()) {
+                    String transcript = result.getAlternativesList().get(0).getTranscript();
+                    boolean isFinal = result.getIsFinal();
+                    AudioWebSocketHandler.sendTranscript(session, transcript, isFinal);
+                    // try {
+                    //     session.sendMessage(new org.springframework.web.socket.TextMessage("{\"transcript\": \"" + transcript + "\", \"isFinal\": " + isFinal + "}"));
+                    // } catch (IOException e) {
+                    //     e.printStackTrace();
+                    // }
                 }
+            }
 
-                @Override
-                public void onError(Throwable t) {
-                    System.err.println("Error streaming : " + t.getMessage());
-                    try {
-                        session.close();
-                    } catch (IOException ignored) {}
-                }
+            @Override
+            public void onError(Throwable t) {
+                System.err.println("Error streaming : " + t.getMessage());
+                try {
+                    session.close();
+                } catch (IOException ignored) {}
+            }
 
-                @Override
-                public void onComplete() {
-                    System.out.println("Streaming finished");
-                }
-            };
+            @Override
+            public void onComplete() {
+                System.out.println("Streaming finished");
+            }
+        };
 
-            ClientStream<StreamingRecognizeRequest> clientStream = speechClient.streamingRecognizeCallable().splitCall(responseObserver);
-            
-            RecognitionConfig config = buildConfig(settings);
-            StreamingRecognitionFeatures streamingFeatures = StreamingRecognitionFeatures.newBuilder()
-                .setInterimResults(settings.withInterimResults)
+        ClientStream<StreamingRecognizeRequest> clientStream = speechClient.streamingRecognizeCallable().splitCall(responseObserver);
+        
+        RecognitionConfig config = buildConfigSTR(settings);
+        StreamingRecognitionFeatures streamingFeatures = StreamingRecognitionFeatures.newBuilder()
+            .setInterimResults(settings.withInterimResults)
 
-                // Voice Activity Detection + timeouts automatiques
-                .setEnableVoiceActivityEvents(true) // Active les événements VAD (nécessaire pour les timeouts)
-                .setVoiceActivityTimeout(StreamingRecognitionFeatures.VoiceActivityTimeout.newBuilder()
-                    .setSpeechStartTimeout(com.google.protobuf.Duration.newBuilder()
-                        .setSeconds(10)
-                        .build())
-                    .setSpeechEndTimeout(com.google.protobuf.Duration.newBuilder()
-                        .setSeconds(30) 
-                        .build())
+            // Voice Activity Detection + timeouts automatiques
+            .setEnableVoiceActivityEvents(true) // Active les événements VAD (nécessaire pour les timeouts)
+            .setVoiceActivityTimeout(StreamingRecognitionFeatures.VoiceActivityTimeout.newBuilder()
+                .setSpeechStartTimeout(com.google.protobuf.Duration.newBuilder()
+                    .setSeconds(10)
                     .build())
-                .build();
+                .setSpeechEndTimeout(com.google.protobuf.Duration.newBuilder()
+                    .setSeconds(30) 
+                    .build())
+                .build())
+            .build();
 
-            StreamingRecognitionConfig streamingConfig = StreamingRecognitionConfig.newBuilder()
-                .setConfig(config)
-                .setStreamingFeatures(streamingFeatures)
-                .build();
+        StreamingRecognitionConfig streamingConfig = StreamingRecognitionConfig.newBuilder()
+            .setConfig(config)
+            .setStreamingFeatures(streamingFeatures)
+            .build();
 
-            StreamingRecognizeRequest initialRequest = StreamingRecognizeRequest.newBuilder()
-                .setRecognizer(recognizer)
-                .setStreamingConfig(streamingConfig)
-                .build();
+        StreamingRecognizeRequest initialRequest = StreamingRecognizeRequest.newBuilder()
+            .setRecognizer(recognizer)
+            .setStreamingConfig(streamingConfig)
+            .build();
 
-            clientStream.send(initialRequest);
+        clientStream.send(initialRequest);
 
-            session.getAttributes().put("clientStream", clientStream);
-            session.getAttributes().put("speechClient", speechClient);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        session.getAttributes().put("clientStream", clientStream);
+        session.getAttributes().put("speechClient", speechClient);
     }
     
 
@@ -207,7 +213,7 @@ public class TranscriptionService implements TranscriptionUseCase {
             
             // deleteFromGCS(bucketName, fileName);
 
-            return formatTranscript(results, settings.withDiarization);
+            return formatTranscript(results, settings);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -298,7 +304,7 @@ public class TranscriptionService implements TranscriptionUseCase {
                 BatchRecognizeResults batchResults = inlineResult.getTranscript();
                 List<SpeechRecognitionResult> results = batchResults.getResultsList();
                 
-                String transcript = formatTranscript(results, settings.withDiarization);
+                String transcript = formatTranscript(results, settings);
 
                 TaskStatus.setResult(taskId, transcript);
                 TaskStatus.setProgress(taskId, 100);
@@ -380,7 +386,7 @@ public class TranscriptionService implements TranscriptionUseCase {
             BatchRecognizeResults batchResults = inlineResult.getTranscript();
             List<SpeechRecognitionResult> results = batchResults.getResultsList();
             
-            String transcript = formatTranscript(results, settings.withDiarization);
+            String transcript = formatTranscript(results, settings);
 
             TaskStatus.setResult(taskId, transcript);
             TaskStatus.setStatus(taskId, "COMPLETED");
@@ -421,7 +427,7 @@ public class TranscriptionService implements TranscriptionUseCase {
                     System.out.println(alternative.getTranscript());
                 }
             }
-            return formatTranscript(results, settings.withDiarization);
+            return formatTranscript(results, settings);
         }
         catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -438,7 +444,7 @@ public class TranscriptionService implements TranscriptionUseCase {
             .addLanguageCodes(settings.mainLanguage)
             .setModel(gcloud.getModelSpeechToText());
 
-            features.setEnableAutomaticPunctuation(settings.withAutomaticPunctuation)
+            features.setEnableAutomaticPunctuation(true)
                                 .setMaxAlternatives(1)
                                 .setProfanityFilter(settings.filterProfanity);
                                 // .setEnableWordTimeOffsets(settings.withWordTimeOffsets) // Better for sub-title
@@ -480,9 +486,66 @@ public class TranscriptionService implements TranscriptionUseCase {
         return config.build();
     }
 
+    
+
+    private RecognitionConfig buildConfigSTR(TranscriptionSettings settings) {
+        RecognitionFeatures.Builder features = RecognitionFeatures.newBuilder();
+        
+        RecognitionConfig.Builder config = RecognitionConfig.newBuilder()
+            .setExplicitDecodingConfig(
+                ExplicitDecodingConfig.newBuilder()
+                .setEncoding(ExplicitDecodingConfig.AudioEncoding.LINEAR16)
+                .setSampleRateHertz(16000)
+                .setAudioChannelCount(1)
+                .build()
+            )
+            .addLanguageCodes(settings.mainLanguage)
+            .setModel(gcloud.getModelSpeechToText());
+
+            features.setEnableAutomaticPunctuation(true)
+                                .setMaxAlternatives(1)
+                                .setProfanityFilter(settings.filterProfanity);
+        
+        if (settings.useAlternativeLanguages && settings.alternativeLanguages != null && !settings.alternativeLanguages.isEmpty()) {
+            config.addAllLanguageCodes(settings.alternativeLanguages);
+        }
+        
+        if (settings.withDiarization && !settings.type.equals("streaming")) {
+            features.setDiarizationConfig(SpeakerDiarizationConfig.newBuilder()
+                .setMinSpeakerCount(settings.minPeople)
+                .setMaxSpeakerCount(settings.maxPeople)
+                .build());
+        }
+
+        if (settings.useSpeechContexts) {
+            List<PhraseSet.Phrase> phraseObjects = settings.speechContextsPhrases.stream()
+                .map(phrase -> PhraseSet.Phrase.newBuilder()
+                    .setValue(phrase)
+                    .setBoost(settings.boostSpeechContexts) 
+                    .build())
+                .collect(Collectors.toList());
+
+            PhraseSet phraseSet = PhraseSet.newBuilder()
+                .addAllPhrases(phraseObjects)
+                .build();
+
+            AdaptationPhraseSet adaptationPhraseSet = AdaptationPhraseSet.newBuilder()
+                .setInlinePhraseSet(phraseSet)
+                .build();
+
+            config.setAdaptation(SpeechAdaptation.newBuilder()
+                .addAllPhraseSets(List.of(adaptationPhraseSet))
+                .build());
+        }
+
+        config.setFeatures(features.build());
+        return config.build();
+    }
 
 
-    private String formatTranscript(List<SpeechRecognitionResult> results, boolean withDiarization) {
+
+
+    private String formatTranscript(List<SpeechRecognitionResult> results, TranscriptionSettings settings) {
         if (results.isEmpty() || results.get(results.size() - 1).getAlternativesList().isEmpty()) {
             return "No results.";
         }
@@ -490,12 +553,16 @@ public class TranscriptionService implements TranscriptionUseCase {
         StringBuilder transcript = new StringBuilder();
 
         // without diarization
-        if (!withDiarization) {
+        if (!settings.withDiarization) {
             for (SpeechRecognitionResult result : results) {
                 if (!result.getAlternativesList().isEmpty()) {
                     SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
                     transcript.append(" "+ alternative.getTranscript()+" ");
                 }
+            }
+
+            if (!settings.withAutomaticPunctuation) {
+                return transcript.toString().toLowerCase().replaceAll("[.,!?;:]", "");
             }
             return transcript.toString();
         }
@@ -524,13 +591,18 @@ public class TranscriptionService implements TranscriptionUseCase {
                     currentPhrase.append(" "+word);
                 }
             } else {
-                transcript.append("Speaker "+currentSpeaker+": "+currentPhrase.toString().trim()+"\n");
+                transcript.append("Speaker "+currentSpeaker+": "+currentPhrase.toString().trim().toLowerCase().replaceAll("[.,!?;:]", "")+"\n");
 
                 currentSpeaker = speaker;
                 currentPhrase = new StringBuilder(word);
             }
         }
-        transcript.append("Speaker "+currentSpeaker+": "+currentPhrase.toString().trim()+"\n");
+        transcript.append("Speaker "+currentSpeaker+": "+currentPhrase.toString().trim().toLowerCase().replaceAll("[.,!?;:]", "")+"\n");
+
+        if (!settings.withAutomaticPunctuation) {
+            return transcript.toString();
+        }
+
         return transcript.toString();
     }
 
@@ -573,4 +645,5 @@ public class TranscriptionService implements TranscriptionUseCase {
     public boolean delete(String id) {
         return transcriptionRepo.delete(id);
     }
+
 }

@@ -8,6 +8,7 @@ import { filterDefault, getSalesDashboardStat, getSubscriptions, type Subscripti
 import type { MonthlyCount } from "../../../../api/dashboard";
 import { formatLocalDate } from "../../../../others/utils";
 import { endPage, startPage } from "../../../../others/pagination";
+import type SubscriptionRepartition from "../../../../api/subscription";
 
 interface SalesStat {
     average_monthly_sales?: string,
@@ -15,11 +16,6 @@ interface SalesStat {
     average_churn?: number,
     subscriptions?: MonthlyCount[],
     subscriptions_repartition?: SubscriptionRepartition[],
-}
-
-interface SubscriptionRepartition {
-    subscription: string,
-    value: number
 }
 
 export default function SubscriptionDashboard() {
@@ -180,18 +176,10 @@ export default function SubscriptionDashboard() {
                         </div>
                         <div className="col-12">
                             <LineChart
-                                height={250}
-                                data={{
-                                    labels: labelsLineChart,
-                                    datasets: [
-                                        {
-                                            label: "Sales",
-                                            data: dataLineChart,
-                                            borderColor: "#52f1a7",
-                                            tension: 0.3,
-                                        },
-                                    ],
-                                }}
+                                series={[
+                                    { name: "Sales", data: dataLineChart },
+                                ]}
+                                categories={labelsLineChart}
                             />
                         </div>
                     </div>
@@ -200,11 +188,11 @@ export default function SubscriptionDashboard() {
                 <div className="col-md-4 col-lg-4 col-xs-12 text-center row mx-0">        
                     <div className="card shadow">
                         <div className="card-header">
-                            <strong className="card-title">Sales per Subscription</strong>
+                            <strong className="card-title">Subscriptions</strong>
                             {/* <a className="float-right small text-muted" href="#!">View all</a> */}
                         </div>
 
-                         <div className="card-body">
+                        <div className="card-body">
                             <div className="chart-box mb-3" style={{minHeight: "180px;"}}>
                                 <TrafficChart
                                     series={dataTrafficChart}

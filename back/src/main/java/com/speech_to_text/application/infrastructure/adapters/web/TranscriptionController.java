@@ -121,7 +121,7 @@ public class TranscriptionController {
 
     @GetMapping("/longfile/status/{taskId}")
     public ResponseEntity<?> getStatus(@PathVariable String taskId) {
-        System.out.println("STATUS");
+        // System.out.println("STATUS");
 
         String status = TaskStatus.getStatus(taskId);
         int progress = TaskStatus.getProgress(taskId);

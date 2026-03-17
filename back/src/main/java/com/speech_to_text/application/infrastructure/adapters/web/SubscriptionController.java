@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/subscription")
+@RequestMapping("/  ")
 public class SubscriptionController {
 
     private final SubscriptionTypeUseCase subTypeUseCase;

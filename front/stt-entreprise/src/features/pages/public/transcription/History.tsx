@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { type TranscriptionFilter, filterDefault, getTranscriptions } from "../../../../api/transcription";
 import { deleteTranscription, type Summary } from "../../../../api/summary";
 import { endPage, startPage } from "../../../../others/pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatLocalDate } from "../../../../others/utils";
 import { useToast } from "../../../../auth/ToastProvider";
 
@@ -64,6 +64,15 @@ export default function History() {
     //     e.preventDefault();
     //     await fetchTranscriptions();
     // };
+
+    const navigate = useNavigate();
+    const handleExport= (summary: any) => {
+        navigate("/public/layout/export", {
+        state: {
+            Summary: summary
+        },
+        });
+    };
 
         return (
             <div className="col-md-12 my-4">
@@ -209,9 +218,9 @@ export default function History() {
                                                     <button className="btn btn-danger text-white fe-16 nav-link m-1" title="Delete" onClick={() => del(t.id)}>
                                                         <span className="fe fe-trash-2"></span>
                                                     </button>
-                                                    <Link to="/public/layout/export" className="btn btn-info text-white fe-16 nav-link m-1" title="Export">
+                                                    <button className="btn btn-info text-white fe-16 nav-link m-1" title="Export" onClick={() => handleExport(t)}>
                                                         <span className="fe fe-download"></span>
-                                                    </Link>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <tr id={`collap-${page * size + index + 1}`} className="collapse in p-3 bg-light">
@@ -229,9 +238,9 @@ export default function History() {
                                                                     <p className="h4">Summary</p>
                                                                     <p className="ml-3">{t.summary}</p>
                                                                 </dd>
-                                                                <dt className="col-1 d-flex align-items-center justify-content-center">{t.goal}</dt>
-                                                                <dt className="col-1 d-flex align-items-center justify-content-center">{t.length}</dt>
-                                                                <dt className="col-1 d-flex align-items-center justify-content-center">{t.length}</dt>
+                                                                <dt className="col-1 d-flex align-items-center justify-content-center"></dt>
+                                                                <dt className="col-2 d-flex align-items-center justify-content-center">Goal: {t.goal}</dt>
+                                                                <dt className="col-2 d-flex align-items-center justify-content-center">Length: {t.length}</dt>
                                                             </>
                                                         }
                                                         {/* <dt className="col-1 d-flex align-items-center justify-content-center">

@@ -16,7 +16,7 @@ export default function Summary() {
   const { user } = useAuth0();
   const hasRun = useRef(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const location = useLocation();
   const [formData, setFormData] = useState<Summary>();

@@ -28,18 +28,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
 import com.speech_to_text.application.domain.model.DTO.MonthlyCountDTO;
-import com.speech_to_text.application.domain.model.DTO.SalesStatDTO;
-import com.speech_to_text.application.domain.model.DTO.SubscriptionFilterDto;
-import com.speech_to_text.application.domain.model.DTO.SubscriptionRepartitionDTO;
 import com.speech_to_text.application.domain.model.DTO.UserFilterDto;
 import com.speech_to_text.application.domain.model.DTO.UsersStatDTO;
-import com.speech_to_text.application.domain.model.subscription.Subscription;
 import com.speech_to_text.application.domain.model.user.User;
 import com.speech_to_text.application.domain.port.out.UserRepository;
 import com.speech_to_text.application.domain.service.independant.GenericMapper;
-import com.speech_to_text.application.infrastructure.adapters.persistence.entity.SubscriptionDocument;
 import com.speech_to_text.application.infrastructure.adapters.persistence.entity.UserDocument;
 import lombok.AllArgsConstructor;
 
@@ -55,6 +49,16 @@ public class MongoUserRepository implements UserRepository {
     private SpringDataUser repo;
     private GenericMapper mapper;
     private final MongoTemplate mongoTemplate;
+
+    @Override
+    public int getTotalUser(LocalDate startDate, LocalDate endDate) {
+        Query query = new Query();
+        query.addCriteria(
+            Criteria.where("creationDate").gte(startDate).lte(endDate)
+        );
+
+        return (int) mongoTemplate.count(query, User.class);
+    }
 
     
     @Override

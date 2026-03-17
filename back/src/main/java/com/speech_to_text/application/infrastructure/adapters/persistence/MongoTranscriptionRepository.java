@@ -44,6 +44,28 @@ public class MongoTranscriptionRepository implements TranscriptionRepository {
     private SpringDataTranscription repo;
     private GenericMapper mapper;
     private final MongoTemplate mongoTemplate;
+
+    @Override
+    public double getTotalHoursTranscribed(LocalDate startDate, LocalDate endDate) {
+        MatchOperation match = Aggregation.match(
+            Criteria.where("creationDate").gte(startDate).lte(endDate)
+        );
+
+        GroupOperation group = Aggregation.group().sum("fileDuration").as("totalDuration");
+
+        Aggregation aggregation = Aggregation.newAggregation(match, group);
+
+        AggregationResults<Document> results =
+            mongoTemplate.aggregate(
+                aggregation,
+                TranscriptionDocument.class,
+                Document.class
+            );
+
+        Document result = results.getUniqueMappedResult();
+
+        return result != null ? result.getInteger("totalDuration")/3600.0 : 0.0;
+    }
     
     @Override
     public List<Transcription> findAll() {
@@ -114,7 +136,7 @@ public class MongoTranscriptionRepository implements TranscriptionRepository {
         // Total heures
         List<Document> duration = (List<Document>) doc.get("totalDuration");
         if (!duration.isEmpty()) {
-            Double hours = duration.get(0).getInteger("totalSeconds") / 36000.0;
+            Double hours = duration.get(0).getInteger("totalSeconds") / 3600.0;
             hours = Math.round(hours * 10.0) / 10.0;
             // Double hours = duration.get(0).getInteger("totalSeconds") / 1.0;
             dto.setTotalHoursTranscribed(hours);

@@ -1,6 +1,10 @@
 import api from "./api";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
+export default interface SubscriptionRepartition {
+    subscription: string,
+    value: number
+}
 
 export const getSubscriptions = async (filter: SubscriptionFilter, page: number, size: number) => {
     try {

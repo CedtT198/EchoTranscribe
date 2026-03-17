@@ -36,6 +36,7 @@ public class PaymentController {
             res.put("success", "Your subscription has been canceled successfuly");
             return ResponseEntity.status(200).body(res);
         } catch (Exception e) {
+            e.printStackTrace();
             res.put("error", e.getMessage());
             return ResponseEntity.status(401).body(res);
         }

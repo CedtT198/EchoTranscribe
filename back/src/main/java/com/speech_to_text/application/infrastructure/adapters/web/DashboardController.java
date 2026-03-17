@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.speech_to_text.application.domain.port.in.DashboardUseCase;
 import com.speech_to_text.application.domain.port.in.SubscriptionUseCase;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
 import com.speech_to_text.application.domain.port.in.UserUseCase;
-
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -22,6 +23,25 @@ public class DashboardController {
     private final TranscriptionUseCase transcriptionUseCase;
     private final SubscriptionUseCase subscriptionUseCase;
     private final UserUseCase userUseCase;
+    private final DashboardUseCase dashboardUseCase;
+
+    @GetMapping("/getGeneralStat")
+    public ResponseEntity<?> getGeneralStat(@RequestParam(required = false) LocalDate startDate, @RequestParam(required = false) LocalDate endDate) {
+        Map<String, String> res = new HashMap<>();
+
+        ResponseEntity<?> errors = getDateError(res, startDate, endDate);
+        if (errors != null) {
+            return errors;
+        }
+
+        try {
+            return ResponseEntity.status(200).body(dashboardUseCase.getGeneralDashboardStat(startDate, endDate));   
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.put("error", e.getMessage());
+            return ResponseEntity.status(401).body(res);   
+        }
+    }
 
     @GetMapping("/getUsersStat")
     public ResponseEntity<?> getUsersStat(@RequestParam(required = false) LocalDate startDate, @RequestParam(required = false) LocalDate endDate) {

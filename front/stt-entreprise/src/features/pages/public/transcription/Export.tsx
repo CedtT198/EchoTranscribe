@@ -101,10 +101,10 @@ export default function Export() {
                   <div className="col-12 mb-3">
                     <div className="text-center d-flex justify-content-center align-items-center">
                       <div className="bg-dark p-1 rounded-pill">
-                        <a className="btn btn rounded-pill mx-1 text-light" type="button" onClick={saveSummary}>
+                        {/* <a className="btn btn rounded-pill mx-1 text-light" type="button" onClick={saveSummary}>
                           <span className="fe fe-info fe-16 mr-1"></span>
                           <span>Save</span>
-                        </a>
+                        </a> */}
                         <button className="btn btn-primary rounded-pill mx-1 text-light" type="submit">
                           <span className="fe fe-info fe-16 mr-1"></span>Export
                         </button>

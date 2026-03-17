@@ -10,6 +10,7 @@ import { useToast } from "../../../../auth/ToastProvider";
 import CancelButton from "../subscription/CancelButton";
 import InvitationButton from "../subscription/InvitationButton";
 import UpdateFormUser from "./UpdateFormUser";
+import { useAuth } from "../../../../auth/useAuth";
 
 export default function Profile() {
     // profiile
@@ -54,7 +55,8 @@ export default function Profile() {
     }, [auth0Loading, isAuthenticated]);
 
     // danger zone
-    // const { logoutAuth0 } = useAuth();
+    const { logoutAuth0 } = useAuth();
+    const logout = () => logoutAuth0()
     const deleteAccount = async () => {
         try {
             const res = await deleteUser(user.sub);
@@ -237,7 +239,7 @@ export default function Profile() {
                                             </div>
                                             <div className="modal-footer">
                                                 <button type="button" className="btn mb-2 btn-dark" data-dismiss="modal">No</button>
-                                                <button type="button" className="btn mb-2 btn-danger" onClick={deleteAccount}>Yes</button>
+                                                <button type="button" className="btn mb-2 btn-danger" onClick={logout}>Yes</button>
                                             </div>
                                         </div>
                                     </div>

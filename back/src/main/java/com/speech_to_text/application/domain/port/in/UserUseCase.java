@@ -9,6 +9,7 @@ import com.speech_to_text.application.domain.model.DTO.UsersStatDTO;
 import com.speech_to_text.application.domain.model.user.User;
 
 public  interface UserUseCase {
+    public int getTotalUser(LocalDate startDate, LocalDate endDate);
     public UsersStatDTO getUsersDashboardStat(LocalDate startDate, LocalDate endDate) throws Exception;
     public Page<User> findByFilters(UserFilterDto filter, Pageable pageable);
     public List<User> findAll();

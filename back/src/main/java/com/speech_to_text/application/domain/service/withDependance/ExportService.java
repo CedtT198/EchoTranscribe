@@ -94,7 +94,7 @@ public class ExportService implements ExportUseCase {
         addRow(transOptions, "Language : ", transcription.getLanguage(), labelFont, valueFont);
         addRow(transOptions, "Type : ", transcription.getTranscriptionType(), labelFont, valueFont);
         addRow(transOptions, "Source file : ", transcription.getFile(), labelFont, valueFont);
-        addRow(transOptions, "Duration : ", transcription.getFileDuration().toString(), labelFont, valueFont);
+        addRow(transOptions, "Duration : ", transcription.getFileDuration() != null ? transcription.getFileDuration().toString() : "No file", labelFont, valueFont);
         addRow(transOptions, "LocalDate : ", transcription.getCreationDate() != null ? transcription.getCreationDate().toString(): LocalDate.now().toString(),labelFont, valueFont);
         addRow(transOptions, "By : ", mail, labelFont, valueFont);
         // document.add(transOptions);
@@ -211,7 +211,7 @@ public class ExportService implements ExportUseCase {
         addOption(leftCell, "Language", transcription.getLanguage());
         addOption(leftCell, "Type", transcription.getTranscriptionType());
         addOption(leftCell, "Source file", transcription.getFile());
-        addOption(leftCell, "Duration", transcription.getFileDuration().toString());
+        addOption(leftCell, "Duration", transcription.getFileDuration() != null ? transcription.getFileDuration().toString() : "No file");
         addOption(leftCell, "LocalDate", transcription.getCreationDate() != null ? transcription.getCreationDate().format(DateTimeFormatter.ISO_DATE) : LocalDate.now().toString());
         addOption(leftCell, "By", transcription.getAuth0Id());
 
@@ -302,7 +302,7 @@ public class ExportService implements ExportUseCase {
                         "Additional instruction", transcription.getAdditionalInstruction())
         );
         writer.println(
-                formatRow("Duration", transcription.getFileDuration().toString(),
+                formatRow("Duration", transcription.getFileDuration() != null ? transcription.getFileDuration().toString() : "No file",
                         "", "")
         );
         writer.println(

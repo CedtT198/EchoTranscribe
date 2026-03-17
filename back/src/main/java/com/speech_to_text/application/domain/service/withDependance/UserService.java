@@ -3,19 +3,14 @@ package com.speech_to_text.application.domain.service.withDependance;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import com.speech_to_text.application.domain.model.DTO.SalesStatDTO;
-import com.speech_to_text.application.domain.model.DTO.SubscriptionFilterDto;
 import com.speech_to_text.application.domain.model.DTO.UserFilterDto;
 import com.speech_to_text.application.domain.model.DTO.UsersStatDTO;
 import com.speech_to_text.application.domain.model.auth.TokenResponse;
 import com.speech_to_text.application.domain.model.config.Auth0Properties;
-import com.speech_to_text.application.domain.model.subscription.Subscription;
 import com.speech_to_text.application.domain.model.user.User;
 import com.speech_to_text.application.domain.port.in.UserUseCase;
 import com.speech_to_text.application.domain.port.out.UserRepository;
@@ -42,9 +37,19 @@ public class UserService implements UserUseCase {
             .block().getAccessToken();
     }
 
+    @Override
+    public int getTotalUser(LocalDate startDate, LocalDate endDate) {
+        return userRepo.getTotalUser(startDate, endDate);
+    }
     
     @Override
     public UsersStatDTO getUsersDashboardStat(LocalDate startDate, LocalDate endDate) throws Exception {
+        // UsersStatDTO usersStat = userRepo.getUsersDashboardStat(startDate, endDate);
+
+        // for (iterable_type iterable_element : u) {
+            
+        // }
+
         return userRepo.getUsersDashboardStat(startDate, endDate);
     }
     

@@ -63,19 +63,15 @@ export default function Live() {
                     </div> */}
                     <div className="col-auto mb-3 px-5" style={{minHeight: 350}}>
                         <div className="transcription">
-                            {/* {transcripts && <p className="">Speaker: </p>} */}
-                            {transcripts.map((transcript, index) => (
-                                // <div key={index} className="line final">
-                                <p key={index} className="text-dark mb-0">{transcript}</p>
-                                // </div>
+                            {transcripts.map((t, i) => (
+                                <p key={i} className="text-dark mb-0">{t}</p>
                             ))}
                         
-                            {/* La ligne en cours d'écriture (seulement si on est en train d'enregistrer et qu'il y a du texte interim) */}
-                            {recording && currentInterim && (
-                                <div className="line interim">
-                                    {/* <p>Speaker: </p> {currentInterim} */}
-                                    <span className="cursor">|</span>  {/* Optionnel : petit curseur qui clignote */}
-                                </div>
+                            {recording && (
+                                <p className="text-dark mb-0" style={{ opacity: 0.7 }}>
+                                    {currentInterim}
+                                    <span className="cursor">|</span>
+                                </p>
                             )}
                         </div>
                     </div>

@@ -17,7 +17,7 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
     const startRecording = async () => {
         try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+        const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
 
         mediaRecorderRef.current = mediaRecorder;
 
@@ -36,7 +36,8 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
             ws.send(JSON.stringify(data));
             console.log('Data sent.');
 
-            mediaRecorder.start(250);
+            mediaRecorder.start(100);
+            // mediaRecorder.start(250);
             setRecording(true);
         };
 
@@ -51,6 +52,7 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
                         break;
 
                     case 'transcript':
+                        console.log(data.isFinal ? "FINAL" : "INTERIM", data.transcript);
                         if (data.isFinal) {
                             console.log('Transcription:', data.transcript, 'final:', data.isFinal);
                             // setTranscripts(prev => [...prev,`[${data.isFinal ? 'FINAL' : 'INTERIM'}] ${data.transcript}`]);

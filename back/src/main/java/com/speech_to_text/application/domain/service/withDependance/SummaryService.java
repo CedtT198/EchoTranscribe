@@ -41,6 +41,47 @@ public class SummaryService implements SummaryUseCase {
             Content:
             %s
         """;
+        if (goal.toLowerCase().equals("decisional")) {
+            prompt = """
+                You are an expert summarization assistant.
+
+                Task:
+                Summarize the content below in the same language.
+
+                Constraints:
+                - Format: %s
+                - Length: %s
+                - Do not add any information that is not present in the content
+                - Do not invent names, dates, numbers, or outcomes
+                - Preserve key decisions, actions, open questions, and risks/blockers when present
+
+                ### Decisions
+                - <decision> (Owner: <name if present>, Due: <date if present>)
+
+                ### Actions
+                - <action> (Owner: <name if present>, Due: <date if present>)
+
+                ### Open questions
+                - <question to resolve>
+
+                ### Risks / Blockers
+                - <risk or blocker>
+
+                DECISIONAL rules:
+                - Extract only decisions, actions, open questions, and risks/blockers. Do NOT write background/context.
+                - If a section has no items, write: None
+                - Do NOT infer anything: if it's not explicitly stated, don't include it
+                - Keep each bullet under 20 words
+                - Prefer concrete wording from the text
+                - If owner or due date is not present, omit the parentheses entirely
+
+                %s
+
+                Content:
+                %s
+            """;
+        }
+
         return prompt.formatted(goal, length, adi, content); 
     }
 

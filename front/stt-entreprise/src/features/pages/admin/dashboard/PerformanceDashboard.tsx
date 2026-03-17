@@ -126,17 +126,10 @@ export default function PerformanceDashboard() {
                         </div>
                         <div className="col-12">
                             <LineChart
-                                data={{
-                                    labels: labelsChart,
-                                    datasets: [
-                                        {
-                                            label: "Transcriptions",
-                                            data: dataChart,
-                                            borderColor: "#000000",
-                                            tension: 0.3,
-                                        },
-                                    ],
-                                }}
+                                series={[
+                                    { name: "Visiteurs", data: dataChart },
+                                ]}
+                                categories={labelsChart}
                             />
                         </div>
                     </div>

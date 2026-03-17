@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public  interface UserRepository {
+    public int getTotalUser(LocalDate startDate, LocalDate endDate);
     public UsersStatDTO getUsersDashboardStat(LocalDate startDate, LocalDate endDate) throws Exception;
     public Page<User> findByFilters(UserFilterDto filter, Pageable pageable);
     public List<User> findAll();

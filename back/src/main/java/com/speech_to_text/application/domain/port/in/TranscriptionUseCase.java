@@ -13,6 +13,7 @@ import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
 import com.speech_to_text.application.domain.model.transcription.Transcription;
 
 public interface TranscriptionUseCase {
+    public double getTotalHoursTranscribed(LocalDate startDate, LocalDate endDate);
     public PerformanceStatDTO getPerfDashboardStat(LocalDate startDate, LocalDate endDate) throws Exception;
     public Page<Transcription> findByFilters(TranscriptionFilterDto dto, Pageable pageable);
     public List<Transcription> findAll();
