@@ -18,16 +18,17 @@ public class SummaryController {
     private final SummaryUseCase summaryUseCase;
     
     @PostMapping("/summarize")
-    public Mono<ResponseEntity<String>> summarize(@RequestBody Map<String, String> data) {
+    public Mono<ResponseEntity<String>> summarize(@RequestBody Map<String, String> data) throws Exception {
         String content = data.get("content");
         String goal = data.get("goal");
         String length = data.get("length");
         String additionalInstruction = data.get("additionalInstruction");
+        String auth0id = data.get("auth0id");
         
         System.out.println("api openAI vohantso");
         String prompt = summaryUseCase.buildPrompt(content, goal, length, additionalInstruction);
 
-        return summaryUseCase.summarize(prompt)
+        return summaryUseCase.summarize(prompt, auth0id)
             .map(ResponseEntity::ok)
             .onErrorResume(e -> Mono.just(ResponseEntity.status(401).body(e.getMessage())));
     }

@@ -49,6 +49,9 @@ public class SubscriptionService implements SubscriptionUseCase {
 
         Subscription sub = new Subscription(
             null,
+            0,
+            100,
+            null,
             auth0Id,
             email,
             mainSub.getSubscriptionType(),
@@ -79,7 +82,7 @@ public class SubscriptionService implements SubscriptionUseCase {
 
     @Override
     public Subscription findActualSub(String auth0id) {
-        Subscription subFreePlan = new Subscription(null, auth0id, null, "Free plan", null, null, null, null,  auth0id, null);
+        Subscription subFreePlan = new Subscription(null, 10, null, null, auth0id, null, "Free plan", null, null, null, null,  auth0id, null);
 
         List<Subscription> allSub = subRepo.findAllByAuth0Id(auth0id);
         if (!allSub.isEmpty()) {
@@ -108,6 +111,40 @@ public class SubscriptionService implements SubscriptionUseCase {
     public Page<Subscription> findAllByAuth0Id(String auth0id, Pageable pageable) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAllByAuth0Id'");
+    }
+
+    @Override
+    public void addCredit(String auth0Id, int amount) {
+        Subscription sub = findActualSub(auth0Id);
+        sub.setCredit(sub.getCredit() + amount);
+        sub.setLastCreditRenewalDate(LocalDate.now());
+        save(sub);
+    }
+
+    @Override
+    public boolean consumeCredit(String auth0Id, int amount) throws Exception {
+        Subscription sub = findActualSub(auth0Id);
+        if (sub.getCredit() < amount) {
+            throw new Exception("Not enough credit");
+        }
+        sub.setCredit(sub.getCredit() - amount);
+        save(sub);
+        return true;
+    }
+
+    @Override
+    public int getCreditByPlan(String plan) {
+        return switch (plan.toLowerCase()) {
+            case "free plan" -> 100;
+            case "pro" -> 500;
+            case "company" -> 2000;
+            default -> 0;
+        };
+    }
+
+    @Override
+    public Subscription findById(String id) {
+        return subRepo.findById(id);
     }
 
 }

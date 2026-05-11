@@ -15,6 +15,9 @@ public class SubscriptionDocument {
     @Id
     String id;
     
+    Integer credit;
+    Integer creditPerCycle;
+    LocalDate lastCreditRenewalDate;
     String auth0Id;
     String mail;
     String subscriptionType;

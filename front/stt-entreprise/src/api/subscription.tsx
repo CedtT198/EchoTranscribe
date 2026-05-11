@@ -105,6 +105,9 @@ export const useUserSession = () => {
 
 export interface Subscription {
     id: string,
+    credit: number,
+    credit_per_cycle: number,
+    last_credit_renewal_date: string,
     auth0_id: string,
     mail: string,
     subscription_type: string,

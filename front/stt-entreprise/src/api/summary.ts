@@ -1,9 +1,9 @@
 import api from "./api";
 
 
-export const summarize = async (content: string, goal: string, length: string, additionalInsctruction: string) => {
+export const summarize = async (content: string, goal: string, length: string, additionalInsctruction: string, auth0id: string) => {
     try {
-        return await api.post(`/summary/summarize`, {content,goal,length,additionalInsctruction})
+        return await api.post(`/summary/summarize`, {content,goal,length,additionalInsctruction,auth0id})
     } catch (error) {
         throw new Error((error as Error).message);
     }

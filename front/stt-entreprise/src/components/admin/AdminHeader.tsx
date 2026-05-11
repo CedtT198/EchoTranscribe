@@ -31,11 +31,11 @@ export default function AdminHeader() {
                     <i className="fe fe-menu navbar-toggler-icon"></i>
                 </button>
                 <ul className="nav d-flex align-items-center bg-dark blur-border" style={{borderRadius: "25px"}} >
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <a className="nav-link text-muted" href="#" id="modeSwitcher" data-mode="light">
                             <i className="fe fe-sun fe-16"></i>
                         </a>
-                    </li>
+                    </li> */}
                     {/* <li className="nav-item">
                         <a className="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-shortcut">
                             <span className="fe fe-grid fe-16"></span>

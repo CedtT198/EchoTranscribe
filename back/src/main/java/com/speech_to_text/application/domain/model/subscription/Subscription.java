@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 public class Subscription {
     String id;
 
+    Integer credit;
+    Integer creditPerCycle;
+    LocalDate lastCreditRenewalDate;
     String auth0Id;
     String mail;
     String subscriptionType;

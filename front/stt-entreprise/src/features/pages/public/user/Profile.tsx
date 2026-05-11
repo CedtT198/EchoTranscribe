@@ -134,12 +134,18 @@ export default function Profile() {
                             ) : (
                                 <div className="text-center">
                                     <p className="h2"><span className="dot dot-lg bg-success mr-2"></span>{actualSub?.subscription_type}</p>
+                                    
+                                    {/* raha sous utilisateur company */}
                                     {actualSub?.subscription_type=="Company" && actualSub?.invitation_code && 
                                         <p className="text-muted" style={{cursor: "pointer"}}><span className="fe fe-copy fe-16 mr-2"></span>{actualSub?.invitation_code}</p>
                                     }
 
                                     {/* mila actif sady proprietaire */}
                                     {actualSub?.status=="ACTIVE" && actualSub.subscription_owner==user?.sub && <CancelButton subId={actualSub.id} />}
+
+                                    {actualSub?.credit && 
+                                        <p className="text-danger"><span className="fe fe- fe-16 mr-2"></span>{actualSub?.credit} credits left</p>
+                                    }
                                 </div>
                             )}
                         </div>

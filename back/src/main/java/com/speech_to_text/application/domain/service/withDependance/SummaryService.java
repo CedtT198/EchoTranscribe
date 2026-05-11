@@ -5,6 +5,8 @@ import java.util.Map;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.speech_to_text.application.domain.port.in.SubscriptionUseCase;
 import com.speech_to_text.application.domain.port.in.SummaryUseCase;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -14,6 +16,7 @@ import reactor.core.publisher.Mono;
 public class SummaryService implements SummaryUseCase {
 
     private final WebClient webClient;
+    private final SubscriptionUseCase subUseCase;
 
     @Override
     public String buildPrompt(String content, String goal, String length, String adi) {
@@ -86,7 +89,7 @@ public class SummaryService implements SummaryUseCase {
     }
 
     @Override
-    public Mono<String> summarize(String prompt) {
+    public Mono<String> summarize(String prompt, String auth0id) throws Exception {
         Map<String, Object> requestBody = Map.of("model", "gpt-4.1", "input", prompt);
 
         return webClient.post()
@@ -98,11 +101,17 @@ public class SummaryService implements SummaryUseCase {
                             .map(RuntimeException::new)
             )
             .bodyToMono(Map.class)
+            .doOnNext(response -> {
+                try {
+                    subUseCase.consumeCredit(auth0id, 4);
+                } catch (Exception e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+            })
             .map(response -> {
                 var output = (List<Map<String, Object>>) response.get("output");
                 var content = (List<Map<String, Object>>) output.get(0).get("content");
                 return content.get(0).get("text").toString();
             });
     }
-    
 }

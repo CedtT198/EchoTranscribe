@@ -1,7 +1,10 @@
 package com.speech_to_text.application.domain.service.withDependance;
 
 import java.util.Map;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import com.speech_to_text.application.domain.port.in.PaymentUseCase;
 import com.stripe.model.Subscription;
 import com.stripe.model.checkout.Session;
@@ -15,6 +18,13 @@ public class PaymentService implements PaymentUseCase {
     
     @Override
     public Map<String, String> createCheckout(String auth0Id, String email, String plan) throws Exception {
+        if (auth0Id == null || email == null || plan == null) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Either auth0Id, email or plan is null. Please fill blank."
+            );
+        }
+
         String priceId = "price_1SqB2MPsskg94PLM4IH4S8AW";
         if (plan.toLowerCase().equals("company")) {
             priceId = "price_1SqB2fPsskg94PLMZqAwcHb7";

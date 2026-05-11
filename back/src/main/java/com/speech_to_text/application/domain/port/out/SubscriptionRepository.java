@@ -14,6 +14,7 @@ public interface SubscriptionRepository {
     public List<Subscription> cancelAtPeriodEnd(String id, LocalDate endPeriod);
     public List<Subscription> findByOwner(String subOwner);
     public List<Subscription> canceled(String id);
+    public Subscription findById(String id);
     public Subscription save(Subscription subscription);
     public List<Subscription> findAll();
     public List<Subscription> findAllByAuth0Id(String auth0id);

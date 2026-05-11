@@ -306,4 +306,19 @@ public class MongoSubscriptionRepository implements SubscriptionRepository{
         return mapper.map(repo.save(doc), Subscription.class);
     }
 
+
+    @Override
+    public Subscription findById(String id) {
+        SubscriptionDocument doc =  repo.findById(id).orElse(null);
+        return mapper.map(doc, Subscription.class);
+    }
+
+
+    public void deleteAllByAuth0Id(String auth0Id) {
+        Query query = new Query(
+            Criteria.where("auth0Id").is(auth0Id)
+        );
+        mongoTemplate.remove(query, Subscription.class);
+    }
+
 }

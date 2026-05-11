@@ -113,7 +113,7 @@ export default function Summary() {
   const handleSummary = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await summarize(formData.content, formData.goal, formData.length, formData.additional_instruction);
+      const res = await summarize(formData.content, formData.goal, formData.length, formData.additional_instruction, user.sub);
       const data = res.data;
       setSummary(data);
       updateFormData("content", formData.content);

@@ -29,12 +29,12 @@ import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
 import com.speech_to_text.application.domain.model.config.GoogleCloud;
 import com.speech_to_text.application.domain.model.transcription.Transcription;
 import com.speech_to_text.application.domain.port.in.MediaFileUseCase;
+import com.speech_to_text.application.domain.port.in.SubscriptionUseCase;
 import com.speech_to_text.application.domain.port.in.TranscriptionUseCase;
 import com.speech_to_text.application.domain.port.out.TranscriptionRepository;
 import com.speech_to_text.application.domain.port.out.TranscriptionSettingsRepository;
 import com.speech_to_text.application.domain.service.independant.TaskStatus;
 import com.speech_to_text.application.infrastructure.adapters.web.AudioWebSocketHandler;
-
 import lombok.AllArgsConstructor;
 
 @Service
@@ -44,6 +44,7 @@ public class TranscriptionService implements TranscriptionUseCase {
 
     private final GoogleCloud gcloud;
     private final MediaFileUseCase mediaFileUseCase;
+    private final SubscriptionUseCase subUseCase;
     private final TranscriptionSettingsRepository repo;
     private final TranscriptionRepository transcriptionRepo;
 
@@ -427,6 +428,7 @@ public class TranscriptionService implements TranscriptionUseCase {
                     System.out.println(alternative.getTranscript());
                 }
             }
+
             return formatTranscript(results, settings);
         }
         catch (Exception e) {

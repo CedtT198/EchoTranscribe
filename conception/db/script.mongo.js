@@ -414,6 +414,10 @@ db.subscription.insertOne({
    price: 49.99,
    subscriptionOwner: "dewofwejofiejwfoiewjfoewijfowejfioewjfioewjfiowejf8"
 })
+db.subscription.updateOne(
+  { auth0Id: "google-oauth2|109805505081631767458" },
+  { $inc: { credit: 100 } }
+)
 
 
 
@@ -708,6 +712,13 @@ db.transcription.aggregate([
 ])
 
 
+db.createCollection("credit")
+db.credit.insertMany([
+   {
+      ownerAuth0Id: "",
+      credit: 19.99
+   },
+])
 
 
 // any amin'ny back daoly no ilaina

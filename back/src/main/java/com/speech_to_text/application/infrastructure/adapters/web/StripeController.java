@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.stripe.model.Event;
 import com.stripe.model.EventDataObjectDeserializer;
+import com.stripe.model.Invoice;
 import com.stripe.model.Price;
 import com.speech_to_text.application.domain.port.in.SubscriptionUseCase;
 import com.speech_to_text.application.domain.model.subscription.Subscription;
@@ -72,8 +73,12 @@ public class StripeController {
                     invitationCode = null;
                 }
 
+                Integer credit = subUseCase.getCreditByPlan(plan);
                 Subscription sub = new Subscription(
                     subscriptionId,
+                    credit,
+                    credit,
+                    LocalDate.now(),
                     auth0Id,
                     email,
                     plan,
@@ -117,6 +122,22 @@ public class StripeController {
                 subUseCase.canceled(subscription.getId());
             }
             
+            if (event.getType().equals("invoice.payment_succeeded")) {
+                EventDataObjectDeserializer deserializer = event.getDataObjectDeserializer();
+                Invoice invoice = (Invoice) deserializer.deserializeUnsafe();
+
+                String subscriptionId = invoice.getSubscription();
+                String billingReason = invoice.getBillingReason();
+
+                if ("subscription_cycle".equals(billingReason)) {
+                    Subscription sub = subUseCase.findById(subscriptionId);
+                    if (sub != null) {
+                        int creditToAdd = subUseCase.getCreditByPlan(sub.getSubscriptionType());
+                        subUseCase.addCredit(sub.getAuth0Id(), creditToAdd);
+                    }
+                }
+            }
+
             return ResponseEntity.ok("Payment done successfuly");
 
         } catch (Exception e) {

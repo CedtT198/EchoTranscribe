@@ -15,7 +15,11 @@ public interface SubscriptionUseCase {
     public List<Subscription> cancelAtPeriodEnd(String id, LocalDate endPeriod);
     public List<Subscription> canceled(String id);
     public Subscription save(Subscription subscription);
+    public Subscription findById(String id);
     public Subscription findActualSub(String auth0id);
     public Page<Subscription> findAllByAuth0Id(String auth0id, Pageable pageable);
     public List<Subscription> findAllByAuth0Id(String auth0id);
+    public void addCredit(String auth0Id, int amount);
+    public boolean consumeCredit(String auth0Id, int amount) throws Exception;
+    public int getCreditByPlan(String plan) throws Exception;
 }

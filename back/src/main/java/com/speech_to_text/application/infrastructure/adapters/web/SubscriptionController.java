@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/  ")
+@RequestMapping("/subscription")
 public class SubscriptionController {
 
     private final SubscriptionTypeUseCase subTypeUseCase;
@@ -31,11 +31,21 @@ public class SubscriptionController {
     
     @PostMapping("/findByFilters")
     public ResponseEntity<?> findByFilters(
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int size,
-        @RequestParam(defaultValue = "purchaseDate,desc") String sort,
+        @RequestParam(required=false, defaultValue = "0") int page,
+        @RequestParam(required=false, defaultValue = "10") int size,
+        @RequestParam(required=false, defaultValue = "purchaseDate,desc") String sort,
         @RequestBody SubscriptionFilterDto filter)
     {
+        String[] parts = sort.split(",");
+
+        if (parts.length != 2) {
+            return ResponseEntity.badRequest().body("Invalid sort format. Missing value.");
+        }
+
+        if (!parts[1].equals("desc") && !parts[1].equals("asc")) {
+            return ResponseEntity.badRequest().body("Invalid sort format. Incorrect direction.");
+        }
+
         Sort.Direction direction = Sort.Direction.fromString(sort.split(",")[1]);
         String sortProperty = sort.split(",")[0];
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortProperty));
