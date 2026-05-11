@@ -8,9 +8,7 @@ WORKDIR /app
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
 
-# Télécharger toutes les dépendances sans compiler
-RUN ./mvnw dependency:go-offline -B
-
+RUN chmod +x ./mvnw && ./mvnw dependency:go-offline -B
 
 # ─── Stage 2 : build + tests ────────────────────────────────────────────────
 FROM deps AS build
