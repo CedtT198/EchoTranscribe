@@ -7,22 +7,23 @@ export function useAuth() {
 
     const loginAuth0 = (returnPath?: string) => {
         login({
-            // appState: { returnTo: returnPath ||  location.pathname + location.search },
-            appState: { returnTo: window.location.pathname }
+            appState: { returnTo: returnPath ||  location.pathname},
+            // appState: { returnTo: window.location.pathname }
         });
     }
 
     const signupAuth0 = (returnPath?: string) => {
         login({
             authorizationParams: { screen_hint: "signup" },
-            // appState: { returnTo: returnPath ||  location.pathname + location.search },
-            appState: { returnTo: window.location.pathname }
+            appState: { returnTo: returnPath ||  location.pathname},
+            // appState: { returnTo: window.location.pathname }
         });
     }
 
-    const logoutAuth0 = () => {
+    const logoutAuth0 = (returnPath?: string) => {
         auth0Logout({
-            logoutParams: { returnTo: window.location.origin },
+            logoutParams: { returnTo: returnPath ||  window.location.origin},
+            // logoutParams: { returnTo: window.location.origin },
         });
     }
 

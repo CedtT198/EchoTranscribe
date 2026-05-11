@@ -20,6 +20,14 @@ public class MongoSubscriptionTypeRepository implements SubscriptionTypeReposito
 
     @Override
     public List<SubscriptionType> findAll() {
+
+        // List<SubscriptionTypeDocument> docs = repo.findAll();
+        // System.out.println("Docs found: " + docs.size()); // combien ?
+        
+        // List<SubscriptionType> result = mapper.mapList(docs, SubscriptionType.class);
+        // System.out.println("After mapping: " + result.size());
+        
+        // return result;
         return mapper.mapList(repo.findAll(), SubscriptionType.class);
     }
 }

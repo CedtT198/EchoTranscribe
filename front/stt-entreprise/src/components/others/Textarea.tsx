@@ -41,6 +41,7 @@ function Textarea(props: Props) {
       maxLength={props.ml}
       onChange={handleInput}
       value={props.value}
+      required
     />
   );
 }

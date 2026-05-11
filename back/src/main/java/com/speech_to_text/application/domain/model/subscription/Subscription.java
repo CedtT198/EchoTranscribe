@@ -1,7 +1,6 @@
 package com.speech_to_text.application.domain.model.subscription;
 
 import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +10,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Subscription {
     String id;
-    LocalDate start_date;   
-    LocalDate end_date;   
-    String subscription_type;
-    String user;   
+
+    Integer credit;
+    Integer creditPerCycle;
+    LocalDate lastCreditRenewalDate;
+    String auth0Id;
+    String mail;
+    String subscriptionType;
+    String status;
+    LocalDate purchaseDate;
+    LocalDate endDate;
+    String invitationCode;
+    String subscriptionOwner;
+    Double price;  
 }

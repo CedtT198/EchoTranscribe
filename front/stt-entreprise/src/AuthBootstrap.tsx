@@ -1,10 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useRef } from "react";
 import { getAccessTokenGlobal } from "./Auth0ProviderWithNavigate";
+import { findActual, useUserSession } from "./api/subscription";
 
-const AuthBootstrap = () => {
-    const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
-   const hasSynced = useRef(false);
+export default function AuthBootstrap() {
+    const { isAuthenticated, isLoading, loginWithRedirect, user } = useAuth0();
+    const hasSynced = useRef(false);
+    const { setSubscription } = useUserSession();
 
     useEffect(() => {    
         if (isLoading) return;
@@ -27,7 +29,16 @@ const AuthBootstrap = () => {
                         "Content-Type": "application/json",
                     },
                 });
-                console.log("User synchronized successfully");
+
+                const subRes = await findActual(user?.sub);
+                if (subRes.data) {
+                    const subscription = await subRes.data;
+                    setSubscription(subscription);
+                    
+                    // console.log("Subscription: "+subscription.subscription_type);
+                }
+
+                // console.log("User synchronized successfully");
                 hasSynced.current = true;
             } catch (e) {
                 console.error("User sync failed.", e);
@@ -46,5 +57,3 @@ const AuthBootstrap = () => {
 
     return null;
 };
-
-export default AuthBootstrap;

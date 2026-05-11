@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { type TranscriptionFilter, filterDefault, getTranscriptions } from "../../../../api/transcription";
-import { type Summary } from "../../../../api/summary";
+import { deleteTranscription, type Summary } from "../../../../api/summary";
 import { endPage, startPage } from "../../../../others/pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatLocalDate } from "../../../../others/utils";
+import { useToast } from "../../../../auth/ToastProvider";
 
-function History() {
-    const [error, setError] = useState<string>();
+export default function History() {
     const [filter, setFilter] = useState<TranscriptionFilter>(filterDefault);
     
     const [page, setPage] = useState(0);
@@ -40,13 +40,39 @@ function History() {
             ...prev,
             [field]: value,
         }));
-        console.log(filter);
+        // console.log(filter);
     };
+
+    const {setSuccess, setError} = useToast();
+    const del = async (id: string) => {
+        console.log(id);
+        try {
+            const res = await deleteTranscription(id);
+            const data = res.data;
+
+            if (data.success) {
+                setSuccess("Transcription deleted successfuly.");
+            }
+                fetchTranscriptions();
+        }
+        catch(error: any) {
+            setError("Error trying to delete "+id+" transcription: "+error)
+        }
+    }
 
     // const filterTranscription = async (e: React.FormEvent) => {
     //     e.preventDefault();
     //     await fetchTranscriptions();
     // };
+
+    const navigate = useNavigate();
+    const handleExport= (summary: any) => {
+        navigate("/public/layout/export", {
+        state: {
+            Summary: summary
+        },
+        });
+    };
 
         return (
             <div className="col-md-12 my-4">
@@ -66,17 +92,12 @@ function History() {
                                 <span className="fe fe-plus fe-16 mr-1"></span>New
                             </button>
                             <div className="dropdown-menu" aria-labelledby="actionMenuButton">
-                                <a className="dropdown-item" href="#">Batch</a>
-                                <a className="dropdown-item" href="#">Live</a>
+                                <Link className="dropdown-item"  to="/public/layout/batch">Batch</Link>
+                                <Link className="dropdown-item"  to="/public/layout/live">Live</Link>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                
-                {error && <div className="alert alert-danger" role="alert">
-                <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
-                </div>}
 
                 <div className="card shadow">
                     <div className="card-body row">
@@ -115,51 +136,51 @@ function History() {
                                     
                                     <div className="modal fade modal-right modal-slide" tabIndex={-1} role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
                                         <div className="modal-dialog modal-sm" role="document">
-                                        <div className="modal-content">
-                                            <div className="modal-header">
-                                                <h5 className="modal-title" id="defaultModalLabel">Filter(s)</h5>
-                                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div className="modal-body">
-                                                <div>
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title" id="defaultModalLabel">Filter(s)</h5>
+                                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    <div>
 
-                                                    <div className="form-group">
-                                                        <label htmlFor="startDate">Start date</label>
-                                                        <input type="date" id="startDate" className="form-control" onChange={(e) => updateFilter("startDate", e.target.value)}/>
-                                                    </div>
-                                                    
-                                                    <div className="form-group">
-                                                        <label htmlFor="endDate">End date</label>
-                                                        <input type="date" id="endDate" className="form-control" onChange={(e) => updateFilter("endDate", e.target.value)}/>
-                                                    </div>
-                                                    
-                                                    <div className="form-group">
-                                                        <label htmlFor="content">Search in content</label>
-                                                        <textarea id="content" className="form-control" style={{resize: "none"}} onChange={(e) => updateFilter("contentPhrase", e.target.value)}/>
-                                                    </div>
-                                                    
-                                                    <div className="form-group">
-                                                        <label htmlFor="summary">Search in summary</label>
-                                                        <textarea id="summary" className="form-control" style={{resize: "none"}} onChange={(e) => updateFilter("summaryPhrase", e.target.value)}/>
-                                                    </div>
-                                                    
-                                                    <div className="form-group">
-                                                        <label htmlFor="transcriptionType">Transcription type</label>
-                                                        <select name="" id="transcriptionType" className="form-control" onChange={(e) => updateFilter("transcriptionType", e.target.value)}>
-                                                            <option value="batch">Batch</option>
-                                                            <option value="live">Live</option>
-                                                        </select>
-                                                    </div>
+                                                        <div className="form-group">
+                                                            <label htmlFor="startDate">Start date</label>
+                                                            <input type="date" id="startDate" className="form-control" onChange={(e) => updateFilter("startDate", e.target.value)}/>
+                                                        </div>
+                                                        
+                                                        <div className="form-group">
+                                                            <label htmlFor="endDate">End date</label>
+                                                            <input type="date" id="endDate" className="form-control" onChange={(e) => updateFilter("endDate", e.target.value)}/>
+                                                        </div>
+                                                        
+                                                        <div className="form-group">
+                                                            <label htmlFor="content">Search in content</label>
+                                                            <textarea id="content" className="form-control" style={{resize: "none"}} onChange={(e) => updateFilter("contentPhrase", e.target.value)}/>
+                                                        </div>
+                                                        
+                                                        <div className="form-group">
+                                                            <label htmlFor="summary">Search in summary</label>
+                                                            <textarea id="summary" className="form-control" style={{resize: "none"}} onChange={(e) => updateFilter("summaryPhrase", e.target.value)}/>
+                                                        </div>
+                                                        
+                                                        <div className="form-group">
+                                                            <label htmlFor="transcriptionType">Transcription type</label>
+                                                            <select name="" id="transcriptionType" className="form-control" onChange={(e) => updateFilter("transcriptionType", e.target.value)}>
+                                                                <option value="batch">Batch</option>
+                                                                <option value="live">Live</option>
+                                                            </select>
+                                                        </div>
 
+                                                    </div>
+                                                </div>
+                                                <div className="modal-footer">
+                                                    <button type="button" className="btn mb-2 btn-dark" data-dismiss="modal">Close</button>
+                                                    {/* <button type="submit" className="btn mb-2 btn-primary">Save changes</button> */}
                                                 </div>
                                             </div>
-                                            <div className="modal-footer">
-                                                <button type="button" className="btn mb-2 btn-dark" data-dismiss="modal">Close</button>
-                                                {/* <button type="submit" className="btn mb-2 btn-primary">Save changes</button> */}
-                                            </div>
-                                        </div>
                                         </div>
                                     </div>
 
@@ -176,6 +197,7 @@ function History() {
                                         <th>Details</th>
                                         <th>Type</th>
                                         <th>File</th>
+                                        <th>Duration</th>
                                         <th>Options</th>
                                     </tr>
                                 </thead>
@@ -191,34 +213,41 @@ function History() {
                                                 </td>
                                                 <td>{t.transcription_type}</td> 
                                                 <td>{t.file}</td>
-                                                <td className="row m-0 p-0 justify-content-center align-items-center">
-                                                    <Link to="#" className="text-danger fe-16 nav-link" title="Delete">
+                                                <td>{t.file_duration} seconds</td>
+                                                <td className="row m-0 justify-content-center align-items-center">
+                                                    <button className="btn btn-danger text-white fe-16 nav-link m-1" title="Delete" onClick={() => del(t.id)}>
                                                         <span className="fe fe-trash-2"></span>
-                                                    </Link>
-                                                    <Link to="/public/layout/export" className="text-warning fe-16 nav-link" title="Export">
+                                                    </button>
+                                                    <button className="btn btn-info text-white fe-16 nav-link m-1" title="Export" onClick={() => handleExport(t)}>
                                                         <span className="fe fe-download"></span>
-                                                    </Link>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <tr id={`collap-${page * size + index + 1}`} className="collapse in p-3 bg-light">
-                                                <td colSpan={5}>
+                                                <td colSpan={6}>
                                                     <dl className="row mb-0 mt-1">
-                                                        <dd className="col-12">
-                                                            <p className="h4">Transcription</p>
-                                                            <p className="ml-3">{t.content}</p>
-                                                        </dd>
-                                                        <dd className="col-8">
-                                                            <p className="h4">Summary</p>
-                                                            <p className="ml-3">{t.summary}</p>
-                                                        </dd>
-                                                        <dt className="col-1 d-flex align-items-center justify-content-center">{t.goal}</dt>
-                                                        <dt className="col-1 d-flex align-items-center justify-content-center">{t.length}</dt>
-                                                        <dt className="col-1 d-flex align-items-center justify-content-center">{t.length}</dt>
-                                                        <dt className="col-1 d-flex align-items-center justify-content-center">
+                                                        {t.content && 
+                                                            <dd className="col-12">
+                                                                <p className="h4">Transcription</p>
+                                                                <p className="ml-3">{t.content}</p>
+                                                            </dd>
+                                                        }
+                                                        {t.summary && 
+                                                            <>
+                                                                <dd className="col-12">
+                                                                    <p className="h4">Summary</p>
+                                                                    <p className="ml-3">{t.summary}</p>
+                                                                </dd>
+                                                                <dt className="col-1 d-flex align-items-center justify-content-center"></dt>
+                                                                <dt className="col-2 d-flex align-items-center justify-content-center">Goal: {t.goal}</dt>
+                                                                <dt className="col-2 d-flex align-items-center justify-content-center">Length: {t.length}</dt>
+                                                            </>
+                                                        }
+                                                        {/* <dt className="col-1 d-flex align-items-center justify-content-center">
                                                             <a href="" className="text-secondary">
                                                                 <span className="fe fe-edit-2" title="Re-resume"></span>
                                                             </a>
-                                                        </dt>
+                                                        </dt> */}
                                                     </dl>
                                                 </td>
                                             </tr>
@@ -228,36 +257,8 @@ function History() {
                             </table>
                         </div>
 
-                        {/* pagination */}
-                        <div className="col-12 row">
-                            <div className="col-md-6 col-lg-6 col-xs-12">
-                                <p className="text-muted d-flex align-items-center">Showing {page * size + 1} to {Math.min((page + 1) * size, totalElements)} of {totalElements} entries</p>
-                            </div>
-                            <div className="col-md-6 col-lg-6 col-xs-12 text-right">
-                                <nav aria-label="Table Paging" className="">
-                                    <ul className="pagination justify-content-end mb-0">
-                                        <li className={`page-item ${page === 0 ? "d-none" : "d-block"}`}>
-                                            <button className="page-link" onClick={() => setPage(p => p - 1)}>Previous</button>
-                                        </li>
-                                        {Array.from({ length: endPage(totalPages, page) - startPage(page) }, (_, i) => startPage(page) + i).map(i => (
-                                            <li key={i} className={`page-item ${page === i ? "active" : ""}`}>
-                                                <button className="page-link" onClick={() => setPage(i)}>
-                                                    {i + 1}
-                                                </button>
-                                            </li>
-                                        ))}
-                                        {startPage(page) > 0 && <li className="page-item disabled"><span className="page-link">…</span></li>}
-                                        <li className={`page-item ${page === totalPages - 1 ? "d-none" : "d-block"}`}>
-                                            <button className="page-link" onClick={() => setPage(p => p + 1)}>Next</button>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         )
 }
-
-export default History;

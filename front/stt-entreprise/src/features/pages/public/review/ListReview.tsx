@@ -4,10 +4,12 @@ import { getReviews, getReviewStats, getStarCount, type Review, type ReviewStats
 import { endPage, startPage } from "../../../../others/pagination";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { formatLocalDate } from "../../../../others/utils";
+import { useToast } from "../../../../auth/ToastProvider";
 
-function ListReview() {
+export default function ListReview() {
     // fetch review global stat
-    const [error, setError] = useState<string>();
+    const { setError } = useToast();
     const [reviewStats, setReviewStats] = useState<ReviewStats>();
     const fetchReviewStats = async () => {
         try {
@@ -22,7 +24,7 @@ function ListReview() {
     const [filter, setFilter] = useState<TranscriptionFilter>(filterDefault);
     
     const [page, setPage] = useState(0);
-    const [size] = useState(8);
+    const [size] = useState(12);
     const [totalElements, setTotalElements] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
@@ -34,6 +36,7 @@ function ListReview() {
             const pageData = res.data;
             
             setReviews(pageData.content);
+            console.log(reviews)
             setTotalElements(pageData.total_elements);
             setTotalPages(pageData.total_pages);
         } catch (error: any) {
@@ -80,8 +83,8 @@ function ListReview() {
             <div className="container">
                 <div className="d-flex justify-content-between align-items-center my-3">
                     <div className="mx-4">
-                        <p className="fe-32 font-weight-bold m-0">
-                            <span className="fe fe-star text-warning mr-1"></span>{reviewStats?.average_star}
+                        <p className="fe-32 font-weight-bold m-0 d-flex align-items-center">
+                            <img src="/images/star_full.png" alt="Plenty stars picture" className="mr-2"></img>{reviewStats?.average_star}
                         </p>
                         <p className="mb-1">{reviewStats?.total_reviews} Reviews</p>
                     </div>
@@ -125,7 +128,7 @@ function ListReview() {
                 
                 
                 {/* pagination */}
-                <div className="col-12 row">
+                <div className="col-12 row mb-4">
                     <div className="col-md-6 col-lg-6 col-xs-12">
                         <p className="text-muted d-flex align-items-center">Showing {page * size + 1} to {Math.min((page + 1) * size, totalElements)} of {totalElements} entries</p>
                     </div>
@@ -152,69 +155,75 @@ function ListReview() {
                 </div>
 
                 {/* Reviews list */}
-                {reviews.map((r, index) => (
-                    <div className="my-4" key={index}>
-                        <div className="card shadow mb-4">
-                            <div className="card-header mt-2">
-                                <div className="container row">
-                                    <div className="col-1 mx-0">
-                                        <span className="avatar avatar-sm">
-                                            <img src="./assets/avatars/face-1.jpg" alt="p" className="avatar-img rounded-circle"/>
-                                        </span>
-                                    </div>
-                                    <div className="col-9">
-                                        <p className="mb-0">{r.name} {r.firstName}</p>
-                                        <p className="fe-12 text-muted mt-0">{r.createdDate}</p>
-                                    </div>
-                                    {/* <div className="col-2">
-                                        <button type="button" className="btn mb-2 btn-outline-danger mx-1" data-toggle="modal" data-target="#verticalModal">
-                                            <span className="fe fe-16 fe-trash"></span>
-                                        </button>
-                                        <div className="modal fade" id="verticalModal" tabIndex={-1} role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
-                                            <div className="modal-dialog modal-dialog-centered" role="document">
-                                                <div className="modal-content">
-                                                    <div className="modal-header">
-                                                        <h5 className="modal-title" id="verticalModalTitle">Confirm</h5>
-                                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div className="modal-body">Are you sure about deleting your reviews ?</div>
-                                                        <div className="modal-footer">
-                                                            <button type="button" className="btn mb-2 btn-dark" data-dismiss="modal">No</button>
-                                                            <button type="button" className="btn mb-2 btn-danger">Yes</button>
+                <div className="row">
+                    {reviews.map((r, index) => (
+                        <div className="col-md-4 col-lg-4 col-12 d-flex align-items-stretch my-1" style={{height: "auto"}} key={index}>
+                            <div className="card shadow">
+                                <div className="card-header mt-2">
+                                    <div className="container row">
+                                        {/* <div className="col-1 mx-0">
+                                            <span className="avatar avatar-sm">
+                                                <img src="./assets/avatars/face-1.jpg" alt="p" className="avatar-img rounded-circle"/>
+                                            </span>
+                                        </div> */}
+                                        <div className="col-9">
+                                            <p className="mb-0">{r.name} {r.first_name}</p>
+                                            <p className="fe-12 text-muted mt-0">{formatLocalDate(r.creation_date)}</p>
+                                        </div>
+                                        {/* <div className="col-2">
+                                            <button type="button" className="btn mb-2 btn-outline-danger mx-1" data-toggle="modal" data-target="#verticalModal">
+                                                <span className="fe fe-16 fe-trash"></span>
+                                            </button>
+                                            <div className="modal fade" id="verticalModal" tabIndex={-1} role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                <div className="modal-dialog modal-dialog-centered" role="document">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h5 className="modal-title" id="verticalModalTitle">Confirm</h5>
+                                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
                                                         </div>
+                                                        <div className="modal-body">Are you sure about deleting your reviews ?</div>
+                                                            <div className="modal-footer">
+                                                                <button type="button" className="btn mb-2 btn-dark" data-dismiss="modal">No</button>
+                                                                <button type="button" className="btn mb-2 btn-danger">Yes</button>
+                                                            </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <button type="button" className="btn mb-2 btn-outline-warning mx-1">
-                                            <span className="fe fe-16 fe-edit"></span>
-                                        </button>
-                                    </div> */}
-                                    <div className="col-12 ml-1">
-                                        {Array.from({ length: r.stars }, (_, i) => (
-                                            <span className="fe fe-star text-warning mr-1" key={i}></span>
-                                        ))}
+                                            <button type="button" className="btn mb-2 btn-outline-warning mx-1">
+                                                <span className="fe fe-16 fe-edit"></span>
+                                            </button>
+                                        </div> */}
+                                        <div className="col-12 ml-1 d-flex align-items-center">
+                                            {Array.from({ length: r.stars }, (_, i) => (
+                                                <>
+                                                    <img style={{width: "8%"}} src="/images/star_full.png" alt="Plenty stars picture" key={i}></img>
+                                                </>
+                                            ))}
 
-                                        {Array.from({ length: 5-r.stars }, (_, i) => (
-                                            <span className="fe fe-star text-dark mr-1" key={i}></span>
-                                        ))}
-                                        <span className="mx-1">{r.stars}</span>
+                                            {Array.from({ length: 5-r.stars }, (_, i) => (
+                                                <>
+                                                    <img style={{width: "8%"}} src="/images/star_empty.png" alt="Empty stars picture" key={i}></img>
+                                                </>
+                                            ))}
+                                            <span className="mx-2" style={{fontSize: 14}}>{r.stars}</span>
+                                        </div>
                                     </div>
+                                    {/* <div className="ml-2">
+                                        <p className="fe-12 text-muted">{formatLocalDate(r.creation_date)}</p>
+                                    </div> */}
                                 </div>
-                                <div className="ml-2">
-                                    <p className="fe-12 text-muted">{r.createdDate}</p>
+                                <div className="card-body">
+                                    <p>{r.review}</p>
                                 </div>
-                            </div>
-                            <div className="card-body">
-                                <p>{r.review}</p>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
                 
                 {/* pagination */}
-                <div className="col-12 row">
+                <div className="col-12 row mt-5">
                     <div className="col-md-6 col-lg-6 col-xs-12">
                         <p className="text-muted d-flex align-items-center">Showing {page * size + 1} to {Math.min((page + 1) * size, totalElements)} of {totalElements} entries</p>
                     </div>
@@ -243,8 +252,6 @@ function ListReview() {
         </div>
     )
 }
-
-export default ListReview;
 
 
 {/* <div>

@@ -6,17 +6,23 @@ import { transcribeShortFile } from "../../../../api/transcription";
 import { useTranscript } from "../../../../auth/useTranscript";
 import Loading from "../../../../components/others/Loading";
 import axios from "axios";
+import { useToast } from "../../../../auth/ToastProvider";
+import SaveButton from "./SaveButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
-function Summary() {
+export default function Summary() {
+  const { setError } = useToast();
+
+  const { user } = useAuth0();
   const hasRun = useRef(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const location = useLocation();
-  const [formData, setFormData] = useState<Summary>(sumDefault);
-  const { transType, type:longTransType, formDataTranscript, liveTranscript } = location.state || {};
+  const [formData, setFormData] = useState<Summary>();
+  const { fileDuration, transType, type:longTransType, formDataTranscript, liveTranscript } = location.state || {};
   
-  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, transError, stopPolling } = useTranscript();
+  const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, setIsPolling, hideLoadingPanel } = useTranscript();
   // const { token, loading:tokenLoad } = useAuthToken();
   useEffect(() =>{
     // if (tokenLoad || !token) return;
@@ -27,13 +33,20 @@ function Summary() {
     hasRun.current = true;
     // 
 
+    if (user?.sub) {
+      updateFormData("auth0_id", user.sub);
+    }
+
     if (formDataTranscript) {
       const file = formDataTranscript.get('file');
-      formData.title = (file) ? file.name : "";
-      formData.file = (file) ? file.name : "";
-      formData.language = formDataTranscript.get('language');
-      formData.transcription_type = transType;
-      if (transType === "Live" && liveTranscript) formData.content = liveTranscript;
+      updateFormData("title", (file) ? file.name : "");
+      updateFormData("file", (file) ? file.name : "");
+      updateFormData("language", formDataTranscript.get('language'));
+      updateFormData("transcription_type", transType);
+      updateFormData("file_duration", fileDuration);
+      if (transType === "Live" && liveTranscript) {
+        updateFormData("content", liveTranscript);
+      }
     }
 
     const transcript = async () => {
@@ -69,14 +82,11 @@ function Summary() {
     updateFormData("content", status?.transcript ? status?.transcript : "")
   }, [status])
 
-  const [error, setError] = useState("");
-
   const updateFormData = <K extends keyof Summary>(field: K, value: Summary[K]) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
-    setError("");
     console.log(formData);
   };
 
@@ -87,8 +97,8 @@ function Summary() {
   const [bar, setBar] = useState<number>(5);
   const handleLengthChange = (length: string) => {
     let value = 5;
-    if (length === "short") value = 25;
-    else if (length === "medium") value = 50;
+    if (length === "short") value = 33;
+    else if (length === "medium") value = 66;
     else if (length === "long") value = 100;
 
     updateFormData("length", length);
@@ -103,11 +113,13 @@ function Summary() {
   const handleSummary = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await summarize(formData.content, formData.goal, formData.length, formData.additional_instruction);
+      const res = await summarize(formData.content, formData.goal, formData.length, formData.additional_instruction, user.sub);
       const data = res.data;
       setSummary(data);
+      updateFormData("content", formData.content);
+      updateFormData("summary", data);
 
-      console.log(data);
+      // console.log(data);
     } catch (error: any) {
       // setError(error.message);
       if (axios.isAxiosError(error) && error.response) {
@@ -127,26 +139,17 @@ function Summary() {
     });
   };
 
-  const cancelTranscription = async () => {
-    stopPolling();
-  }
-
-  const saveTranscription = () => {};
-
 
   if (transLoading) {
     return <Loading/>
   }
   return (
     <div className="d-flex justify-content-center">
-      {isPolling &&<>
+      {isPolling && hideLoadingPanel==false && <>
         <div className="col-xs-12 col-md-9 col-lg-9">
           <div className="row text-center vh-100">
             {status?.status === 'ERROR' && status.error && <div className="alert alert-danger" role="alert">
               <span className="fe fe-minus-circle fe-16 mr-2"></span>{status.error}
-            </div>}
-            {transError && <div className="alert alert-danger" role="alert">
-              <span className="fe fe-minus-circle fe-16 mr-2"></span>{transError}
             </div>}
             <div className="col-xs-12 offset-md-2 col-md-8 offset-lg-2 col-lg-8 p-0">
               <p className="h1 mb-0">Transcribing your file...</p>
@@ -158,12 +161,14 @@ function Summary() {
                 <div className="progress-bar" role="progressbar" style={{width: status?.progress+"%"}}  aria-valuenow={status?.progress} aria-valuemin="5" aria-valuemax="100"></div>
               </div>
               <p className="h3">Status: {status?.status}</p>
-              <button type="button" className="btn btn-danger rounded-pill" onClick={cancelTranscription}>Cancel</button>
+              <button type="button" className="btn btn-danger rounded-pill mx-1" onClick={() => setIsPolling(false)}>Cancel</button>
+              {/* <button type="button" className="btn btn-warning rounded-pill mx-1 text-white" onClick={() => setHideLoadingPanel(true)}>Hide panel</button> */}
             </div>
 
           </div>
         </div>
       </>}
+
       {!isPolling && <div className="col-xs-12 col-md-9 col-lg-9">
         <div className="col-12 text-center">
           <p className="h1 mb-0">Summary section</p>
@@ -183,7 +188,7 @@ function Summary() {
                     {summary &&
                       <>
                         <p className="text-danger text-center" style={{textDecoration: "underline"}}>Summary result</p>
-                        <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={summary}></Textarea>
+                        <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("summary", value)} value={summary}></Textarea>
                       </>
                     }
                     {!summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formData.content}></Textarea> }
@@ -198,10 +203,7 @@ function Summary() {
                         {!summary && <button className="btn btn-primary rounded-pill mx-1 text-light" type="button">
                           <span className="fe fe-info fe-16 mr-1"></span>AI Summary
                         </button>}
-                        <a className="btn btn rounded-pill mx-1 text-light" type="button" onClick={saveTranscription}>
-                          <span className="fe fe-cloud fe-16 mr-1"></span>
-                          <span>Save</span>
-                        </a>
+                        <SaveButton transcription={formData}/>
                       </div>
                     </div>
                   </div>
@@ -234,8 +236,8 @@ function Summary() {
                           <input type="radio" className="" id="medium" name="length" required onChange={() => handleLengthChange("medium")}/>
                           <label htmlFor="medium">Medium</label>
                           
-                          <input type="radio" className="" id="Long" name="length" required onChange={() => handleLengthChange("long")}/>
-                          <label htmlFor="Long">Long</label>
+                          {/* <input type="radio" className="" id="Long" name="length" required onChange={() => handleLengthChange("long")}/>
+                          <label htmlFor="Long">Long</label> */}
                         </div>
                         <div className="offset-md-3 col-md-6 offset-lg-3 col-lg-6 col-xs-12 p-0">
                           <div className="progress">
@@ -264,9 +266,6 @@ function Summary() {
                             <textarea name="" id="add_content" className="form-control" style={{minHeight: 200, resize: "none", fontSize: "18px"}} onChange={handleAdditionalInstruction}></textarea>
                           </div>
 
-                          {error && <div className="alert alert-danger text-center" role="alert">
-                            {error}
-                          </div>}
                           <div className="container row m-0 text-center">
                             <p className="col-md-9 col-lg-9 col-xs-12">AI can make mistake, the content can be inaccurate.</p>
                             <button type="submit" className="btn btn-primary rounded-pill btn-md col-md-3 col-lg-3 col-xs-12">
@@ -287,5 +286,3 @@ function Summary() {
     </div>
   )
 }
-
-export default Summary;
