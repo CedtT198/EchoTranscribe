@@ -42,7 +42,4 @@ COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 
 # Options JVM adaptées aux conteneurs (mémoire limitée sur plan free)
-ENTRYPOINT ["java",
-  "-XX:+UseContainerSupport",
-  "-XX:MaxRAMPercentage=75.0",
-  "-jar", "app.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]
