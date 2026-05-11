@@ -22,35 +22,183 @@ db.role.insertMany([
 
 db.createCollection("user")
 db.user.insertMany([
-   {
-      name: "cedric",
-      password: "cedric",
-      role: "Super Administrator"
-   },
-   {
-      name: "njiva",
-      mail: "njiva@gmail.com",
-      password: "njiva",
-      role: "Administrator",
-      creationDate: new Date()
-   },
-   {
-      name: "bera",
-      mail: "bera@gmail.com",
-      password: "bera",
-      role: "Sub Admin",
-      creationDate: new Date()
-   },
-   {
-      name: "nom client1",
-      firstName: "prenom client1",
-      birthday: ISODate("2001-01-01T00:00:00Z"),
-      mail: "client1@gmail.com",
-      password: "client1",
-      role: "Client",
-      creationDate: new Date()
-   }
+   
+  {
+    _id: ObjectId(),
+    id: "USR-1001",
+    auth0Id: "auth0|64a1f23abc001",
+    name: "Dupont",
+    firstName: "Jean",
+    birthday: ISODate("1992-04-18"),
+    mail: "jean.dupont@example.com",
+    address: "12 rue des Lilas",
+    country: "France",
+    city: "Paris",
+    zip: "75010",
+    creationDate: "2024-11-02",
+    roles: ["USER"]
+  },
+  {
+    _id: ObjectId(),
+    id: "USR-1002",
+    auth0Id: "auth0|64a1f23abc002",
+    name: "Martin",
+    firstName: "Claire",
+    birthday: ISODate("1988-09-03"),
+    mail: "claire.martin@example.com",
+    address: "45 avenue Victor Hugo",
+    country: "France",
+    city: "Lyon",
+    zip: "69006",
+    creationDate: "2024-10-15",
+    roles: ["USER", "ADMIN"]
+  },
+  {
+    _id: ObjectId(),
+    id: "USR-1003",
+    auth0Id: "auth0|64a1f23abc003",
+    name: "Bernard",
+    firstName: "Lucas",
+    birthday: ISODate("2000-01-27"),
+    mail: "lucas.bernard@example.com",
+    address: "8 boulevard Pasteur",
+    country: "Belgique",
+    city: "Bruxelles",
+    zip: "1000",
+    creationDate: "2025-01-05",
+    roles: ["USER"]
+  },
+  {
+    _id: ObjectId(),
+    id: "USR-1004",
+    auth0Id: "auth0|64a1f23abc004",
+    name: "Nguyen",
+    firstName: "Linh",
+    birthday: ISODate("1995-07-12"),
+    mail: "linh.nguyen@example.com",
+    address: "21 rue Nationale",
+    country: "France",
+    city: "Lille",
+    zip: "59800",
+    creationDate: "2024-12-20",
+    roles: ["USER", "MODERATOR"]
+  },
+  {
+    _id: ObjectId(),
+    id: "USR-1005",
+    auth0Id: "auth0|64a1f23abc005",
+    name: "Leroy",
+    firstName: "Antoine",
+    birthday: ISODate("1990-02-11"),
+    mail: "antoine.leroy@example.com",
+    address: "3 rue Voltaire",
+    country: "France",
+    city: "Nantes",
+    zip: "44000",
+    creationDate: "2024-09-08",
+    roles: ["USER"]
+  },
+  {
+    _id: ObjectId(),
+    id: "USR-1006",
+    auth0Id: "auth0|64a1f23abc006",
+    name: "Moreau",
+    firstName: "Sophie",
+    birthday: ISODate("1985-11-29"),
+    mail: "sophie.moreau@example.com",
+    address: "77 chemin des Vignes",
+    country: "France",
+    city: "Bordeaux",
+    zip: "33000",
+    creationDate: "2024-08-21",
+    roles: ["USER", "ADMIN"]
+  },
+  {
+    _id: ObjectId(),
+    id: "USR-1007",
+    auth0Id: "auth0|64a1f23abc007",
+    name: "Rossi",
+    firstName: "Marco",
+    birthday: ISODate("1997-06-05"),
+    mail: "marco.rossi@example.com",
+    address: "15 via Roma",
+    country: "Italie",
+    city: "Milan",
+    zip: "20100",
+    creationDate: "2025-01-02",
+    roles: ["USER"]
+  },
+  {
+    _id: ObjectId(),
+    id: "USR-1008",
+    auth0Id: "auth0|64a1f23abc008",
+    name: "Garcia",
+    firstName: "Elena",
+    birthday: ISODate("1993-03-19"),
+    mail: "elena.garcia@example.com",
+    address: "22 calle Mayor",
+    country: "Espagne",
+    city: "Madrid",
+    zip: "28013",
+    creationDate: "2024-12-11",
+    roles: ["USER", "MODERATOR"]
+  },
+  {
+    _id: ObjectId(),
+    id: "USR-1009",
+    auth0Id: "auth0|64a1f23abc009",
+    name: "Schmidt",
+    firstName: "Jonas",
+    birthday: ISODate("1989-08-24"),
+    mail: "jonas.schmidt@example.com",
+    address: "9 Hauptstraße",
+    country: "Allemagne",
+    city: "Berlin",
+    zip: "10115",
+    creationDate: "2024-07-30",
+    roles: ["USER"]
+  },
+  {
+    _id: ObjectId(),
+    id: "USR-1010",
+    auth0Id: "auth0|64a1f23abc010",
+    name: "Kowalski",
+    firstName: "Anna",
+    birthday: ISODate("1998-12-14"),
+    mail: "anna.kowalski@example.com",
+    address: "18 ul. Długa",
+    country: "Pologne",
+    city: "Gdańsk",
+    zip: "80-831",
+    creationDate: "2025-01-10",
+    roles: ["USER"]
+  }
 ])
+const docs = [];
+for (let i = 1; i <= 50; i++) {
+  docs.push({
+    auth0Id: `auth0|user${i}`,
+    name: `Doe${i}`,
+    firstName: `John${i}`,
+    birthday: randomDate(
+      new Date("1980-01-01"),
+      new Date("2005-12-31")
+    ),
+    mail: `john.doe${i}@example.com`,
+    address: `${i} rue de Paris`,
+    country: "France",
+    city: "Paris",
+    zip: "75000",
+    creationDate: randomDate(
+      new Date("2022-01-01"),
+      new Date("2026-12-31")
+    ),
+    lastUpdate: new Date(),
+    roles: "USER"
+  });
+}
+db.user.insertMany(docs);
+
 
 // vita redis tampoka (vita AUTH0)
 // db.createCollection("otp")
@@ -90,13 +238,13 @@ db.subscription_type.insertMany([
    },
    {
       name: "Pro",
-      description: ["Transcribe in 125+ languages", "AI summary", "Many formats supported: FLAC, MULAW, AMR, AMR_WB, MP3, MP4, MOV, M4A, AAC, WAV, OGG, OPUS, MPEG", "Stored and centralized data history", "Sharable results"],
+      description: ["Transcribe in 125+ languages", "AI summary", "Up to 8 hours of file length", "Many formats supported: FLAC, MULAW, AMR, AMR_WB, MP3, MP4, MOV, M4A, AAC, WAV, OGG, OPUS, MPEG", "Stored and centralized data history", "Sharable results"],
       frequency: "Monthly",
       price: 19.99
    },
    {
       name: "Company",
-      description: ["Transcribe in 125+ languages", "Everything in Pro, plus:", "3 additional team member", "API access", "Priority support"],
+      description: ["Transcribe in 125+ languages", "Everything in Pro, plus:", "3 additional team member", "Acces to plugins", "Priority support"],
       frequency: "Monthly",
       price: 49.99
    }
@@ -104,39 +252,237 @@ db.subscription_type.insertMany([
 
 // na ko hoe sub record
 // juste ijerevana anle table alo atreto
+db.subscription
+   .find({ auth0Id: "google-oauth2|109805505081631767458", status: "Cancel" })
+   .sort({ purchaseDate: -1 })
+   .limit(1);
+
 db.createCollection("subscription")
 db.subscription.insertMany([
-   {
-      startDate: new Date(),
-      endDate: new Date(),
-      subscriptionName: "Company",
-      total: 9.99,
-      paymentMethod: "Paypal",
-      invitationCode: "q2w34e5rft6ghujd7wqe5f",
-      master: "client1@gmail.com"
-   }
-])
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 9.99,
+    status: "Paid",
+    purchaseDate: ISODate("2023-01-10"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 9.99,
+    status: "Paid",
+    purchaseDate: ISODate("2023-02-10"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 9.99,
+    status: "Paid",
+    purchaseDate: ISODate("2023-03-10"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 9.99,
+    status: "Cancelled",
+    purchaseDate: ISODate("2023-04-10"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "YEARLY",
+    price: 99.99,
+    status: "Paid",
+    purchaseDate: ISODate("2023-05-01"),
+    invitationCode: "INVITE-2023",
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "YEARLY",
+    price: 99.99,
+    status: "Expired",
+    purchaseDate: ISODate("2024-05-01"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+
+  // 2024
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 12.99,
+    status: "Paid",
+    purchaseDate: ISODate("2024-01-15"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 12.99,
+    status: "Paid",
+    purchaseDate: ISODate("2024-02-15"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 12.99,
+    status: "Failed",
+    purchaseDate: ISODate("2024-03-15"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 12.99,
+    status: "Paid",
+    purchaseDate: ISODate("2024-04-15"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+
+  // 2025
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "YEARLY",
+    price: 119.99,
+    status: "Paid",
+    purchaseDate: ISODate("2025-01-01"),
+    invitationCode: "NEWYEAR2025",
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 14.99,
+    status: "Paid",
+    purchaseDate: ISODate("2025-02-01"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  },
+  {
+    auth0Id: "google-oauth2|109805505081631767458",
+    mail: "user@gmail.com",
+    subscriptionType: "MONTHLY",
+    price: 14.99,
+    status: "Paid",
+    purchaseDate: ISODate("2025-03-01"),
+    invitationCode: null,
+    subscriptionOwner: "SELF"
+  }
+]);
+db.subscription.insertOne({
+   auth0Id: "google-oauth2|109805505081631767458",
+   mail: "user@gmail.com",
+   subscriptionType: "Pro",
+   price: 19.99,
+   status: "Cancel",
+   purchaseDate: ISODate("2026-01-11"),
+   subscriptionOwner: "google-oauth2|109805505081631767458"
+})
+// default sub
+db.subscription.insertOne({
+   auth0Id: "dewofwejofiejwfoiewjfoewijfowejfioewjfioewjfiowejf8",
+   mail: "cedrictiavina426@gmail.com",
+   subscriptionType: "Company",
+   status: "ACTIVE",
+   invitationCode: "asxcvbeuwnufwuvftuirbtyrenoiewjtifwjftoi",
+   purchaseDate: ISODate("2025-01-21"),
+   price: 49.99,
+   subscriptionOwner: "dewofwejofiejwfoiewjfoewijfowejfioewjfioewjfiowejf8"
+})
+db.subscription.updateOne(
+  { auth0Id: "google-oauth2|109805505081631767458" },
+  { $inc: { credit: 100 } }
+)
+
 
 
 db.createCollection("review")
-db.review.insertMany([
-   {
-      date: new Date(),
-      auth0Id: "auth0|6954292e5b43643b131feeee",
-      review: "",
-      name: "",
-      firstName: "",
-      stars: 4.5
-   }
-])
-for (let i = 0; i < 1000; i++) {
+// db.review.insertMany([
+//    {
+//       date: new Date(),
+//       auth0Id: "auth0|6954292e5b43643b131feeee",
+//       review: "",
+//       name: "",
+//       firstName: "",
+//       stars: 4.5
+//    }
+// ])
+const longComments = [
+  "Très bonne expérience du début à la fin. Le service est fluide et facile à utiliser, et tout s’est déroulé comme prévu. Je recommande sans hésiter.",
+  "Globalement satisfait de la prestation. Quelques petits détails pourraient être améliorés, mais dans l’ensemble le rapport qualité/prix est très correct.",
+  "Service rapide et efficace. L’équipe a su répondre à mes questions rapidement et de manière professionnelle. Je referai appel à eux.",
+  "Bonne expérience dans l’ensemble. La livraison a pris un peu plus de temps que prévu, mais le produit correspond parfaitement à la description.",
+  "Très satisfait de mon achat. La qualité est au rendez-vous et l’utilisation est simple. Rien à redire pour le moment.",
+  "L’expérience est correcte mais sans plus. Le service fonctionne, cependant je m’attendais à quelque chose d’un peu plus abouti.",
+  "Je suis agréablement surpris par la qualité du service. Tout est clair, bien expliqué et facile à prendre en main. Bravo à l’équipe.",
+  "Déçu par mon expérience. Plusieurs problèmes sont apparus dès le début et cela a impacté mon utilisation. Dommage car le concept est intéressant.",
+  "Bon produit dans l’ensemble. Il remplit sa fonction, même si certaines améliorations seraient les bienvenues à l’avenir.",
+  "Très mauvaise expérience. Le service ne répond pas à mes attentes et j’ai rencontré trop de difficultés. Je ne recommanderai pas.",
+  "Produit conforme à la description. L’installation a été simple et rapide, et tout fonctionne correctement jusqu’à présent.",
+  "Service sérieux et professionnel. Les échanges avec le support ont été clairs et efficaces. Je suis satisfait.",
+  "Expérience mitigée. Certains aspects sont très réussis, mais d’autres mériteraient d’être retravaillés.",
+  "Très bonne surprise. Je ne m’attendais pas à un service aussi qualitatif. Tout est bien pensé et intuitif.",
+  "Plutôt satisfait dans l’ensemble. Le service fait le travail, même si quelques lenteurs ont été constatées.",
+  "Je suis très content de cette expérience. La qualité est au rendez-vous et le suivi client est excellent.",
+  "L’expérience utilisateur est agréable et bien conçue. Tout est clair et accessible, même pour un débutant.",
+  "Délais respectés et produit conforme. Je n’ai rencontré aucun problème particulier lors de l’utilisation.",
+  "Service correct mais perfectible. Certaines fonctionnalités pourraient être améliorées pour offrir une meilleure expérience.",
+  "Très satisfait du service proposé. Je l’utilise régulièrement et je n’ai jamais rencontré de problème majeur."
+];
+for (let i = 0; i < 150; i++) {
+  const reviewText = longComments[Math.floor(Math.random() * longComments.length)];
+
+  let stars;
+  if (
+    reviewText.includes("Très mauvaise") ||
+    reviewText.includes("Déçu") ||
+    reviewText.includes("difficultés")
+  ) {
+    stars = Math.floor(Math.random() * 2) + 1; // 1–2
+  } else if (
+    reviewText.includes("mitigée") ||
+    reviewText.includes("sans plus") ||
+    reviewText.includes("correct")
+  ) {
+    stars = 3;
+  } else {
+    stars = Math.floor(Math.random() * 2) + 4; // 4–5
+  }
+
   db.review.insertOne({
-    date: new Date(),
+    creationDate: new Date(
+      Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365)
+    ),
     auth0Id: "auth0|6954292e5b43643b131feeee",
-    review: "Review automatique " + i,
-    name: "name "+i,
-    firstName: "first name "+i,
-    stars: (Math.floor(Math.random() * 5) + 1)
+    review: reviewText,
+    name: "Doe " + i,
+    firstName: "John " + i,
+    stars
   });
 }
 
@@ -245,10 +591,10 @@ db.transcription.insertMany([
       file: "cours_finance.mp4",
       language: "fr",
       auth0Id: "auth0|6954292e5b43643b131feeee",
-      content: "Transcription du cours universitaire sur les marchés financiers...",
+      content: "Les fondamentaux de la finance reposent sur la compréhension des marchés, des risques et des investissements, qui forment un ensemble étroitement lié. Les marchés financiers sont des lieux — physiques ou électroniques — où s’échangent des actifs comme les actions, les obligations ou les devises, et ils jouent un rôle essentiel dans l’allocation du capital au sein de l’économie. Investir consiste à engager des ressources aujourd’hui dans l’espoir d’obtenir un rendement futur, mais toute décision d’investissement implique une prise de risque, c’est-à-dire l’incertitude quant aux résultats attendus. Ces risques peuvent être multiples : risque de marché, de crédit, de liquidité ou encore inflationniste. La finance cherche donc à analyser, mesurer et gérer ces risques afin d’optimiser le couple rendement/risque. La diversification, l’horizon de placement et l’information disponible sont des éléments clés pour prendre des décisions rationnelles et adaptées aux objectifs de chaque investisseur",
       title: "Fondamentaux de la finance",
       subtitle: "Marchés, risques et investissements",
-      summary: "Présentation des principes clés de la finance moderne.",
+      summary: "Les fondamentaux de la finance reposent sur le fonctionnement des marchés financiers, la prise de risque et les décisions d’investissement. Investir vise à obtenir un rendement futur, mais implique toujours une incertitude qu’il faut analyser et gérer. L’objectif principal est d’optimiser le rapport entre risque et rendement grâce à une bonne information et à la diversification.",
       goal: "paragraph",
       length: "long",
       additionalInstruction: "Ajouter des définitions claires pour les termes techniques.",
@@ -284,6 +630,96 @@ db.transcription.insertMany([
       creationDate: new Date("2025-07-14")
    }
 ])
+const docs = [];
+
+// date aléatoire entre 2022 et 2026
+function randomDate(start, end) {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  );
+}
+
+// durée aléatoire en SECONDES (entre 30s et 2h)
+function randomFileDuration() {
+  return Math.floor(Math.random() * (2 * 60 * 60 - 30)) + 30;
+}
+
+for (let i = 1; i <= 50; i++) {
+  docs.push({
+    file: "",
+    language: "fr",
+    auth0Id: "auth0|6954292e5b43643b131feeee",
+    content: `Transcription complète du podcast numéro ${i} sur l'intelligence artificielle et ses impacts sociétaux...`,
+    title: `L'IA et l'avenir du travail ${i}`,
+    subtitle: "Comment l'intelligence artificielle transforme les emplois",
+    summary: "Ce podcast explore les opportunités et défis posés par l'IA dans le monde professionnel.",
+    goal: "paragraph",
+    length: "short",
+    fileDuration: randomFileDuration(),
+    additionalInstruction: "Mettre l'accent sur les exemples concrets d'entreprises.",
+    transcriptionType: "live",
+    creationDate: randomDate(
+      new Date("2022-01-01"),
+      new Date("2026-12-31")
+    )
+  });
+}
+db.transcription.insertMany(docs);
+db.transcription.aggregate([
+  {
+    $match: {
+      creationDate: {
+        $gte: ISODate("2000-01-01"),
+        $lte: ISODate("2050-12-31")
+      }
+    }
+  },
+  {
+    $facet: {
+
+      /* 1️⃣ Langage le plus utilisé */
+      mostUsedLanguage: [
+        { $group: { _id: "$language", count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+        { $limit: 1 }
+      ],
+
+      /* 2️⃣ Total secondes transcrites */
+      totalDuration: [
+        { $group: { _id: null, totalSeconds: { $sum: "$fileDuration" } } }
+      ],
+
+      /* 3️⃣ Nombre total de transcriptions */
+      totalTranscriptions: [
+        { $count: "count" }
+      ],
+
+      /* 4️⃣ Nombre de transcriptions par mois */
+      transcriptionsPerMonth: [
+        {
+          $group: {
+            _id: {
+              year: { $year: "$creationDate" },
+              month: { $month: "$creationDate" }
+            },
+            count: { $sum: 1 }
+          }
+        },
+        { $sort: { "_id.year": 1, "_id.month": 1 } }
+      ]
+    }
+  }
+])
+
+
+db.createCollection("credit")
+db.credit.insertMany([
+   {
+      ownerAuth0Id: "",
+      credit: 19.99
+   },
+])
+
 
 // any amin'ny back daoly no ilaina
 db.createCollection("transcription_settings")

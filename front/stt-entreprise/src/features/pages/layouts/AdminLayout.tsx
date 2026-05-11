@@ -1,17 +1,26 @@
-// import { Outlet } from 'react-router-dom'
-// import PublicHeader from '../../../components/PublicHeader'
-// import PublicFooter from '../../../components/PublicFooter'
+import { Outlet } from 'react-router-dom'
+import AdminHeader from '../../../components/admin/AdminHeader';
+import { useEffect } from 'react';
+import { setBodyClass } from '../../../others/utils';
 
-// function Layout() {
-//     return (
-//       <body>
-//         <PublicHeader></PublicHeader>
-//         <main>
-//           <Outlet />
-//         </main>
-//         <PublicFooter></PublicFooter>
-//       </body>
-//     )
-// }
+export default function AdminLayout() {
+    useEffect(() => {
+      setBodyClass(["vertical", "light"]);
 
-// export default Layout;
+      return () => {
+        document.body.className = "";
+      };
+    }, []);
+    
+    return (
+      <div className="wrapper">
+        <AdminHeader></AdminHeader>
+        <main role="main" className="main-content mt-5">
+          <div className='container mt-5'>
+          {/* <div> */}
+            <Outlet />
+          </div>
+        </main>
+      </div>
+    )
+}

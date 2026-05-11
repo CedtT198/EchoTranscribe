@@ -18,7 +18,8 @@ public class Transcription {
     String subtitle;
     String summary;
     String goal;
-    String length;
+    String length; // option of the summarized content
+    Double fileDuration;
     String additionalInstruction;
     String transcriptionType;
     LocalDate creationDate;

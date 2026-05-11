@@ -2,8 +2,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../auth/useAuth";
 import { findAllSubType } from "../../api/subType";
+import { PaymentButton } from "./PaymentButton";
+import { useUserSession } from "../../api/subscription";
 
-function Pricing () {
+export default function Pricing () {
+    
+    const {user} = useAuth0()
+    const { subscription } = useUserSession();
+
     const [sub_types, setSub] = useState([]);
     useEffect(() => {
         const fetchSubs = async () => {
@@ -29,7 +35,7 @@ function Pricing () {
                 <div className="card mb-4 shadow">
                     <div className="card-body text-center p-5 d-flex flex-column accordion-item-hover text-glow-primary">
                         <div className="border-bottom-1">
-                            <p className="h3 mb-0">{sub.name}</p>
+                            {sub.name=="Free plan" ? (<p className="h3 mb-0"><span className="dot dot-lg bg-success mr-2"></span>{sub.name}</p>) : (<p className="h3 mb-0">{sub.name}</p>)}
                             <p className=" mb-0" style={{ fontSize: 40 }}>${sub.price}</p>
                             <p className="text-muted">{sub.frequency}</p><hr/>
                         </div>
@@ -44,9 +50,9 @@ function Pricing () {
                             </div>
                         }
 
-                        {isAuthenticated && i !== 0 &&
+                        {isAuthenticated && i !== 0 && subscription?.subscription_type == "Free plan" &&
                             <div className="py-2 mt-auto">
-                                <button className="btn btn-primary w-100 rounded-pill" style={{ fontSize: 18 }}>Subscribe</button>
+                                <PaymentButton plan={sub.name} auth0id={user?.sub} email={user?.email}/>
                             </div>
                         }
                     </div>
@@ -55,5 +61,3 @@ function Pricing () {
         </div>
     )
 }
-
-export default Pricing;

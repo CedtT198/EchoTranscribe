@@ -1,6 +1,4 @@
-import notFound from '../../../public/images/404.png'
-
-function NotFound() {
+export default function NotFound() {
     return (
         <div className="wrapper vh-100">
             <div className="align-items-center h-100 d-flex w-50 mx-auto">
@@ -18,5 +16,3 @@ function NotFound() {
         </div>
     )
 };
-
-export default NotFound

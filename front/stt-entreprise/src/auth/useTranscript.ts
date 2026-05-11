@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { getStatusTranscription, transcribeLongFile } from '../api/transcription';
+import { useToast } from './ToastProvider';
 
 interface Status {
   status: string; // 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'ERROR';
@@ -13,17 +14,20 @@ interface UseLongTranscriptionReturn {
   startTranscription: (fd: any) => Promise<void>;
   stopPolling: (message?: string) => Promise<void>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsPolling: React.Dispatch<React.SetStateAction<boolean>>;
+  setHideLoadingPanel: React.Dispatch<React.SetStateAction<boolean>>;
   status: Status | null;
   isLoading: boolean;
   isPolling: boolean;
-  transError: string | null;
+  hideLoadingPanel: boolean;
 }
 
 export const useTranscript = (): UseLongTranscriptionReturn => {
   const [status, setStatus] = useState<Status | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isPolling, setIsPolling] = useState(false);
-  const [transError, setError] = useState<string | null>(null);
+  const [hideLoadingPanel, setHideLoadingPanel] = useState(false);
+  const {setError} = useToast();
   const [taskId, setTaskId] = useState<string | null>(null);
 
   const intervalRef = useRef<number  | null>(null);
@@ -32,7 +36,6 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
   const startPolling = (id: string) => {
     setTaskId(id);
     setIsPolling(true);
-    setError(null);
     setIsLoading(false); 
 
     const interval = setInterval(async () => {
@@ -46,11 +49,10 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
           clearInterval(interval);
           setIsPolling(false);
         }
-      } catch (err) {
-        console.error('Error polling:', err);
+      } catch (err: any) {
         clearInterval(interval);
         setIsPolling(false);
-        setError('Erreur de connexion lors du suivi');
+        setError('Error polling:'+ err);
       }
     }, 500);
 
@@ -93,9 +95,11 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
     startTranscription,
     setIsLoading,
     stopPolling,
+    setHideLoadingPanel,
+    setIsPolling,
+    hideLoadingPanel,
     status,
     isLoading,
-    isPolling,
-    transError,
+    isPolling
   };
 };

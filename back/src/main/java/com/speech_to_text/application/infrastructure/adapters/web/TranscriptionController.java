@@ -6,7 +6,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -97,26 +96,31 @@ public class TranscriptionController {
     }
 
 
-    @PostMapping("/update")
-    public ResponseEntity<?> update(@RequestBody Transcription transcription) {
-        return ResponseEntity.ok(transcriptionUseCase.update(transcription));
-    }
+    // @PostMapping("/update")
+    // public ResponseEntity<?> update(@RequestBody Transcription transcription) {
+    //     return ResponseEntity.ok(transcriptionUseCase.update(transcription));
+    // }
 
 
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody Transcription transcription) {
         Map<String, String> res = new HashMap<>();
 
-        transcriptionUseCase.save(transcription);
-        
-        res.put("success", "Transcription saved.");
-        return ResponseEntity.status(200).body(res);
+        try {            
+            transcriptionUseCase.save(transcription);
+            res.put("success", "Transcription "+transcription.getTitle()+" saved successfuly. Check \"History\" for more details.");
+            return ResponseEntity.ok().body(res);
+        }
+        catch (Exception e) {
+            res.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(res);
+        }
     }
 
 
     @GetMapping("/longfile/status/{taskId}")
     public ResponseEntity<?> getStatus(@PathVariable String taskId) {
-        System.out.println("STATUS");
+        // System.out.println("STATUS");
 
         String status = TaskStatus.getStatus(taskId);
         int progress = TaskStatus.getProgress(taskId);

@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react';
 import type { FormDataTranscription } from '../api/transcription';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useToast } from './ToastProvider';
 
 export const useStream = (streamingSettings: FormDataTranscription) => {
     const [recording, setRecording] = useState(false);
-    const [error, setError] = useState<string>();
+    const {setError} = useToast();
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const wsRef = useRef<WebSocket | null>(null);
 
@@ -14,10 +15,9 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
     const { user } = useAuth0();
 
     const startRecording = async () => {
-        setError("");
         try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+        const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
 
         mediaRecorderRef.current = mediaRecorder;
 
@@ -36,7 +36,8 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
             ws.send(JSON.stringify(data));
             console.log('Data sent.');
 
-            mediaRecorder.start(250);
+            mediaRecorder.start(100);
+            // mediaRecorder.start(250);
             setRecording(true);
         };
 
@@ -51,6 +52,7 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
                         break;
 
                     case 'transcript':
+                        console.log(data.isFinal ? "FINAL" : "INTERIM", data.transcript);
                         if (data.isFinal) {
                             console.log('Transcription:', data.transcript, 'final:', data.isFinal);
                             // setTranscripts(prev => [...prev,`[${data.isFinal ? 'FINAL' : 'INTERIM'}] ${data.transcript}`]);
@@ -85,8 +87,11 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
         };
 
 
-        ws.onclose = () => console.log('WebSocket closed.');
-        ws.onerror = (error) => console.error(':', error);
+        ws.onclose = () => {
+            stopRecording();
+            console.log('WebSocket closed.')
+        };
+        ws.onerror = (error:any) => setError(error);
 
         // Envoyer les chunks audio via WebSocket
         mediaRecorder.ondataavailable = (event: BlobEvent) => {
@@ -110,7 +115,6 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
         if (mediaRecorderRef.current) {
             mediaRecorderRef.current.stop();
         }
-        setError("");
     };
 
   return {
@@ -119,6 +123,5 @@ export const useStream = (streamingSettings: FormDataTranscription) => {
     recording,
     transcripts,
     currentInterim,
-    error,
   };
 };

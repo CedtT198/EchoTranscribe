@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.speech_to_text.application.domain.model.others.Review;
 import com.speech_to_text.application.domain.port.in.ReviewUseCase;
 import lombok.AllArgsConstructor;
@@ -30,11 +32,21 @@ public class ReviewController {
     @GetMapping("/findByStars")
     public ResponseEntity<?> findByStars(
         @RequestParam(required = false) List<Double> stars,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int size,
-        @RequestParam(defaultValue = "createdDate,desc") String sort,
+        @RequestParam(required = false, defaultValue = "0") int page,
+        @RequestParam(required = false, defaultValue = "10") int size,
+        @RequestParam(required = false, defaultValue = "createdDate,desc") String sort,
         @RequestParam String auth0Id)
     {   
+        String[] parts = sort.split(",");
+
+        if (parts.length != 2) {
+            return ResponseEntity.badRequest().body("Invalid sort format. Missing value.");
+        }
+
+        if (!parts[1].equals("desc") && !parts[1].equals("asc")) {
+            return ResponseEntity.badRequest().body("Invalid sort format. Incorrect direction.");
+        }
+
         Sort.Direction direction = Sort.Direction.fromString(sort.split(",")[1]);
         String sortProperty = sort.split(",")[0];
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortProperty));

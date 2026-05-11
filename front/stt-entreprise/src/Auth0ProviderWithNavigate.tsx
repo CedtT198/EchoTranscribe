@@ -8,7 +8,10 @@ export const Auth0ProviderWithNavigate: React.FC<{ children: React.ReactNode }> 
 
   const onRedirectCallback = (appState?: { returnTo?: string }) => {
     console.log("onRedirectCallback appelé !", appState);
-    navigate(appState?.returnTo || "/public/layout/", { replace: true });
+    navigate(
+      appState?.returnTo || "/public/layout/",
+      { replace: true }
+    );
   };
   console.log("Auth0Provider rendu");
 
@@ -22,6 +25,7 @@ export const Auth0ProviderWithNavigate: React.FC<{ children: React.ReactNode }> 
       }}
       onRedirectCallback={onRedirectCallback}
       useRefreshTokens={true}
+      // cacheLocation="memory"  
       cacheLocation="localstorage"  
       useRefreshTokensFallback={true} 
     >

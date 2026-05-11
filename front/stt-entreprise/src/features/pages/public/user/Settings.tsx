@@ -1,4 +1,4 @@
-function Settings() {
+export default function Settings() {
     return (
         <div>
             <h2 className="page-title mb-0 mt-5">Settings</h2>
@@ -86,5 +86,3 @@ function Settings() {
         </div>
     )
 }
-
-export default Settings;

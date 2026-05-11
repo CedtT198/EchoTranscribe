@@ -4,11 +4,12 @@ import {  type Summary } from "../../../../api/summary";
 import { useLocation, useNavigate } from "react-router-dom";
 import { download, exportDefault, type FormDataToExport } from "../../../../api/export";
 import Loading from "../../../../components/others/Loading";
+import { useToast } from "../../../../auth/ToastProvider";
 
-function Export() {
+export default function Export() {
   const location = useLocation();
   const { Summary: fd } = location.state || {};
-  const [error, setError] = useState<string>("");
+  const {setError} = useToast();
   
   const navigate = useNavigate();
   const hasRun = useRef(false);
@@ -29,8 +30,6 @@ function Export() {
     }
   }, [fd, navigate])
 
-  // const [error, setError] = useState<string>("");
-
   const updateFormData = <K extends keyof Summary>(field: K, value: Summary[K]) => {
     setFormDataTranscription((prev) => ({
       ...prev,
@@ -50,7 +49,7 @@ function Export() {
     try {
       await download(formData);
     } catch (err: any) {
-      setError(err);
+      setError(err.message);
     }
   };
 
@@ -77,9 +76,11 @@ function Export() {
                       <Textarea fs={22} mh={10} ml={200} class="text-muted" onChange={(value) => updateFormData("subtitle", value)} value={formDataTranscription.subtitle} ph="Subtitle" name=""></Textarea>
                   </div>
                   <div className="col-md-12 mb-5">
-                      <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formDataTranscription.content}></Textarea> 
+                      {formDataTranscription.summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("summary", value)} value={formDataTranscription.summary}></Textarea>}
+                      {!formDataTranscription.summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formDataTranscription.content}></Textarea> }
                   </div>
                   <div className="container mb-4">
+
                     <div className="row">
 
                       <div className="col-12">
@@ -100,19 +101,15 @@ function Export() {
                   <div className="col-12 mb-3">
                     <div className="text-center d-flex justify-content-center align-items-center">
                       <div className="bg-dark p-1 rounded-pill">
-                        <a className="btn btn rounded-pill mx-1 text-light" type="button" onClick={saveSummary}>
+                        {/* <a className="btn btn rounded-pill mx-1 text-light" type="button" onClick={saveSummary}>
                           <span className="fe fe-info fe-16 mr-1"></span>
                           <span>Save</span>
-                        </a>
+                        </a> */}
                         <button className="btn btn-primary rounded-pill mx-1 text-light" type="submit">
                           <span className="fe fe-info fe-16 mr-1"></span>Export
                         </button>
                       </div>
                     </div>
-                    
-                    {error && <div className="alert alert-danger" role="alert">
-                      <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
-                    </div>}
                   </div>
                 </form>
               </div>
@@ -123,5 +120,3 @@ function Export() {
     </div>
   )
 }
-
-export default Export;

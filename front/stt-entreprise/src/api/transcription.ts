@@ -1,5 +1,16 @@
 import api from "./api";
 
+export const getPerformanceDashboardStat = async (startDate: any, endDate: any) => {
+    if (startDate === undefined) startDate = "";
+    if (endDate === undefined) endDate = "";
+
+    try {
+        return await api.get(`/dashboard/getPerformanceStat?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`)
+    } catch (error) {
+        throw new Error((error as Error).message);
+    }
+}
+
 export const getTranscriptions = async (filter: TranscriptionFilter, page: number, size: number) => {
     try {
         return await api.post(`/transcription/findByFilters?page=${page}&size=${size}&sort=createdDate,desc`, filter)

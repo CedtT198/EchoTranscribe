@@ -27,7 +27,8 @@ public class UserDocument {
     String city;
     String zip;
     String confirmPassword;    
-    String creationDate;
+    LocalDate creationDate;
+    LocalDate lastUpdate;
     Set<String> roles = new HashSet<>();
 
     // public UserDocument(User user) {

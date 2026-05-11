@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { revDefault, save, type Review } from "../../../../api/review";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../../../auth/ToastProvider";
 
-function AddReview () {
+export default function AddReview () {
     // updating review to save
     const [ review, setReview ] = useState<Review>(revDefault);
     
@@ -21,8 +22,7 @@ function AddReview () {
     };
 
     // save review
-    const [ error, setError ] = useState<string>();
-    const [ success, setSuccess ] = useState<string>();
+    const { setSuccess, setError } = useToast();
     const navigate = useNavigate();
     const saveReview = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -32,6 +32,9 @@ function AddReview () {
             if (data.success) {
                 setSuccess(data.success);
                 navigate("/public/layout/listReview");
+            }
+            else if (data.error) {
+                setError(data.error);
             }
         } catch (error: any) {
             setError(error);
@@ -71,12 +74,6 @@ function AddReview () {
                                                 <button type="submit" className="btn mb-2 btn-primary rounded-pill">Save my review</button>
                                             </div>
                                         </div>
-                                        {error && <div className="alert alert-danger" role="alert">
-                                            <span className="fe fe-minus-circle fe-16 mr-2"></span>{error}
-                                        </div>}
-                                        {success && <div className="alert alert-success" role="alert">
-                                            <span className="mr-2"></span>{success}
-                                        </div>}
                                     </form>
                                 </div>
                             </div>
@@ -87,5 +84,3 @@ function AddReview () {
         </div>
     )
 };
-
-export default AddReview

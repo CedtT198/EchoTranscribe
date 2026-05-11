@@ -11,6 +11,7 @@ import org.springframework.web.socket.handler.BinaryWebSocketHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.gax.rpc.ClientStream;
+import com.google.cloud.speech.v2.SpeechClient;
 import com.google.cloud.speech.v2.StreamingRecognizeRequest;
 import com.google.protobuf.ByteString;
 import com.speech_to_text.application.domain.model.DTO.TranscriptionSettings;
@@ -94,13 +95,22 @@ public class AudioWebSocketHandler extends BinaryWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, org.springframework.web.socket.CloseStatus status) throws Exception {
+        Object cs = session.getAttributes().get("clientStream");
+        if (cs instanceof ClientStream<?> clientStream) {
+            try { ((ClientStream<StreamingRecognizeRequest>) clientStream).closeSend(); } catch (Exception ignored) {}
+        }
+
+        Object sc = session.getAttributes().get("speechClient");
+        if (sc instanceof SpeechClient speechClient) {
+            try { speechClient.close(); } catch (Exception ignored) {}
+        }
+
         System.out.println("WebSocket connection closed.");
-        // Fermez le stream Google STT
     }
 
     
     // util
-    private void sendJson(WebSocketSession session, String json) {
+    public static void sendJson(WebSocketSession session, String json) {
         try {
             if (session.isOpen()) {
                 session.sendMessage(new TextMessage(json));
@@ -110,11 +120,22 @@ public class AudioWebSocketHandler extends BinaryWebSocketHandler {
         }
     }
 
-    private void sendError(WebSocketSession session, String msg) {
+    public static void sendError(WebSocketSession session, String msg) {
         sendJson(session, "{\"type\":\"error\",\"message\":\"" + msg.replace("\"", "\\\"") + "\"}");
     }
 
-    public void sendTranscript(WebSocketSession session, String text, boolean isFinal) {
+    public static void sendTranscript(WebSocketSession session, String text, boolean isFinal) {
+        // try {
+        //     var payload = Map.of(
+        //         "type", "transcript",
+        //         "transcript", text,
+        //         "isFinal", isFinal
+        //     );
+        //     session.sendMessage(new TextMessage(mapper.writeValueAsString(payload)));
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+
         sendJson(session, "{\"type\":\"transcript\",\"transcript\":\"" +text.replace("\"", "\\\"") + "\",\"isFinal\":" + isFinal + "}");
     }
 
