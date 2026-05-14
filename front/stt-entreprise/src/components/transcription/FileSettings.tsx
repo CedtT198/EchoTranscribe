@@ -1,5 +1,5 @@
 import { type FormDataTranscription, type SettingsModalProps } from "../../api/transcription";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 
 
 const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) => {
@@ -7,18 +7,18 @@ const FileSettings: React.FC<SettingsModalProps> = ({ settings, setSettings }) =
         setSettings(prev => ({ ...prev, [key]: value }));
     };
 
-    const {user,  isAuthenticated } = useAuth0();
+    // const {user,  isAuthenticated } = useAuth0();
     // const { token, loading } = useAuthToken();
 
-    const useSavedSettings = (e: any) => {
-        const checked = e.target.checked;
+    // const useSavedSettings = (e: any) => {
+    //     const checked = e.target.checked;
 
-        // if (checked) {
-        //     const res = await getTranscriptionSettings(user.sub, token);
-        //     const data = res.data;
-        // }
+    //     // if (checked) {
+    //     //     const res = await getTranscriptionSettings(user.sub, token);
+    //     //     const data = res.data;
+    //     // }
 
-    }
+    // }
 
     return(
         <>

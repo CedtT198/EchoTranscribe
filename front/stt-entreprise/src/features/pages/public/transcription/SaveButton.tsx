@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import type { AxiosError } from "axios";
 
 interface SaveButtonProps {
-  transcription: Summary;
+  transcription: Summary | null;
 }
 
 interface ApiResponse {
@@ -18,7 +18,7 @@ export default function SaveButton({ transcription }: SaveButtonProps) {
     const [saved, setSaved] = useState<boolean>(false);
     const { setSuccess, setError } = useToast();
 
-    const saveTranscription = async (tr: Summary): Promise<void> => {
+    const saveTranscription = async (tr: Summary | null): Promise<void> => {
         try {
             const res = await save(tr);
             const data = res.data;

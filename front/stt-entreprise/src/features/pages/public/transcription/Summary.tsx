@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import Textarea from "../../../../components/others/Textarea";
-import { sumDefault, summarize, type Summary } from "../../../../api/summary";
+import { summarize, type Summary } from "../../../../api/summary";
 import { useLocation, useNavigate } from "react-router-dom";
 import { transcribeShortFile } from "../../../../api/transcription";
 import { useTranscript } from "../../../../auth/useTranscript";
@@ -19,7 +19,7 @@ export default function Summary() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const [formData, setFormData] = useState<Summary>();
+  const [formData, setFormData] = useState<Summary | null>(null);
   const { fileDuration, transType, type:longTransType, formDataTranscript, liveTranscript } = location.state || {};
   
   const { startTranscription, status, isLoading: transLoading, isPolling, setIsLoading, setIsPolling, hideLoadingPanel } = useTranscript();
@@ -83,10 +83,13 @@ export default function Summary() {
   }, [status])
 
   const updateFormData = <K extends keyof Summary>(field: K, value: Summary[K]) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    // taloha
+    // setFormData((prev) => ({
+    //   ...prev,
+    //   [field]: value,
+    // }));
+    
+    setFormData((prev) => prev ? ({ ...prev, [field]: value } as Summary) : null);
     console.log(formData);
   };
 
@@ -112,8 +115,12 @@ export default function Summary() {
   const [summary, setSummary ] = useState<string>("");
   const handleSummary = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData) {
+      setError("Form data is not available.");
+      return;
+    }
     try {
-      const res = await summarize(formData.content, formData.goal, formData.length, formData.additional_instruction, user.sub);
+      const res = await summarize(formData.content, formData.goal, formData.length, formData.additional_instruction, user?.sub || "");
       const data = res.data;
       setSummary(data);
       updateFormData("content", formData.content);
@@ -158,7 +165,7 @@ export default function Summary() {
               {!status?.progress && <p className="h1">Processing...</p>}
               {status?.progress && <p className="h1">{status?.progress}%</p>}
               <div className="progress mb-4">
-                <div className="progress-bar" role="progressbar" style={{width: status?.progress+"%"}}  aria-valuenow={status?.progress} aria-valuemin="5" aria-valuemax="100"></div>
+                <div className="progress-bar" role="progressbar" style={{width: status?.progress+"%"}}  aria-valuenow={status?.progress} aria-valuemin={5} aria-valuemax={100}></div>
               </div>
               <p className="h3">Status: {status?.status}</p>
               <button type="button" className="btn btn-danger rounded-pill mx-1" onClick={() => setIsPolling(false)}>Cancel</button>
@@ -181,8 +188,8 @@ export default function Summary() {
                 <form onSubmit={handleSummary} className="container row m-0">
                   <div className="col-12 mb-4">
                     {/* title */}
-                    <Textarea fs={45} mh={10} ml={200} class="text-primary" onChange={(value) => updateFormData("title", value)} value={formData.title} ph="Title" name=""></Textarea> 
-                    <Textarea fs={22} mh={10} ml={200} class="text-muted" onChange={(value) => updateFormData("subtitle", value)} value={formData.subtitle} ph="Subtitle" name=""></Textarea>
+                    <Textarea fs={45} mh={10} ml={200} class="text-primary" onChange={(value) => updateFormData("title", value)} value={formData?.title ?? ""} ph="Title" name=""></Textarea> 
+                    <Textarea fs={22} mh={10} ml={200} class="text-muted" onChange={(value) => updateFormData("subtitle", value)} value={formData?.subtitle ?? ""} ph="Subtitle" name=""></Textarea>
                   </div>
                   <div className="col-md-12 mb-5">
                     {summary &&
@@ -191,7 +198,7 @@ export default function Summary() {
                         <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("summary", value)} value={summary}></Textarea>
                       </>
                     }
-                    {!summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formData.content}></Textarea> }
+                    {!summary && <Textarea fs={16} mh={500} ml={10000000} class="" name="" ph="" onChange={(value) => updateFormData("content", value)} value={formData?.content ?? ""}></Textarea> }
                   </div>
                   <div className="col-12 mb-5">
                     <div className="text-center d-flex justify-content-center align-items-center">
@@ -241,7 +248,7 @@ export default function Summary() {
                         </div>
                         <div className="offset-md-3 col-md-6 offset-lg-3 col-lg-6 col-xs-12 p-0">
                           <div className="progress">
-                            <div className="progress-bar" role="progressbar" style={{width: bar+"%"}}  aria-valuenow={bar} aria-valuemin="5" aria-valuemax="100"></div>
+                            <div className="progress-bar" role="progressbar" style={{width: bar+"%"}}  aria-valuenow={bar} aria-valuemin={5} aria-valuemax={100}></div>
                           </div>
                         </div>
                       </div>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import LineChart from "./chart/LineChart";
 import DashboardFilter, { type Filter } from "./DashboardFilter";
 import type { MonthlyCount } from "../../../../api/dashboard";
@@ -252,7 +252,7 @@ export default function UsersDashboard() {
                     <tbody>
                             {users.map((user, index) => (
                                 <>
-                                    <tr className="accordion-toggle collapsed" id="c-1" data-toggle="collapse" data-parent="#c-1" href={`#collap-${page * size + index + 1}`} key={index} style={{cursor: "pointer"}}>
+                                    <tr className="accordion-toggle collapsed" id="c-1" data-toggle="collapse" data-parent="#c-1" data-target={`#collap-${page * size + index + 1}`} key={index} style={{cursor: "pointer"}}>
                                         <td>{page * size + index + 1}</td>
                                         <td>{user.first_name} {user.name}</td>
                                         <td>{user.mail}</td> 

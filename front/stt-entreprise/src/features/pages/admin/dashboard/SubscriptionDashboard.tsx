@@ -353,7 +353,7 @@ export default function SubscriptionDashboard() {
                     <tbody>
                         {subscriptions.map((sub, index) => (
                             <>
-                                <tr className="accordion-toggle collapsed" id="c-1" data-toggle="collapse" data-parent="#c-1" href={`#collap-${page * size + index + 1}`} key={index} style={{cursor: "pointer"}}>
+                                <tr className="accordion-toggle collapsed" id="c-1" data-toggle="collapse" data-parent="#c-1" data-target={`#collap-${page * size + index + 1}`} key={index} style={{cursor: "pointer"}}>
                                     <td>{page * size + index + 1}</td>
                                     <td>{formatLocalDate(sub.purchase_date)}</td>
                                     <td>{sub.mail}</td> 

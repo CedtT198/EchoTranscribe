@@ -90,7 +90,7 @@ export interface User {
     city: string,
     zip: string,
     address: string,
-    mail: string,
+    mail: string | undefined,
     birthday: string,
     creation_date: string,
     last_update: string

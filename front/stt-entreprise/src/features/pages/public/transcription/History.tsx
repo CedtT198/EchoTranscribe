@@ -204,7 +204,7 @@ export default function History() {
                                 <tbody>
                                     {transcriptions.map((t, index) => (
                                         <>
-                                            <tr className="accordion-toggle collapsed" id="c-1" data-toggle="collapse" data-parent="#c-1" href={`#collap-${page * size + index + 1}`} key={index} style={{cursor: "pointer"}}>
+                                            <tr className="accordion-toggle collapsed" id="c-1" data-toggle="collapse" data-parent="#c-1" data-target={`#collap-${page * size + index + 1}`} key={index} style={{cursor: "pointer"}}>
                                                 <td>{page * size + index + 1}</td>
                                                 <td>
                                                     <p className="h4 mb-0">{t.title}</p>

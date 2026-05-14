@@ -4,7 +4,7 @@ import { streamingDefault } from "../../../../api/transcription";
 import type { FormDataTranscription } from "../../../../api/transcription";
 import { useStream } from "../../../../auth/useStream";
 import StreamingSettings from "../../../../components/transcription/StreamingSettings";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import VoiceWave from "../../../../components/VoiceWave";
 
 export default function Live() {
@@ -13,29 +13,29 @@ export default function Live() {
     //     setEnable(prev => !prev);
     // } 
     
-      const navigate = useNavigate();
+    //   const navigate = useNavigate();
     
     const [settings, setSettings] = useState<FormDataTranscription>(streamingDefault);
     useEffect(() => {
-        console.log('🔧 Streaming Settings mis à jour :', settings);
+        console.log('Streaming Settings mis à jour :', settings);
     }, [settings]);
 
     const { startRecording, stopRecording, recording, transcripts, currentInterim } = useStream(settings);
 
-    const summary = () => {
-        const metadataJson = JSON.stringify(settings);
-        const fd = new FormData();
-        fd.append('language', settings.mainLanguage);
-        fd.append('metadata', new Blob([metadataJson], { type: 'application/json' }));
+    // const summary = () => {
+    //     const metadataJson = JSON.stringify(settings);
+    //     const fd = new FormData();
+    //     fd.append('language', settings.mainLanguage);
+    //     fd.append('metadata', new Blob([metadataJson], { type: 'application/json' }));
 
-        navigate("/public/layout/summary", {
-        state: {
-            formDataTranscript: fd,
-            transType: "Live",
-            liveTranscript: transcripts
-        },
-        });
-    }
+    //     navigate("/public/layout/summary", {
+    //     state: {
+    //         formDataTranscript: fd,
+    //         transType: "Live",
+    //         liveTranscript: transcripts
+    //     },
+    //     });
+    // }
 
     return (
         <div className="mb-5">

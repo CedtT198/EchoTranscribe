@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { deleteUser, getMyProfile, type User } from "../../../../api/user";
+import { getMyProfile, type User } from "../../../../api/user";
 import { useAuth0 } from "@auth0/auth0-react";
-import AutoLogout from "../../../../components/AutoLogout";
+// import AutoLogout from "../../../../components/AutoLogout";
 import Loading from "../../../../components/others/Loading";
 import Pricing from "../../../../components/pricing/Pricing";
 import { findAllByAuth0Id, useUserSession, type Subscription } from "../../../../api/subscription";
 import { formatLocalDate } from "../../../../others/utils";
-import { useToast } from "../../../../auth/ToastProvider";
+// import { useToast } from "../../../../auth/ToastProvider";
 import CancelButton from "../subscription/CancelButton";
 import InvitationButton from "../subscription/InvitationButton";
 import UpdateFormUser from "./UpdateFormUser";
@@ -15,7 +15,7 @@ import { useAuth } from "../../../../auth/useAuth";
 export default function Profile() {
     // profiile
     const { user, isAuthenticated, isLoading: auth0Loading } = useAuth0();
-    const {setError} = useToast();
+    // const {setError} = useToast();
     const [profileLoading, setProfileLoading] = useState(true);
 
     const [userData, setUserData] = useState<User>();
@@ -57,17 +57,17 @@ export default function Profile() {
     // danger zone
     const { logoutAuth0 } = useAuth();
     const logout = () => logoutAuth0()
-    const deleteAccount = async () => {
-        try {
-            const res = await deleteUser(user.sub);
-            const data = res.data;
-            console.log("Deleted: "+data); 
-            // logoutAuth0();
-            <AutoLogout shouldLogout={data} />
-        } catch (error) {
-            setError((error as Error).message);
-        }
-    }
+    // const deleteAccount = async () => {
+    //     try {
+    //         const res = await deleteUser(user.sub);
+    //         const data = res.data;
+    //         console.log("Deleted: "+data); 
+    //         // logoutAuth0();
+    //         <AutoLogout shouldLogout={data} />
+    //     } catch (error) {
+    //         setError((error as Error).message);
+    //     }
+    // }
 
 
     if (auth0Loading || profileLoading) {

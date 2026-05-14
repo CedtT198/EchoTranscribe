@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useRef, useState } from 'react';
 import { getStatusTranscription, transcribeLongFile } from '../api/transcription';
 import { useToast } from './ToastProvider';
@@ -34,6 +33,7 @@ export const useTranscript = (): UseLongTranscriptionReturn => {
   const timeoutRef = useRef<number  | null>(null);
 
   const startPolling = (id: string) => {
+    taskId;
     setTaskId(id);
     setIsPolling(true);
     setIsLoading(false); 

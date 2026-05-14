@@ -1,13 +1,13 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-type ToastType = "success" | "error";
+// type ToastType = "success" | "error";
 
 interface ToastContextType {
     success: string | null;
     error: string | null;
     info: string | null;
     setSuccess: (message: string) => void;
-    setError: (message: string) => void;
+    setError: (message: string | null) => void;
     setInfo: (message: string) => void;
     clearToast: () => void;
 }
@@ -24,7 +24,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         setSuccessState(message);
     };
 
-    const setError = (message: string) => {
+    const setError = (message: string | null) => {
         setSuccessState(null);
         setErrorState(message);
     };

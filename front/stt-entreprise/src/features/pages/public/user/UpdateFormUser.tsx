@@ -14,6 +14,7 @@ export default function UpdateFormUser({user}: Props) {
 
     const [selectedCountry, setSelectedCountry] = useState<string>("");
     const [selectedCity, setSelectedCity] = useState<string>("");
+    selectedCity;
     const cities = countries.find(c => c.country === selectedCountry)?.cities ?? [];
         
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

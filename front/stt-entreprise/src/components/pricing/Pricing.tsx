@@ -10,7 +10,7 @@ export default function Pricing () {
     const {user} = useAuth0()
     const { subscription } = useUserSession();
 
-    const [sub_types, setSub] = useState([]);
+    const [sub_types, setSub] = useState<any[]>([]);
     useEffect(() => {
         const fetchSubs = async () => {
             try {
@@ -40,7 +40,7 @@ export default function Pricing () {
                             <p className="text-muted">{sub.frequency}</p><hr/>
                         </div>
                         <ul className="mb-5 text-left px-2">
-                            {sub.description.map((f, j) => (
+                            {sub.description.map((f:any, j:any) => (
                                 <li key={j} className="mb-1">{f}</li>
                             ))}
                         </ul>

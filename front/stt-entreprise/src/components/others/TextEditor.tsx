@@ -43,14 +43,15 @@ function TextEditor(props: TEProps) {
             }
         }
         
-        quillRef.current.root.style.minHeight = `${props.minHeight}px`;
-        
-        const editor = quillRef.current.root;
-        editor.style.fontFamily = 'monospace';
-        editor.style.fontSize = `${props.fontSize}px`; 
-        editor.style.lineHeight = '1.4';
-
-        editor.setAttribute('spellcheck', 'false');
+        if (quillRef.current != null) {
+            quillRef.current.root.style.minHeight = `${props.minHeight}px`;   
+            const editor = quillRef.current.root;
+            editor.style.fontFamily = 'monospace';
+            editor.style.fontSize = `${props.fontSize}px`; 
+            editor.style.lineHeight = '1.4';
+            
+            editor.setAttribute('spellcheck', 'false');
+        }
     }, []);
 
     return (

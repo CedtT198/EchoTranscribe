@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 
 interface Props {
     fs: number;
@@ -12,15 +12,18 @@ interface Props {
 }
 
 function Textarea(props: Props) {
-  const textareaRef = useRef(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   
 
   const handleInput = () => {
     const textarea = textareaRef.current;
-    textarea.style.height = "auto"; 
-    textarea.style.height = textarea.scrollHeight + "px";
-    props.onChange(textarea.value);
+
+    if (textarea != null) {
+      textarea.style.height = "auto"; 
+      textarea.style.height = textarea.scrollHeight + "px";
+      props.onChange(textarea.value);
+    }
   };
 
   return (

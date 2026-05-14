@@ -5,7 +5,7 @@ import { useToast } from "../../../../auth/ToastProvider";
 
 export default function AddReview () {
     // updating review to save
-    const [ review, setReview ] = useState<Review>(revDefault);
+    const [ review ] = useState<Review>(revDefault);
     
     const [ content, setContent ] = useState("");
     const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

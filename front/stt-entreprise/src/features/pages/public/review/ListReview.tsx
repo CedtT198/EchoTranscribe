@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { type TranscriptionFilter, filterDefault } from "../../../../api/transcription";
 import { getReviews, getReviewStats, getStarCount, type Review, type ReviewStats, hasCommented } from "../../../../api/review";
 import { endPage, startPage } from "../../../../others/pagination";
@@ -21,7 +21,7 @@ export default function ListReview() {
     }
 
     // init data and pagination
-    const [filter, setFilter] = useState<TranscriptionFilter>(filterDefault);
+    const [filter] = useState<TranscriptionFilter>(filterDefault);
     
     const [page, setPage] = useState(0);
     const [size] = useState(12);
@@ -113,7 +113,7 @@ export default function ListReview() {
                                 </div>
                                 <div className="col-md-10 col-xs-10 col-lg-10 ">
                                     <div className="progress mb-3">
-                                        <div className="progress-bar bg-primary" role="progressbar" style={{width: getStarCount(i, reviewStats)+"%"}}  aria-valuenow={getStarCount(i, reviewStats)} aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div className="progress-bar bg-primary" role="progressbar" style={{width: getStarCount(i, reviewStats)+"%"}}  aria-valuenow={getStarCount(i, reviewStats)} aria-valuemin={0} aria-valuemax={100}></div>
                                     </div>
                                 </div>
                             </div>

@@ -14,7 +14,7 @@ export default function Export() {
   const navigate = useNavigate();
   const hasRun = useRef(false);
   const [formDataTranscription, setFormDataTranscription] = useState<Summary | null>(null);
-  const [formData, setFormData] = useState<FormDataToExport>(exportDefault);
+  const [formData] = useState<FormDataToExport>(exportDefault);
   useEffect(() => {
     // dev seulement
     if (hasRun.current) return;
@@ -31,10 +31,12 @@ export default function Export() {
   }, [fd, navigate])
 
   const updateFormData = <K extends keyof Summary>(field: K, value: Summary[K]) => {
-    setFormDataTranscription((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    // taloha
+    // setFormDataTranscription((prev) => ({
+    //   ...prev,
+    //   [field]: value,
+    // }));
+    setFormDataTranscription((prev) => prev ? ({ ...prev, [field]: value } as Summary) : null);
     console.log(formDataTranscription);
   };
 
@@ -53,7 +55,7 @@ export default function Export() {
     }
   };
 
-  const saveSummary = () => {};
+  // const saveSummary = () => {};
 
   if (!formDataTranscription) {
     return <Loading />

@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom'
 import PublicHeader from '../../../components/layouts/PublicHeader'
 import PublicFooter from '../../../components/layouts/PublicFooter'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+// import { useState } from 'react';
 import { setBodyClass } from '../../../others/utils';
 
 export default function PublicLayout() {

@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 function PublicFooter() {
     const { isAuthenticated } = useAuth0();
 
-    const { loginAuth0, logoutAuth0 } = useAuth();
+    const { loginAuth0 } = useAuth();
     const handleLogin = () => loginAuth0()
-    const logout = () => logoutAuth0()
+    // const logout = () => logoutAuth0()
 
     return(
         <footer className="mt-5 text-white" style={{ background: '#333', borderRadius: "25px"}}>

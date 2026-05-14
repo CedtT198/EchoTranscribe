@@ -9,7 +9,7 @@ export const summarize = async (content: string, goal: string, length: string, a
     }
 }
 
-export const save = async (summary: Summary) => {
+export const save = async (summary: Summary | null) => {
     try {
         return await api.post(`/transcription/save`, summary)
     } catch (error) {

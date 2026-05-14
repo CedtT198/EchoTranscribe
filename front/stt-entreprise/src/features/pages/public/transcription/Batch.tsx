@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { type FormDataTranscription, batchDefault } from "../../../../api/transcription";
 import FileSettings from "../../../../components/transcription/FileSettings";
 import { Link, useNavigate } from "react-router-dom";

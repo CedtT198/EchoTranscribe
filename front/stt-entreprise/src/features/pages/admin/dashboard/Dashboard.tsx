@@ -158,7 +158,7 @@ export default function Dashboard() {
                         </div>
                         <div className="col-12">
                             <PieChart
-                                series={[stat.total_churn, stat.total_sales]}
+                                series={[stat.total_churn ?? 0, stat.total_sales ?? 0]}
                                 labels={["Churn", "Sales"]}
                             />
                         </div>
