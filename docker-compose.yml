@@ -26,7 +26,7 @@ services:
   # ─────────────────────────────────────────
   front:
     build:
-      context: ./front/stt-entreprise
+      context: ./front
       dockerfile: Dockerfile
       args:
         VITE_API_URL: http://localhost:8080
