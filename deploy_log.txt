@@ -1,4 +1,0 @@
-cedrictiavina426_db_user
-K345ZesIRukWMuoZ
-
-mongodb+srv://cedrictiavina426_db_user:K345ZesIRukWMuoZ@echotranscribe-db.5jncvqj.mongodb.net/?appName=echotranscribe-db
