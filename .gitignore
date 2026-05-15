@@ -32,6 +32,8 @@ build/
 ### VS Code ###
 back/.vscode/
 
+deploy_log.txt
+EstimatedTime.xlsx
 conception
 back/.env
 back/src/main/resources/application-local.properties
