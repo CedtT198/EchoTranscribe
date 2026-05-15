@@ -23,7 +23,7 @@ export default function AuthBootstrap() {
                 }
                 
                 // const token = await getAccessTokenSilently();
-                await fetch("http://localhost:8080/user/getOrCreate", {
+                await fetch("https://echotranscribe.onrender.com/user/getOrCreate", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
