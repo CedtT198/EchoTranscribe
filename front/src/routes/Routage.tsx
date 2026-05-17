@@ -42,6 +42,7 @@ export default function PersoRoutes() {
               {/* <Route path="/callback" element={<Callback />} /> */}
     
             {/* <Route path="/" element={<Navigate to="/public/layout/" replace />} /> */}
+            <Route path="" element={<RootRedirect />}></Route>
             <Route path="/" element={<RootRedirect />} />
 
             <Route path="/public/layout/" element={<PublicLayout />}>
