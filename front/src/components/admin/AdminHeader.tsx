@@ -81,7 +81,7 @@ export default function AdminHeader() {
                 <nav className="vertnav navbar navbar-light">
                     <div className="w-100 mb-4 text-center">
                         <Link to="/admin/layout">
-                            <img src="/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "70%"}}/>
+                            <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "70%"}}/>
                         </Link>
                     </div>
                     <ul className="navbar-nav flex-fill w-100 mb-2">

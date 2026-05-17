@@ -84,7 +84,7 @@ export default function ListReview() {
                 <div className="d-flex justify-content-between align-items-center my-3">
                     <div className="mx-4">
                         <p className="fe-32 font-weight-bold m-0 d-flex align-items-center">
-                            <img src="/images/star_full.png" alt="Plenty stars picture" className="mr-2"></img>{reviewStats?.average_star}
+                            <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/star_full.png" alt="Plenty stars picture" className="mr-2"></img>{reviewStats?.average_star}
                         </p>
                         <p className="mb-1">{reviewStats?.total_reviews} Reviews</p>
                     </div>
@@ -198,13 +198,13 @@ export default function ListReview() {
                                         <div className="col-12 ml-1 d-flex align-items-center">
                                             {Array.from({ length: r.stars }, (_, i) => (
                                                 <>
-                                                    <img style={{width: "8%"}} src="/images/star_full.png" alt="Plenty stars picture" key={i}></img>
+                                                    <img style={{width: "8%"}} src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/star_full.png" alt="Plenty stars picture" key={i}></img>
                                                 </>
                                             ))}
 
                                             {Array.from({ length: 5-r.stars }, (_, i) => (
                                                 <>
-                                                    <img style={{width: "8%"}} src="/images/star_empty.png" alt="Empty stars picture" key={i}></img>
+                                                    <img style={{width: "8%"}} src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/star_empty.png" alt="Empty stars picture" key={i}></img>
                                                 </>
                                             ))}
                                             <span className="mx-2" style={{fontSize: 14}}>{r.stars}</span>

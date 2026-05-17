@@ -106,7 +106,7 @@ export default function PublicHeader() {
                 <nav className="vertnav navbar navbar-light">
                     <div className="w-100 text-center">
                         <Link to="/public/layout">
-                            <img src="/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "70%"}}/>
+                            <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "70%"}}/>
                         </Link>
                     </div>
                     <ul className="navbar-nav flex-fill w-100 mb-2">
@@ -179,7 +179,7 @@ export default function PublicHeader() {
             {/* <nav className="navbar-expand-lg navbar-light bg-white border-bottom shadow fixed-top" >
                 <div className="container-fluid d-flex justify-content-between align-items-center">
                     <a className="navbar-brand mx-lg-1 mr-0" href="./index.html">
-                        <img src="/images/logo_white_resized.png" alt="" className="" style={{width: "100px"}}/>
+                        <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/logo_white_resized.png" alt="" className="" style={{width: "100px"}}/>
                     </a>
                     <button className="navbar-toggler mt-2 mr-auto toggle-sidebar text-muted">
                         <i className="fe fe-menu navbar-toggler-icon"></i>
@@ -191,7 +191,7 @@ export default function PublicHeader() {
                         <ul className="navbar-nav mr-auto d-flex align-items-center" style={{fontSize: 16}}>
                             <li className="nav-item">
                                 <Link to="/public/layout">
-                                    <img src="/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "100px"}}/>
+                                    <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "100px"}}/>
                                 </Link>
                             </li>
                             <li className="nav-item">

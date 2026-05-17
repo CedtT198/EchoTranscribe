@@ -89,14 +89,14 @@ export default function Landing() {
                     <div className="row my-5 p-5">
                         <div className="col-12 text-center mb-5">
                             {/* <div className="mb-3">
-                                <img src="/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "100px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/logo_white_resized.png" alt="Echotranscribe logo" className="" style={{width: "100px"}}/>
                             </div> */}
                             <p className="h1 mb">Welcome to <span className="text-primary">Echotranscribe</span></p>
                             {/* <p className="lead text-muted mb-5">Those are what our application can be used for.</p> */}
                         </div>
                         <div className="col-12 row mb-3">
                             <div className="offset-2 col-1">
-                                <img src="/images/free.png" alt="Free ticket" className="" style={{ width: "50px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/free.png" alt="Free ticket" className="" style={{ width: "50px"}}/>
                             </div>
                             <div className="col-9">
                                 <p className="h4 mb-0">Free version</p>
@@ -105,7 +105,7 @@ export default function Landing() {
                         </div>
                         <div className="col-12 row mb-3">
                             <div className="offset-2 col-1">
-                                <img src="/images/fast.png" alt="Counter" className="" style={{ width: "50px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/fast.png" alt="Counter" className="" style={{ width: "50px"}}/>
                             </div>
                             <div className="col-9">
                                 <p className="h4 mb-0">Very fast</p>
@@ -114,7 +114,7 @@ export default function Landing() {
                         </div>
                         <div className="col-12 row mb-3">
                             <div className="offset-2 col-1">
-                                <img src="/images/large_file.png" alt="File stacked" className="" style={{ width: "50px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/large_file.png" alt="File stacked" className="" style={{ width: "50px"}}/>
                             </div>
                             <div className="col-9">
                                 <p className="h4 mb-0">Large file size</p>
@@ -123,7 +123,7 @@ export default function Landing() {
                         </div>
                         <div className="col-12 row mb-3">
                             <div className="offset-2 col-1">
-                                <img src="/images/media.png" alt="Media" className="" style={{ width: "50px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/media.png" alt="Media" className="" style={{ width: "50px"}}/>
                             </div>
                             <div className="col-9">
                                 <p className="h4 mb-0">Many audio/video formats supported</p>
@@ -132,7 +132,7 @@ export default function Landing() {
                         </div>
                         <div className="col-12 row mb-3">
                             <div className="offset-2 col-1">
-                                <img src="/images/download.png" alt="Download button" className="" style={{ width: "50px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/download.png" alt="Download button" className="" style={{ width: "50px"}}/>
                             </div>
                             <div className="col-9">
                                 <p className="h4 mb-0">Download your transcribed file</p>
@@ -145,14 +145,14 @@ export default function Landing() {
                     <div className="row my-5 p-5">
                         <div className="col-12 text-center mb-5">
                             <div className="mb-3">
-                                <img src="/images/google.png" alt="Google logo" />
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/google.png" alt="Google logo" />
                             </div>
                             <p className="h1 mb">Powered by Google</p>
                             {/* <p className="lead text-muted mb-5">Those are what our application can be used for.</p> */}
                         </div>
                         <div className="col-12 row mb-3">
                             <div className="offset-2 col-1">
-                                <img src="/images/accuracy.png" alt="Accuracy" className="" style={{ width: "50px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/accuracy.png" alt="Accuracy" className="" style={{ width: "50px"}}/>
                             </div>
                             <div className="col-9">
                                 <p className="h4 mb-0">Accuracy</p>
@@ -161,7 +161,7 @@ export default function Landing() {
                         </div>
                         <div className="col-12 row mb-3">
                             <div className="offset-2 col-1">
-                                <img src="/images/languages.png" alt="Languages" className="" style={{ width: "50px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/languages.png" alt="Languages" className="" style={{ width: "50px"}}/>
                             </div>
                             <div className="col-9">
                                 <p className="h4 mb-0">125+ languages</p>
@@ -170,7 +170,7 @@ export default function Landing() {
                         </div>
                         <div className="col-12 row mb-3">
                             <div className="offset-2 col-1">
-                                <img src="/images/diarization.png" alt="Diarization" className="" style={{ width: "50px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/diarization.png" alt="Diarization" className="" style={{ width: "50px"}}/>
                             </div>
                             <div className="col-9">
                                 <p className="h4 mb-0">Diarization</p>
@@ -179,7 +179,7 @@ export default function Landing() {
                         </div>
                         <div className="col-12 row mb-3">
                             <div className="offset-2 col-1">
-                                <img src="/images/security.png" alt="Security" className="" style={{ width: "50px"}}/>
+                                <img src="https://cdn.jsdelivr.net/gh/CedtT198/Echotranscribe-front-ressources@main/images/security.png" alt="Security" className="" style={{ width: "50px"}}/>
                             </div>
                             <div className="col-9">
                                 <p className="h4 mb-0">Security</p>
