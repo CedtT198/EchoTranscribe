@@ -14,6 +14,5 @@
 
 ## Local installation
 ```
-  Open a terminal
   docker-compose up --build
 ```
